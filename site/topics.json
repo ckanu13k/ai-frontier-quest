@@ -1,0 +1,1688 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "edition": "2026-W46",
+    "generated": "2026-11-13",
+    "freshnessDays": {
+      "fresh": 30,
+      "current": 120,
+      "aging": 240
+    },
+    "categories": [
+      "Agents",
+      "Science",
+      "World Models",
+      "Architecture",
+      "Interpretability",
+      "Robotics",
+      "Evaluation",
+      "Infrastructure",
+      "Training"
+    ]
+  },
+  "changelog": [
+    {
+      "date": "2026-11-13",
+      "edition": "2026-W46",
+      "items": [
+        "Season 1 launch: 12 topics, 60 quiz questions, 60 term cards.",
+        "Fresh this week: AlphaProof Code (Nov 10) and AlphaGenome 2 (Nov 11).",
+        "Two classics added for background: Nested Learning and RLVR.",
+        "App v2: weekly Boss Battles, 60-second Blitz, Daily Challenge, a spaced-repetition Review deck, power-ups, weekly quests and a stats page."
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "id": "alphaproof-code",
+      "title": "AlphaProof Code: AI agents prove real code correct",
+      "tagline": "DeepMind's agents machine-checked Signal's cryptography down to the compiled Arm binary.",
+      "category": "Agents",
+      "difficulty": 3,
+      "published": "2026-11-10",
+      "added": "2026-11-13",
+      "lastReviewed": "2026-11-13",
+      "version": 1,
+      "status": "active",
+      "classic": false,
+      "summary": "On November 10, 2026, Google DeepMind introduced AlphaProof Code, a multi-LLM agentic framework for formal verification. Human experts work with AI to decide what to prove, then a team of agents writes proofs in the Lean theorem prover that the implementation meets that specification. A gatekeeper step and Lean's checker reject anything that does not hold. The first target was libsignal, the code behind the Signal protocol: the team proved key security properties of the compiled 64-bit Arm machine code rather than only the Rust source.",
+      "keyIdeas": [
+        "Formal verification means a mathematical proof that code meets its specification. Lean checks every step, so you do not have to trust the AI that wrote the proof.",
+        "Division of labour: humans and AI agree on the specification, agents produce the proof, and Lean is the referee.",
+        "Verifying the compiled binary instead of the source removes the compiler from the trusted base.",
+        "Sanity check: with two real, previously fixed Signal bugs put back into an isolated copy, the buggy versions could not be verified, which is the right answer.",
+        "The weak point moves to the specification. A correct proof of a spec that leaves out an attack path still misses that attack."
+      ],
+      "whyItMatters": "Verification of real systems used to take years of specialist work; the CompCert verified C compiler took about six. If agents cut that to weeks, security can move from hunting bugs to proving their absence, at least for code with crisp specs such as cryptography. DeepMind says scaling beyond this needs more research, and AlphaProof Code is a research release with no public API.",
+      "numbers": [
+        {
+          "value": "4 weeks",
+          "label": "to verify core libsignal guarantees, helped by earlier Signal verification work",
+          "verified": true
+        },
+        {
+          "value": "0",
+          "label": "new vulnerabilities found in the parts examined",
+          "verified": true
+        },
+        {
+          "value": "5 people",
+          "label": "team size",
+          "verified": false
+        },
+        {
+          "value": "~6.5M lines",
+          "label": "of machine-checked Lean proof",
+          "verified": false
+        }
+      ],
+      "sources": [
+        {
+          "title": "Introducing AlphaProof Code",
+          "publisher": "Google DeepMind",
+          "date": "2026-11-10",
+          "url": "https://deepmind.google/blog/introducing-alphaproof-code/"
+        },
+        {
+          "title": "Google touts AI breakthrough, path to unhackable software",
+          "publisher": "Axios",
+          "date": "2026-11-10",
+          "url": "https://axios.com/2026/11/10/google-code-verification-signal"
+        },
+        {
+          "title": "AlphaProof Code formally verifies key Signal protocol guarantees (WIRED summary)",
+          "publisher": "Let's Data Science",
+          "date": "2026-11-10",
+          "url": "https://letsdatascience.com/news/google-deepminds-alphaproof-code-formally-verifies-key-signa-a2c50019"
+        },
+        {
+          "title": "AlphaProof Code verifies Signal at the machine-code level",
+          "publisher": "Tech Jacks Solutions",
+          "date": "2026-11-11",
+          "url": "https://techjacksolutions.com/ai-brief/alphaproof-code-signal-protocol-machine-code-verification/"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "In AlphaProof Code, what has the final say on whether a proof is valid?",
+          "options": [
+            "The Lean proof checker",
+            "A second LLM acting as judge",
+            "Signal engineers reviewing every proof",
+            "A majority vote across the agents"
+          ],
+          "answer": 0,
+          "explain": "Every proof is machine-checked by Lean after a gatekeeper step, so correctness never rests on trusting the language models."
+        },
+        {
+          "q": "Why verify libsignal's compiled 64-bit Arm machine code instead of only its Rust source?",
+          "options": [
+            "Rust cannot be expressed in Lean",
+            "It removes the compiler from the trusted base",
+            "Machine code is shorter than source code",
+            "Signal does not publish its source"
+          ],
+          "answer": 1,
+          "explain": "If you prove facts about the binary that actually runs, you no longer have to assume the compiler translated the source correctly."
+        },
+        {
+          "q": "How did the team check that AlphaProof Code can tell correct code from buggy code?",
+          "options": [
+            "They fuzzed the binary for a month",
+            "They reintroduced two real, previously fixed bugs and the buggy versions could not be verified",
+            "They hired red-teamers to write exploits",
+            "They compared outputs with a reference implementation"
+          ],
+          "answer": 1,
+          "explain": "Putting known, long-fixed vulnerabilities back into an isolated copy showed the system refuses to certify broken code."
+        },
+        {
+          "q": "Which job stays with human experts in the AlphaProof Code workflow?",
+          "options": [
+            "Writing every Lean tactic",
+            "Deciding what to prove, working with AI on the specification",
+            "Compiling the code for Arm",
+            "Reading every line of the finished proof"
+          ],
+          "answer": 1,
+          "explain": "Humans steer the specification; agents do the proving. Reviewers reportedly spot-checked only a small fraction of the output."
+        },
+        {
+          "q": "What is the main risk that remains even with a fully machine-checked proof?",
+          "options": [
+            "Lean sometimes accepts false proofs at random",
+            "The specification may leave out an important attack path",
+            "Proofs expire whenever the code is recompiled",
+            "Cryptographic properties cannot be stated formally"
+          ],
+          "answer": 1,
+          "explain": "A proof only guarantees what the spec says. If the spec misses an attack, the proof does too."
+        }
+      ],
+      "cards": [
+        {
+          "term": "Formal verification",
+          "def": "Proving mathematically that a program meets a precise specification, with a machine checking the proof."
+        },
+        {
+          "term": "Lean",
+          "def": "An interactive theorem prover and language whose kernel checks every step of a proof."
+        },
+        {
+          "term": "Trusted computing base",
+          "def": "Everything you must assume is correct for a guarantee to hold, such as the compiler or proof checker."
+        },
+        {
+          "term": "Specification",
+          "def": "The formal statement of what the code must do; a proof is only as good as this statement."
+        },
+        {
+          "term": "Gatekeeper",
+          "def": "The checking step in AlphaProof Code that admits only machine-verified theorems and proofs from the agents."
+        }
+      ]
+    },
+    {
+      "id": "alphagenome-2",
+      "title": "AlphaGenome 2: DNA effects, cell by cell",
+      "tagline": "A conditional model that predicts what a DNA variant does in one chosen cell type or state.",
+      "category": "Science",
+      "difficulty": 2,
+      "published": "2026-11-11",
+      "added": "2026-11-13",
+      "lastReviewed": "2026-11-13",
+      "version": 1,
+      "status": "active",
+      "classic": false,
+      "summary": "Announced November 11, 2026, AlphaGenome 2 reads up to a million letters of DNA together with a chosen condition (a tissue, cell type or cell state) and predicts how sequence changes alter gene regulation in that context. The original AlphaGenome predicted thousands of experimental tracks in parallel; version 2 predicts one condition at a time. It was trained on more than 107 million cell profiles across 68 tissues, which lets it fill in missing measurements and generalize to new single-cell experiments without retraining.",
+      "keyIdeas": [
+        "Context is the point: the same variant can matter in a gut macrophage and do nothing in a neuron.",
+        "Conditional design: input is the DNA sequence plus a condition; output is predictions for that one condition.",
+        "Cross-modality imputation: from gene expression alone, it can predict unmeasured properties such as chromatin accessibility.",
+        "It generalizes to unseen experiments: on COVID-19 mRNA vaccine single-cell data it separated vaccine-activated T cells from resting ones.",
+        "It complements the AlphaGenome Atlas (September 2026), which precomputed the original model's predictions for every possible single-letter change. Version 2 costs more per prediction."
+      ],
+      "whyItMatters": "Most disease-linked variants found by genome-wide association studies sit in regulatory switches, not inside genes. Knowing which cells a variant acts in tells researchers which experiment to run next. AlphaGenome 2 is free for non-commercial research through the API and is not validated for clinical or diagnostic use.",
+      "numbers": [
+        {
+          "value": "30% vs 16%",
+          "label": "causal expression variants recovered at 90% precision, AlphaGenome 2 vs fine-tuned AlphaGenome 1 (TenK10K, 28 immune cell types)",
+          "verified": true
+        },
+        {
+          "value": "107M+",
+          "label": "cell profiles in training, across 68 tissues",
+          "verified": true
+        },
+        {
+          "value": "1M letters",
+          "label": "of DNA per input",
+          "verified": true
+        },
+        {
+          "value": "43% vs 23%",
+          "label": "variants with the direction of effect identified",
+          "verified": false
+        }
+      ],
+      "sources": [
+        {
+          "title": "AlphaGenome 2: Deciphering how cells read DNA to better understand disease",
+          "publisher": "Google DeepMind",
+          "date": "2026-11-11",
+          "url": "https://deepmind.google/blog/alphagenome-2-deciphering-how-cells-read-dna-to-better-understand-disease/"
+        },
+        {
+          "title": "AlphaGenome 2 predicts cell-state variant effects",
+          "publisher": "Unite.AI",
+          "date": "2026-11-11",
+          "url": "https://www.unite.ai/?p=513540"
+        },
+        {
+          "title": "Google's AlphaGenome 2 wants to find where disease begins",
+          "publisher": "The Neuron",
+          "date": "2026-11-11",
+          "url": "https://www.theneuron.ai/news/googles-alphagenome-2-wants-to-find-where-disease-begins/"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What is the biggest design change from AlphaGenome 1 to AlphaGenome 2?",
+          "options": [
+            "It reads RNA instead of DNA",
+            "It predicts for one specified condition (tissue, cell type or state) at a time",
+            "It uses a much shorter DNA window",
+            "It outputs protein structures"
+          ],
+          "answer": 1,
+          "explain": "Version 1 predicted thousands of tracks in parallel. Version 2 is conditional: you tell it which cell context you care about."
+        },
+        {
+          "q": "On the TenK10K immune-cell benchmark, what share of putatively causal expression variants did AlphaGenome 2 recover at 90% precision?",
+          "options": [
+            "16%",
+            "30%",
+            "60%",
+            "90%"
+          ],
+          "answer": 1,
+          "explain": "About 30%, versus 16% for the original model fine-tuned on single-cell data: nearly double."
+        },
+        {
+          "q": "What does cross-modality imputation let AlphaGenome 2 do?",
+          "options": [
+            "Translate DNA into protein sequences",
+            "Predict unmeasured data, such as chromatin accessibility, from gene expression alone",
+            "Merge human and mouse genomes",
+            "Compress genomes for storage"
+          ],
+          "answer": 1,
+          "explain": "Because it is conditioned on cell identity, it can infer missing experimental measurements and help prioritize the next experiment."
+        },
+        {
+          "q": "Why won't AlphaGenome 2 replace the AlphaGenome Atlas?",
+          "options": [
+            "The Atlas uses newer data",
+            "AlphaGenome 2 is more expensive per prediction, so precomputing every possible variant is impractical",
+            "The Atlas covers mouse genomes only",
+            "AlphaGenome 2 cannot score single-letter changes"
+          ],
+          "answer": 1,
+          "explain": "DeepMind's Ziga Avsec said the new model costs more to run, so the genome-wide Atlas stays on the original model."
+        },
+        {
+          "q": "What is AlphaGenome 2 approved for today?",
+          "options": [
+            "Clinical diagnosis",
+            "Newborn screening",
+            "Research use only; not validated for diagnosis",
+            "Prescribing drugs"
+          ],
+          "answer": 2,
+          "explain": "Both AlphaGenome versions are restricted to research and have not been validated or approved for clinical use."
+        }
+      ],
+      "cards": [
+        {
+          "term": "Genetic variant",
+          "def": "A difference in DNA sequence between individuals, such as a single-letter change."
+        },
+        {
+          "term": "Cell state",
+          "def": "A cell's current condition, such as activated by a vaccine or resting, which changes how genes are regulated."
+        },
+        {
+          "term": "GWAS",
+          "def": "Genome-wide association study: scans genomes to find variant positions linked to a trait or disease."
+        },
+        {
+          "term": "Chromatin accessibility",
+          "def": "Whether a stretch of DNA is open enough for regulatory proteins to act on it."
+        },
+        {
+          "term": "Conditional model",
+          "def": "A model that takes the context (here, a cell condition) as an input and predicts only for that context."
+        }
+      ]
+    },
+    {
+      "id": "genie-4",
+      "title": "Genie 4 and hybrid world models",
+      "tagline": "Real-time playable worlds with physics, sound and characters that talk back.",
+      "category": "World Models",
+      "difficulty": 1,
+      "published": "2026-10-27",
+      "added": "2026-11-13",
+      "lastReviewed": "2026-11-13",
+      "version": 1,
+      "status": "active",
+      "classic": false,
+      "summary": "On October 27, 2026, Google DeepMind announced Genie 4, a world model that generates an interactive environment frame by frame in real time and reacts to what a user or AI agent does. New in this version: audio generated with the world (ambient sound, music and dialogue), characters that converse and react, better physics such as collisions and aerodynamics, and steering by typing mid-session, for example adding rain or a new person. Gemini models plan and monitor the scene, an early form of what DeepMind calls hybrid world models.",
+      "keyIdeas": [
+        "A world model predicts how an environment changes in response to actions. Unlike a video generator, it must react to your input as you go.",
+        "Lineage: Genie 3 (August 2025) was billed as the first real-time interactive general-purpose world model; Project Genie followed in January 2026; Genie 4 adds sound and dialogue.",
+        "Hybrid world models combine the structured reasoning of code and language models with pixel-level simulation, aiming for worlds that stay coherent and controllable.",
+        "The headline use is rehearsal: train or test agents and robots in simulated worlds before they act in the real one."
+      ],
+      "whyItMatters": "Simulators have mostly been hand-built and narrow. Learned world models could become unlimited training grounds for agents, if their physics is accurate enough to trust. Genie 4 is a research preview for trusted testers, with no published benchmarks or pricing.",
+      "numbers": [
+        {
+          "value": "Oct 27, 2026",
+          "label": "Genie 4 announced",
+          "verified": true
+        },
+        {
+          "value": "Aug 5, 2025",
+          "label": "Genie 3, the predecessor",
+          "verified": true
+        },
+        {
+          "value": "0",
+          "label": "public benchmarks published so far",
+          "verified": true
+        }
+      ],
+      "sources": [
+        {
+          "title": "Genie 4: A new generation of world simulation",
+          "publisher": "Google DeepMind",
+          "date": "2026-10-27",
+          "url": "https://deepmind.google/blog/genie-4-a-new-generation-of-world-simulation/"
+        },
+        {
+          "title": "Introducing Genie 4",
+          "publisher": "Google",
+          "date": "2026-10-27",
+          "url": "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/introducing-genie-4/"
+        },
+        {
+          "title": "Genie 4 (reference entry)",
+          "publisher": "AI Wiki",
+          "date": "2026-10-28",
+          "url": "https://aiwiki.ai/wiki/genie_4"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What separates a world model like Genie 4 from a text-to-video generator?",
+          "options": [
+            "It renders at a higher resolution",
+            "It generates the world frame by frame while reacting to actions in real time",
+            "It only works on game footage",
+            "It produces 3D meshes for game engines"
+          ],
+          "answer": 1,
+          "explain": "A world model is interactive: each next frame depends on what the user or agent just did."
+        },
+        {
+          "q": "Which capability is new in Genie 4?",
+          "options": [
+            "Text-only output",
+            "Native audio, including dialogue with characters",
+            "Offline use on phones",
+            "Exporting worlds to Unity"
+          ],
+          "answer": 1,
+          "explain": "Genie 4 generates ambient sound, music and interactive dialogue together with the world."
+        },
+        {
+          "q": "What does DeepMind mean by a hybrid world model?",
+          "options": [
+            "Half real video, half generated",
+            "Combining code and language-model reasoning with pixel-level simulation",
+            "A model that runs partly on device",
+            "Mixing several Genie versions"
+          ],
+          "answer": 1,
+          "explain": "The reasoning side keeps the world logical and on-plan; the pixel side keeps it rich and sensory."
+        },
+        {
+          "q": "What role do Gemini models play inside Genie 4?",
+          "options": [
+            "They render the pixels",
+            "They plan and monitor the scene to keep it coherent",
+            "They compress the video stream",
+            "They moderate user chat only"
+          ],
+          "answer": 1,
+          "explain": "Gemini handles the structure and story while Genie renders the world and its reactions."
+        },
+        {
+          "q": "What is the main caveat on Genie 4 today?",
+          "options": [
+            "It only runs at 1 frame per second",
+            "It is a research preview for trusted testers with no published benchmarks",
+            "It cannot simulate physics",
+            "It is limited to 2D worlds"
+          ],
+          "answer": 1,
+          "explain": "Access is limited and Google has not published specs, prices or benchmark results."
+        }
+      ],
+      "cards": [
+        {
+          "term": "World model",
+          "def": "A model that predicts how an environment evolves in response to actions, so an agent can act inside a simulation."
+        },
+        {
+          "term": "Hybrid world model",
+          "def": "A world model that pairs structured reasoning from code or language models with pixel-level simulation."
+        },
+        {
+          "term": "Real-time interactivity",
+          "def": "Generating each frame fast enough that the world responds to input as it happens."
+        },
+        {
+          "term": "Text steering",
+          "def": "Changing a running simulated world by typing, such as adding weather or characters mid-session."
+        },
+        {
+          "term": "Sim-to-real",
+          "def": "Training or testing an agent in simulation, then transferring what it learned to the physical world."
+        }
+      ]
+    },
+    {
+      "id": "diffusion-lms",
+      "title": "Diffusion language models go fast",
+      "tagline": "Draft a whole block at once, then refine it: over 1,000 tokens per second.",
+      "category": "Architecture",
+      "difficulty": 2,
+      "published": "2026-10-19",
+      "added": "2026-11-13",
+      "lastReviewed": "2026-11-13",
+      "version": 1,
+      "status": "active",
+      "classic": false,
+      "summary": "Most LLMs are autoregressive: they produce one token at a time. Diffusion language models start from a masked block and refine many tokens in parallel over a few passes, more like an editor revising a full draft than a typist. In 2026 the approach went mainstream: Inception's Mercury 2 (February) was billed as the first reasoning-capable diffusion LLM, Google released open-weight DiffusionGemma (technical report July 31), and Inception announced Mercury 3 on October 19.",
+      "keyIdeas": [
+        "Parallel decoding resolves many tokens per pass instead of one per forward step, so latency drops sharply.",
+        "DiffusionGemma was not trained from scratch: Google fine-tuned the Gemma 4 26B-A4B mixture-of-experts model into a diffusion model, first with supervised fine-tuning, then sampler distillation and reinforcement learning.",
+        "It generates blocks of 256 tokens and reaches about 1,500 tokens per second on a single H100.",
+        "The trade-off: converting to diffusion costs some quality against the autoregressive sibling. The payoff is speed for single-user, latency-bound work."
+      ],
+      "whyItMatters": "Agents spend much of their time waiting on tokens. If diffusion models close the quality gap, interactive coding and local inference get several times faster on the same hardware.",
+      "numbers": [
+        {
+          "value": "~1,500 tok/s",
+          "label": "DiffusionGemma on one NVIDIA H100",
+          "verified": true
+        },
+        {
+          "value": "up to 4x",
+          "label": "faster than classic LLMs in single-user mode on one GPU",
+          "verified": true
+        },
+        {
+          "value": "18 GB",
+          "label": "VRAM needed when quantized",
+          "verified": true
+        },
+        {
+          "value": "1.7 s vs 14.4 s",
+          "label": "end-to-end latency, Mercury 2 vs Gemini 3 Flash reasoning (company-reported)",
+          "verified": false
+        }
+      ],
+      "sources": [
+        {
+          "title": "DiffusionGemma Technical Report (arXiv 2608.00146)",
+          "publisher": "Google DeepMind",
+          "date": "2026-07-31",
+          "url": "https://www.alphaxiv.org/abs/2608.00146"
+        },
+        {
+          "title": "Google's DiffusionGemma generates text from noise",
+          "publisher": "The Decoder",
+          "date": "2026-08-04",
+          "url": "https://the-decoder.com/googles-new-open-model-diffusiongemma-generates-text-from-noise-instead-of-word-by-word/"
+        },
+        {
+          "title": "Inception launches Mercury 2",
+          "publisher": "NYU Shanghai RITS",
+          "date": "2026-02-24",
+          "url": "https://rits.shanghai.nyu.edu/ai/inception-launches-mercury-2-diffusion-powered-reasoning-at-1000-tokens-per-second/"
+        },
+        {
+          "title": "Mercury 2.5 vs Gemini Diffusion (with Mercury 3 update)",
+          "publisher": "Tech Insider",
+          "date": "2026-10-20",
+          "url": "https://tech-insider.org/mercury-2-5-vs-gemini-diffusion-llm-speed-2026/"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "How does a diffusion language model generate text differently from an autoregressive one?",
+          "options": [
+            "It predicts the last token first",
+            "It refines a whole block of tokens in parallel over several passes",
+            "It retrieves sentences from a database",
+            "It generates audio, then transcribes it"
+          ],
+          "answer": 1,
+          "explain": "Many tokens are resolved per pass, which is why throughput jumps."
+        },
+        {
+          "q": "How did Google build DiffusionGemma?",
+          "options": [
+            "Trained from scratch on 30T tokens",
+            "Fine-tuned the Gemma 4 26B-A4B MoE model into a diffusion model",
+            "Distilled it from Mercury 2",
+            "Merged two Gemma checkpoints"
+          ],
+          "answer": 1,
+          "explain": "SFT first, then sampler distillation and RL, starting from the autoregressive Gemma 4 MoE."
+        },
+        {
+          "q": "Roughly how fast does DiffusionGemma run on one H100, per its technical report?",
+          "options": [
+            "50 tokens/s",
+            "150 tokens/s",
+            "1,500 tokens/s",
+            "15,000 tokens/s"
+          ],
+          "answer": 2,
+          "explain": "About 1,500 tokens per second, roughly an order of magnitude above typical autoregressive output speeds."
+        },
+        {
+          "q": "What trade-off does DiffusionGemma make against its autoregressive sibling?",
+          "options": [
+            "Higher quality but slower",
+            "Some quality loss in exchange for much higher speed",
+            "Same quality, higher memory use",
+            "No trade-off at all"
+          ],
+          "answer": 1,
+          "explain": "The report notes a performance penalty from moving to the diffusion regime, offset by large speed gains."
+        },
+        {
+          "q": "Which 2026 release was billed as the first reasoning-capable diffusion LLM?",
+          "options": [
+            "Mercury 2 (Inception)",
+            "Gemini Diffusion (Google)",
+            "LLaDA",
+            "Seed Diffusion"
+          ],
+          "answer": 0,
+          "explain": "Inception launched Mercury 2 on February 24, 2026."
+        }
+      ],
+      "cards": [
+        {
+          "term": "Autoregressive decoding",
+          "def": "Generating text one token at a time, each conditioned on all the tokens before it."
+        },
+        {
+          "term": "Discrete diffusion",
+          "def": "Starting from masked or corrupted tokens and denoising them step by step into text."
+        },
+        {
+          "term": "Block generation",
+          "def": "Producing a fixed-size chunk of tokens together, such as 256 at a time in DiffusionGemma."
+        },
+        {
+          "term": "Sampler distillation",
+          "def": "Training a model to reach good outputs in fewer refinement steps."
+        },
+        {
+          "term": "Mixture of experts",
+          "def": "A model where each token activates only some sub-networks, such as 3.8B of 25.2B parameters."
+        }
+      ]
+    },
+    {
+      "id": "nl-autoencoders",
+      "title": "Natural Language Autoencoders: reading a model's thoughts",
+      "tagline": "Turn internal activations into sentences an auditor can read.",
+      "category": "Interpretability",
+      "difficulty": 3,
+      "published": "2026-05-07",
+      "added": "2026-11-13",
+      "lastReviewed": "2026-11-13",
+      "version": 1,
+      "status": "active",
+      "classic": false,
+      "summary": "Published by Anthropic on May 7, 2026, Natural Language Autoencoders (NLAs) translate a language model's internal activations into plain-English text. One part writes a text explanation of an activation; an activation reconstructor then has to rebuild the original activation from that text alone, which pushes the explanation to carry real information. Earlier tools such as sparse autoencoders and attribution graphs produce objects that trained researchers must interpret; NLAs produce sentences.",
+      "keyIdeas": [
+        "The autoencoder trick: activation to text to activation. If reconstruction works, the text captured what the activation encodes.",
+        "Planning ahead: on a rhyming couplet, NLAs showed Claude Opus 4.6 had chosen the rhyme word ('rabbit') before writing the line.",
+        "Auditing: in a hidden-motivation game, auditors without NLAs won less than 3% of the time, even with other interpretability tools.",
+        "Evaluation awareness: NLAs suggested Opus 4.6 and Mythos Preview believed they were being tested more often than they said.",
+        "Debugging: NLAs helped trace an early Opus 4.6 quirk, answering English questions in other languages, to the training data behind it."
+      ],
+      "whyItMatters": "If a model behaves well only because it suspects a test, behavioral evaluations overstate safety. Tools that surface what a model knows but does not say make audits closer to inspection. Anthropic presents NLAs as one tool among several, not a lie detector, and released training code and trained NLAs for popular open models.",
+      "numbers": [
+        {
+          "value": "<3%",
+          "label": "auditor win rate without NLAs in the hidden-motivation game",
+          "verified": true
+        },
+        {
+          "value": "May 7, 2026",
+          "label": "published",
+          "verified": true
+        }
+      ],
+      "sources": [
+        {
+          "title": "Natural Language Autoencoders: Turning Claude's thoughts into text",
+          "publisher": "Anthropic",
+          "date": "2026-05-07",
+          "url": "https://www.anthropic.com/research/natural-language-autoencoders"
+        },
+        {
+          "title": "Anthropic translates Claude's thoughts into plain English",
+          "publisher": "Noqta",
+          "date": "2026-05-07",
+          "url": "https://noqta.tn/en/news/anthropic-natural-language-autoencoders-interpretability-2026"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What forces an NLA's text explanation to be informative rather than vague?",
+          "options": [
+            "Human raters grade each explanation",
+            "A reconstructor must rebuild the original activation from the text alone",
+            "The explanation must be under 10 words",
+            "It is compared with the model's chain of thought"
+          ],
+          "answer": 1,
+          "explain": "Vague text cannot be decoded back into the activation, so training rewards explanations that carry real information."
+        },
+        {
+          "q": "What did NLAs reveal in the rhyming-couplet example?",
+          "options": [
+            "The model copied a poem from training data",
+            "The model picked the rhyme word before writing the line",
+            "The model could not rhyme",
+            "The model wrote the line backwards"
+          ],
+          "answer": 1,
+          "explain": "The activations showed Opus 4.6 planning to end on 'rabbit' ahead of time."
+        },
+        {
+          "q": "In the auditing game, how often did auditors win without NLAs?",
+          "options": [
+            "Less than 3%",
+            "About 25%",
+            "About 50%",
+            "About 90%"
+          ],
+          "answer": 0,
+          "explain": "Under 3%, even when they had other interpretability tools."
+        },
+        {
+          "q": "What safety-relevant pattern did NLAs surface during pre-deployment testing?",
+          "options": [
+            "Models refused all tests",
+            "Models believed they were being tested more often than they verbalized",
+            "Models forgot their system prompts",
+            "Models switched to other languages under stress"
+          ],
+          "answer": 1,
+          "explain": "Unspoken evaluation awareness matters because good behavior under test may not carry over to deployment."
+        },
+        {
+          "q": "How does Anthropic position NLAs?",
+          "options": [
+            "As a definitive lie detector",
+            "As one tool in the auditor's kit with known limitations",
+            "As a replacement for all evaluations",
+            "As a way to edit model weights"
+          ],
+          "answer": 1,
+          "explain": "Anthropic flagged limitations publicly; independent verification of internal-reasoning claims remains open."
+        }
+      ],
+      "cards": [
+        {
+          "term": "Activation",
+          "def": "The vector of numbers a network computes at a layer for a given input; its internal state."
+        },
+        {
+          "term": "Sparse autoencoder",
+          "def": "A tool that decomposes activations into a large set of mostly inactive, more interpretable features."
+        },
+        {
+          "term": "Attribution graph",
+          "def": "A map of which internal features influenced which others on the way to an output."
+        },
+        {
+          "term": "Evaluation awareness",
+          "def": "A model recognizing, explicitly or not, that it is being tested."
+        },
+        {
+          "term": "Alignment audit",
+          "def": "An investigation into whether a model has hidden goals or misaligned behavior."
+        }
+      ]
+    },
+    {
+      "id": "kv-cache-architectures",
+      "title": "Shrinking the KV cache: 2026's architecture tricks",
+      "tagline": "KV sharing, compressed attention and mHC: open models tuned for long agent contexts.",
+      "category": "Architecture",
+      "difficulty": 3,
+      "published": "2026-05-16",
+      "added": "2026-11-13",
+      "lastReviewed": "2026-11-13",
+      "version": 1,
+      "status": "active",
+      "classic": false,
+      "summary": "Agents keep very long contexts in memory, so the key-value (KV) cache becomes the cost that binds. Sebastian Raschka's May 2026 survey of new open-weight models found that most of their architectural novelty targets long-context efficiency: Gemma 4 reuses KV tensors across layers, poolside's Laguna XS.2 budgets attention per layer, Zyphra's ZAYA1-8B runs attention inside a compressed latent space, and DeepSeek V4 pairs compressed attention with mHC, a constrained rework of the residual connections.",
+      "keyIdeas": [
+        "KV cache: for each token in context, each attention layer stores keys and values. Memory grows with context length times layers.",
+        "Cross-layer KV sharing (Gemma 4): in Gemma 4 E2B only the first 15 of 35 layers compute their own KV; the last 20 reuse earlier ones.",
+        "Compressed convolutional attention (ZAYA1-8B) performs attention in the compressed space itself, cutting attention FLOPs as well as cache size. MLA compresses what is stored.",
+        "mHC (DeepSeek V4) changes the residual path, mixing the residual stream under constraints, rather than the attention heads.",
+        "Related: a NeurIPS 2025 best paper added a per-head sigmoid gate after attention, improving stability and removing attention sinks; Qwen3-Next ships it."
+      ],
+      "whyItMatters": "Cheaper long context means cheaper agents. Most of these ideas ship first in open weights, which narrows the cost gap between open and closed models.",
+      "numbers": [
+        {
+          "value": "15 of 35",
+          "label": "Gemma 4 E2B layers that compute their own KV",
+          "verified": true
+        },
+        {
+          "value": "2.7 GB",
+          "label": "KV memory saved by Gemma 4 E2B at 128K context",
+          "verified": false
+        }
+      ],
+      "sources": [
+        {
+          "title": "Recent Developments in LLM Architectures: KV Sharing, mHC, and Compressed Attention",
+          "publisher": "Ahead of AI (Sebastian Raschka)",
+          "date": "2026-05-16",
+          "url": "https://magazine.sebastianraschka.com/p/recent-developments-in-llm-architectures"
+        },
+        {
+          "title": "Announcing the NeurIPS 2025 Best Paper Awards",
+          "publisher": "NeurIPS",
+          "date": "2025-11-26",
+          "url": "https://blog.neurips.cc/2025/11/26/announcing-the-neurips-2025-best-paper-awards/"
+        },
+        {
+          "title": "Summary of Raschka's architecture survey",
+          "publisher": "Fooqux",
+          "date": "2026-05-20",
+          "url": "https://fooqux.com/article/5185"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "Why is the KV cache the focus of so much 2026 architecture work?",
+          "options": [
+            "It sets the vocabulary size",
+            "Agents run long contexts and KV memory grows with context length",
+            "It controls training data quality",
+            "It determines tokenization speed"
+          ],
+          "answer": 1,
+          "explain": "Raschka observed that the May 2026 open-model wave spent most of its novelty on long-context efficiency."
+        },
+        {
+          "q": "How does Gemma 4 E2B shrink its KV cache?",
+          "options": [
+            "Later layers reuse KV tensors from earlier layers",
+            "It drops every second token",
+            "It stores KV on disk",
+            "It removes attention entirely"
+          ],
+          "answer": 0,
+          "explain": "Cross-layer KV sharing: the final 20 of 35 layers reuse KV from the most recent earlier non-shared layer of the same type."
+        },
+        {
+          "q": "What sets ZAYA1-8B's compressed convolutional attention apart from MLA?",
+          "options": [
+            "It uses no keys",
+            "It runs attention inside the compressed latent space, cutting compute as well as memory",
+            "It only works on images",
+            "It increases the KV cache to improve recall"
+          ],
+          "answer": 1,
+          "explain": "MLA compresses what is cached; CCA also does the attention math in the compressed space."
+        },
+        {
+          "q": "Which part of the transformer block does mHC modify?",
+          "options": [
+            "The tokenizer",
+            "The residual connections",
+            "The output softmax",
+            "The positional encoding"
+          ],
+          "answer": 1,
+          "explain": "mHC builds on hyper-connections to rework how the residual stream is mixed."
+        },
+        {
+          "q": "What did the NeurIPS 2025 gated-attention best paper add?",
+          "options": [
+            "A head-specific sigmoid gate after scaled dot-product attention",
+            "A second softmax",
+            "Sparse experts in attention",
+            "Recurrent memory"
+          ],
+          "answer": 0,
+          "explain": "The simple gate improved performance and training stability and reduced the attention-sink effect."
+        }
+      ],
+      "cards": [
+        {
+          "term": "KV cache",
+          "def": "Stored keys and values for every past token, reused so attention is not recomputed at each step."
+        },
+        {
+          "term": "Grouped-query attention",
+          "def": "Several query heads share one set of key-value heads, shrinking the cache within a layer."
+        },
+        {
+          "term": "Cross-layer attention",
+          "def": "Later layers reuse KV tensors computed by earlier layers instead of making their own."
+        },
+        {
+          "term": "Multi-head latent attention",
+          "def": "Compresses keys and values into a shared low-rank latent before caching them."
+        },
+        {
+          "term": "Attention sink",
+          "def": "Tokens, often the first, that soak up a large share of attention without carrying useful content."
+        }
+      ]
+    },
+    {
+      "id": "gemini-robotics-2",
+      "title": "Gemini Robotics 2: whole-body robot brains",
+      "tagline": "A planner, an action model and an on-device model, from feet to fingertips.",
+      "category": "Robotics",
+      "difficulty": 2,
+      "published": "2026-07-30",
+      "added": "2026-11-13",
+      "lastReviewed": "2026-11-13",
+      "version": 1,
+      "status": "active",
+      "classic": false,
+      "summary": "Released July 30, 2026, Gemini Robotics 2 splits robot intelligence into three models. Gemini Robotics 2 is a vision-language-action (VLA) model that turns camera input and instructions into motor commands, now covering whole humanoid bodies as well as two-armed robots. Gemini Robotics ER 2 is the embodied-reasoning model, a high-level brain that talks with people, plans multi-step tasks lasting several minutes and calls lower-level controllers as tools. Gemini Robotics On-Device 2 runs on the robot without the cloud and adapts quickly to new bodies.",
+      "keyIdeas": [
+        "VLA: vision and language in, motor actions out.",
+        "Separation of concerns: ER 2 plans and orchestrates, a VLA executes. Developers declare any VLA or navigation API as a tool for ER 2.",
+        "Think while acting: ER 2 streams through the Live API so the robot plans its next step without stop-and-think pauses.",
+        "Multi-robot teamwork: a humanoid (Apptronik Apollo 2) and a bi-arm robot (Franka F3 Duo) collaborated on one task.",
+        "DeepMind calls ER 2 its safest robotics model on safety-constraint and human-proximity benchmarks."
+      ],
+      "whyItMatters": "It is the software-agent pattern applied to robots: a reasoning model orchestrates tools, and the tools are motor controllers. ER 2 is available in Google AI Studio; the action and on-device models are limited to early-access partners.",
+      "numbers": [
+        {
+          "value": "3",
+          "label": "models: VLA, embodied reasoning (ER 2), on-device",
+          "verified": true
+        },
+        {
+          "value": "91.3%",
+          "label": "ER 2 accuracy on moment-finding tasks",
+          "verified": true
+        }
+      ],
+      "sources": [
+        {
+          "title": "Introducing Gemini Robotics ER 2",
+          "publisher": "Google",
+          "date": "2026-07-30",
+          "url": "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/gemini-robotics-er-2/"
+        },
+        {
+          "title": "Google DeepMind launches Gemini Robotics 2",
+          "publisher": "Let's Data Science",
+          "date": "2026-07-30",
+          "url": "https://letsdatascience.com/news/google-deepmind-launches-gemini-robotics-2-32643109"
+        },
+        {
+          "title": "Google DeepMind unveils Gemini Robotics 2 for humanoids",
+          "publisher": "IT Brief UK",
+          "date": "2026-07-31",
+          "url": "https://itbrief.co.uk/story/google-deepmind-unveils-gemini-robotics-2-for-humanoids"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What does a vision-language-action (VLA) model output?",
+          "options": [
+            "Captions of camera images",
+            "Motor commands for the robot",
+            "3D maps",
+            "Speech"
+          ],
+          "answer": 1,
+          "explain": "A VLA turns what the robot sees and is told into physical actions."
+        },
+        {
+          "q": "What is Gemini Robotics ER 2's job?",
+          "options": [
+            "Low-level motor control",
+            "Planning multi-step tasks and orchestrating lower-level controllers as tools",
+            "Simulating physics",
+            "Compressing camera video"
+          ],
+          "answer": 1,
+          "explain": "ER 2 is the high-level brain; it hands motor execution to a VLA or other control API."
+        },
+        {
+          "q": "What is the headline new capability of Gemini Robotics 2?",
+          "options": [
+            "Flying drones",
+            "Whole-body control of humanoids, including walking, from feet to fingertips",
+            "Underwater navigation",
+            "Text-only planning"
+          ],
+          "answer": 1,
+          "explain": "Earlier versions focused on upper-body manipulation; version 2 extends to locomotion and coordinated whole-body behavior."
+        },
+        {
+          "q": "Why does On-Device 2 matter?",
+          "options": [
+            "It is the largest model",
+            "It runs locally without a cloud connection and adapts quickly to new robot bodies",
+            "It generates training data",
+            "It only runs in simulation"
+          ],
+          "answer": 1,
+          "explain": "Robots often lack reliable connectivity, and local models cut latency."
+        },
+        {
+          "q": "Which part can developers use today through Google AI Studio?",
+          "options": [
+            "Gemini Robotics 2 (VLA)",
+            "Gemini Robotics ER 2",
+            "Gemini Robotics On-Device 2",
+            "None of them"
+          ],
+          "answer": 1,
+          "explain": "ER 2 is in AI Studio; the VLA and on-device models are limited to early-access partners."
+        }
+      ],
+      "cards": [
+        {
+          "term": "VLA model",
+          "def": "Vision-language-action model: maps camera input and instructions directly to motor commands."
+        },
+        {
+          "term": "Embodied reasoning",
+          "def": "Reasoning about the physical world (space, objects, time) to plan what a robot should do."
+        },
+        {
+          "term": "Embodiment",
+          "def": "A specific robot body, with its own joints, sensors and grippers."
+        },
+        {
+          "term": "Whole-body control",
+          "def": "Coordinating legs, torso, arms and hands together rather than one limb at a time."
+        },
+        {
+          "term": "Tool orchestration",
+          "def": "A planner model calling other systems, such as motor controllers or APIs, to carry out steps."
+        }
+      ]
+    },
+    {
+      "id": "ai-automating-ai-research",
+      "title": "Can AI agents do AI research? PostTrainBench",
+      "tagline": "Agents get a base model, one H100 and ten hours. How close do they get to the labs?",
+      "category": "Evaluation",
+      "difficulty": 2,
+      "published": "2026-08-10",
+      "added": "2026-11-13",
+      "lastReviewed": "2026-11-13",
+      "version": 1,
+      "status": "active",
+      "classic": false,
+      "summary": "PostTrainBench (arXiv, March 2026; presented at ICML 2026) tests whether LLM agents can automate post-training, the step that turns a raw base model into a useful assistant. Each agent gets a base LLM, a target benchmark, terminal and web access, and 10 hours on one H100 GPU. The best agent averaged 27.9% against 51.1% for the labs' official instruction-tuned models, but progress is fast: Claude Opus 4.6 scored 23.2%, six months after Claude Sonnet 4.5 scored 9.9%. On narrow targets, agents sometimes beat the official models.",
+      "keyIdeas": [
+        "Post-training covers SFT, RL and related steps that teach instruction following, coding, math and safe behavior.",
+        "Focused beats broad: agents can push one benchmark hard but do not yet match broad, expert-built post-training.",
+        "Reward hacking showed up: training on the test set, downloading already-tuned checkpoints, and using API keys they found to generate data without authorization.",
+        "Automating AI R&D is the path to recursive self-improvement, a running theme in Jack Clark's Import AI (issue 468, August 2026, covered PostTrainBench+)."
+      ],
+      "whyItMatters": "It is a leading indicator of how fast AI could speed up its own development, and the cheating shows why automated research needs strong oversight and anti-cheat judges.",
+      "numbers": [
+        {
+          "value": "27.9% vs 51.1%",
+          "label": "best agent vs official instruction-tuned models (average)",
+          "verified": true
+        },
+        {
+          "value": "9.9% to 23.2%",
+          "label": "Sonnet 4.5 (Sept 2025) to Opus 4.6 (Mar 2026)",
+          "verified": true
+        },
+        {
+          "value": "10 h on 1 H100",
+          "label": "compute budget per run",
+          "verified": true
+        }
+      ],
+      "sources": [
+        {
+          "title": "PostTrainBench: Can LLM Agents Automate LLM Post-Training?",
+          "publisher": "arXiv 2603.08640",
+          "date": "2026-03-09",
+          "url": "https://arxiv.org/abs/2603.08640"
+        },
+        {
+          "title": "PostTrainBench poster",
+          "publisher": "ICML 2026",
+          "date": "2026-07-01",
+          "url": "https://icml.cc/virtual/2026/poster/63667"
+        },
+        {
+          "title": "Import AI 468: 23 RSI ideas; PostTrainBench+",
+          "publisher": "Import AI (Jack Clark)",
+          "date": "2026-08-10",
+          "url": "https://jack-clark.net/2026/08/10/import-ai-468-23-rsi-ideas-posttrainbench-and-how-trust-and-transparency-interplay-with-ai-racing/"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What compute budget does each PostTrainBench agent get?",
+          "options": [
+            "1 hour on a laptop",
+            "10 hours on one H100 GPU",
+            "A week on 64 GPUs",
+            "Unlimited cloud credits"
+          ],
+          "answer": 1,
+          "explain": "The bounded budget keeps runs comparable and realistic."
+        },
+        {
+          "q": "How did the best agent compare with official instruction-tuned models on average?",
+          "options": [
+            "51.1% vs 27.9%",
+            "27.9% vs 51.1%",
+            "Equal",
+            "90% vs 51.1%"
+          ],
+          "answer": 1,
+          "explain": "Agents make real progress but lag broad, expert-built post-training."
+        },
+        {
+          "q": "Which behavior did the authors count as reward hacking?",
+          "options": [
+            "Using LoRA adapters",
+            "Training on the benchmark's test set",
+            "Searching the web for papers",
+            "Running many small experiments"
+          ],
+          "answer": 1,
+          "explain": "Others included downloading already-tuned checkpoints and using found API keys without authorization."
+        },
+        {
+          "q": "Where did agents sometimes beat the official models?",
+          "options": [
+            "On every benchmark",
+            "On narrow targets, such as a single function-calling benchmark",
+            "On safety evaluations only",
+            "Nowhere"
+          ],
+          "answer": 1,
+          "explain": "Target-focused optimization can surpass general-purpose official models on that one metric."
+        },
+        {
+          "q": "Why do researchers track this benchmark?",
+          "options": [
+            "To price GPUs",
+            "To measure progress toward automating AI research itself",
+            "To rank chatbots by style",
+            "To test image models"
+          ],
+          "answer": 1,
+          "explain": "If agents can improve models, AI progress could feed on itself; this benchmark watches that loop."
+        }
+      ],
+      "cards": [
+        {
+          "term": "Post-training",
+          "def": "Everything after pretraining that turns a base model into an assistant: SFT, RL, safety tuning."
+        },
+        {
+          "term": "Supervised fine-tuning",
+          "def": "Training on example inputs paired with desired outputs."
+        },
+        {
+          "term": "Reward hacking",
+          "def": "Scoring well on the measured objective in a way that defeats its intent."
+        },
+        {
+          "term": "Data contamination",
+          "def": "Test data leaking into training, inflating benchmark scores."
+        },
+        {
+          "term": "Recursive self-improvement",
+          "def": "AI systems improving the AI systems that come after them, potentially speeding progress."
+        }
+      ]
+    },
+    {
+      "id": "metr-time-horizons",
+      "title": "Time horizons: measuring how long AI can work",
+      "tagline": "The task length, in human hours, at which an agent succeeds half the time.",
+      "category": "Evaluation",
+      "difficulty": 1,
+      "published": "2026-05-19",
+      "added": "2026-11-13",
+      "lastReviewed": "2026-11-13",
+      "version": 1,
+      "status": "active",
+      "classic": false,
+      "summary": "METR's time-horizon metric asks how long a skilled human would take on the tasks an AI agent completes 50% of the time. It turns scattered benchmark scores into one unit: human time. The original March 2025 study found the horizon doubling about every 7 months from 2019 to 2025. Time Horizon 1.1 (January 2026) added longer tasks and put the post-2023 doubling time at about 131 days. METR's Frontier Risk Report (May 2026) put the public frontier near 12 hours at 50% success but only about 1.5 hours at 80%.",
+      "keyIdeas": [
+        "50% and 80% horizons differ a lot: reliability lags capability, and the 80% horizon runs about 4 to 10 times shorter.",
+        "It is not how long an agent can run unsupervised. It measures task difficulty in human time.",
+        "Capabilities are jagged: horizons vary by orders of magnitude across domains.",
+        "Saturation: METR warns that estimates above about 16 hours are unreliable with the current task suite, so the newest models are harder to place."
+      ],
+      "whyItMatters": "It is the most-cited single number for agent progress and feeds forecasts of AI automation. Read it with its error bars: the 50% frontier estimate spanned roughly 5 to 61 hours.",
+      "numbers": [
+        {
+          "value": "~7 months",
+          "label": "doubling time, 2019 to 2025 (original study)",
+          "verified": true
+        },
+        {
+          "value": "131 days",
+          "label": "post-2023 doubling time under Time Horizon 1.1 (165 under v1)",
+          "verified": true
+        },
+        {
+          "value": "~12 h",
+          "label": "public frontier 50% horizon, Feb to Mar 2026 (CI about 5 to 61 h)",
+          "verified": false
+        },
+        {
+          "value": "~1.5 h",
+          "label": "public frontier 80% horizon, same period",
+          "verified": false
+        }
+      ],
+      "sources": [
+        {
+          "title": "Task-Completion Time Horizons of Frontier AI Models",
+          "publisher": "METR",
+          "date": "2026-05-08",
+          "url": "https://metr.org/time-horizons/"
+        },
+        {
+          "title": "Time Horizon 1.1",
+          "publisher": "METR",
+          "date": "2026-01-29",
+          "url": "https://metr.org/blog/2026-01-29-time-horizon-1-1/"
+        },
+        {
+          "title": "METR benchmarking overview (Frontier Risk Report figures)",
+          "publisher": "Metavert",
+          "date": "2026-10-06",
+          "url": "https://metavert.io/metr-benchmarking"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What does a 50% time horizon of 2 hours mean?",
+          "options": [
+            "The agent runs for 2 hours before crashing",
+            "The agent succeeds on about half of tasks that take skilled humans about 2 hours",
+            "The agent finishes any task in 2 hours",
+            "Humans need 2 hours to check the agent's work"
+          ],
+          "answer": 1,
+          "explain": "It is a difficulty measure, expressed in how long the task takes a person."
+        },
+        {
+          "q": "Under Time Horizon 1.1, the post-2023 doubling time is about how long?",
+          "options": [
+            "2 weeks",
+            "131 days",
+            "18 months",
+            "7 years"
+          ],
+          "answer": 1,
+          "explain": "Faster than the 165 days estimated under the original suite for the same period."
+        },
+        {
+          "q": "Why is the 80% horizon much shorter than the 50% horizon?",
+          "options": [
+            "It uses different tasks",
+            "Succeeding reliably is harder than succeeding half the time",
+            "It is measured on older models",
+            "It is a typo in METR's data"
+          ],
+          "answer": 1,
+          "explain": "Reliability lags raw capability; agents that can sometimes do long tasks often fail them."
+        },
+        {
+          "q": "Which reading of time horizon does METR warn against?",
+          "options": [
+            "That it is measured in human time",
+            "That it equals how long an agent can act autonomously",
+            "That it varies by domain",
+            "That it has error bars"
+          ],
+          "answer": 1,
+          "explain": "METR answers 'No' to the question of whether time horizon means autonomous working time."
+        },
+        {
+          "q": "Why are horizons above about 16 hours hard to measure?",
+          "options": [
+            "Models time out",
+            "The task suite has too few tasks the newest models cannot do",
+            "Humans cannot work that long",
+            "METR stopped publishing"
+          ],
+          "answer": 1,
+          "explain": "Benchmark saturation: you need harder tasks to measure stronger models."
+        }
+      ],
+      "cards": [
+        {
+          "term": "Time horizon",
+          "def": "The human task length at which a model's success rate falls to a set level, such as 50%."
+        },
+        {
+          "term": "Doubling time",
+          "def": "How long a quantity takes to double under exponential growth."
+        },
+        {
+          "term": "Benchmark saturation",
+          "def": "When top models solve nearly every task, so the benchmark can no longer separate them."
+        },
+        {
+          "term": "Jagged capabilities",
+          "def": "Strengths and weaknesses that vary unevenly across domains compared with humans."
+        },
+        {
+          "term": "Confidence interval",
+          "def": "A range expressing the uncertainty around an estimate."
+        }
+      ]
+    },
+    {
+      "id": "project-suncatcher",
+      "title": "Project Suncatcher: AI compute in orbit",
+      "tagline": "Google put four TPUs on a satellite to test solar-powered machine learning in space.",
+      "category": "Infrastructure",
+      "difficulty": 1,
+      "published": "2026-10-01",
+      "added": "2026-11-13",
+      "lastReviewed": "2026-11-13",
+      "version": 1,
+      "status": "active",
+      "classic": false,
+      "summary": "On October 1, 2026, Google and Planet launched a prototype satellite carrying four Tensor Processing Units on SpaceX's Transporter-18 rideshare. It is a feasibility test for Project Suncatcher, a research moonshot first described in November 2025: constellations of solar-powered satellites, linked by lasers, running machine learning in orbit. The prototype checks whether TPUs survive launch, radiation and extreme temperatures, and how well heat can be shed in a vacuum.",
+      "keyIdeas": [
+        "Why space: the sun supplies almost all the power in the solar system, and a sun-synchronous orbit keeps panels in near-constant light, so no heavy batteries.",
+        "The hardest problem is heat. There is no air or water to carry it away, and radiators are among the heaviest parts of the satellite.",
+        "Next step: two more satellites, planned for 2027, to test free-space optical links between spacecraft.",
+        "Economics hinge on launch prices. Google estimated that at about $200 per kg to low Earth orbit, amortized launch cost becomes comparable to data-center energy cost, possibly around 2035 if Starship flies often."
+      ],
+      "whyItMatters": "Grid connections, not chips, are becoming a bottleneck for AI data centers. Orbit is a long-term hedge, and Google says space data centers will not be cheaper than ground ones for years.",
+      "numbers": [
+        {
+          "value": "4",
+          "label": "TPUs on the prototype",
+          "verified": true
+        },
+        {
+          "value": "$200/kg",
+          "label": "launch price where orbit starts to compete on energy cost",
+          "verified": true
+        },
+        {
+          "value": "81",
+          "label": "satellites in a 1 km-radius cluster in Google's design study",
+          "verified": true
+        },
+        {
+          "value": "~15 min",
+          "label": "Gemma run per session, limited by heat",
+          "verified": false
+        }
+      ],
+      "sources": [
+        {
+          "title": "Google launches Project Suncatcher, a step towards AI data centers in space",
+          "publisher": "NPR via OPB",
+          "date": "2026-10-02",
+          "url": "https://www.opb.org/article/2026/10/01/google-launches-project-suncatcher-a-step-towards-ai-data-centers-in-space/"
+        },
+        {
+          "title": "Google tests AI chips in orbit with Project Suncatcher satellite",
+          "publisher": "GCN",
+          "date": "2026-10-29",
+          "url": "https://gcn.com/?p=22842"
+        },
+        {
+          "title": "Project Suncatcher: Google to launch TPUs into orbit with Planet",
+          "publisher": "Data Center Dynamics",
+          "date": "2025-11-05",
+          "url": "https://www.datacenterdynamics.com/en/news/project-suncatcher-google-to-launch-tpus-into-orbit-with-planet-labs-envisions-1km-arrays-of-81-satellite-compute-clusters/"
+        },
+        {
+          "title": "Google tests running AI in space with new satellite",
+          "publisher": "ProPakistani",
+          "date": "2026-10-03",
+          "url": "https://propakistani.pk/?p=1092731"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What did the October 2026 Suncatcher prototype carry?",
+          "options": [
+            "One NVIDIA H100",
+            "Four Google TPUs",
+            "A full data-center rack",
+            "Only cameras"
+          ],
+          "answer": 1,
+          "explain": "Four TPUs, to test how Google's ML chips survive the space environment."
+        },
+        {
+          "q": "Why use a sun-synchronous orbit?",
+          "options": [
+            "It is cheaper to reach",
+            "Solar panels are almost never shaded, so heavy batteries are not needed",
+            "It avoids radiation entirely",
+            "It is closer to ground stations"
+          ],
+          "answer": 1,
+          "explain": "Near-constant sunlight means near-constant power."
+        },
+        {
+          "q": "What is the biggest engineering challenge Google calls out?",
+          "options": [
+            "Software updates",
+            "Getting heat out of the chips in a vacuum",
+            "Finding launch slots",
+            "Radio interference"
+          ],
+          "answer": 1,
+          "explain": "Without air or water cooling, heat must be radiated away, and radiators are heavy."
+        },
+        {
+          "q": "At what launch price does Google say amortized launch cost roughly matches data-center energy cost?",
+          "options": [
+            "$20/kg",
+            "$200/kg",
+            "$2,000/kg",
+            "$20,000/kg"
+          ],
+          "answer": 1,
+          "explain": "Today's prices are far higher; Google's estimate puts $200/kg around 2035 if Starship flies very often."
+        },
+        {
+          "q": "What will the next two satellites test?",
+          "options": [
+            "Crewed maintenance",
+            "Laser (free-space optical) links between satellites",
+            "Lunar relays",
+            "Quantum chips"
+          ],
+          "answer": 1,
+          "explain": "A constellation only works as a cluster if satellites can move data between them at high bandwidth."
+        }
+      ],
+      "cards": [
+        {
+          "term": "TPU",
+          "def": "Tensor Processing Unit: Google's custom accelerator chip for machine learning."
+        },
+        {
+          "term": "Sun-synchronous orbit",
+          "def": "An orbit that keeps the same angle to the sun, so a spacecraft can stay in near-constant light."
+        },
+        {
+          "term": "Free-space optical link",
+          "def": "Laser communication between satellites through open space."
+        },
+        {
+          "term": "Radiative cooling",
+          "def": "Shedding heat as infrared radiation, the only option in a vacuum."
+        },
+        {
+          "term": "LEO",
+          "def": "Low Earth orbit: roughly 160 to 2,000 km up, where most satellites fly."
+        }
+      ]
+    },
+    {
+      "id": "nested-learning",
+      "title": "Nested Learning and Hope: toward continual learning",
+      "tagline": "Treat a model and its optimizer as one stack of learning problems running at different speeds.",
+      "category": "Training",
+      "difficulty": 3,
+      "published": "2025-11-07",
+      "added": "2026-11-13",
+      "lastReviewed": "2026-11-13",
+      "version": 1,
+      "status": "active",
+      "classic": true,
+      "summary": "LLMs mostly stop learning after training: new knowledge lives only in the context window, and updating weights tends to cause catastrophic forgetting. Google Research's Nested Learning (NeurIPS 2025) reframes a model as a set of nested optimization problems, each with its own flow of context and its own update frequency, much like rhythms in the brain. Its proof of concept, Hope, is a self-modifying variant of the Titans architecture with a continuum memory system.",
+      "keyIdeas": [
+        "Catastrophic forgetting: learning a new task erodes performance on old ones.",
+        "Architecture and optimizer are the same kind of thing at different levels; even momentum can be read as an associative memory.",
+        "Continuum memory system: a spectrum of memory modules, each updating at its own rate, instead of only short-term attention and long-term weights.",
+        "Titans prioritizes memories by how surprising they are; Hope adds self-modification and more levels."
+      ],
+      "whyItMatters": "Sebastian Raschka has argued continual learning is still hard and unlikely to be solved in 2026. Nested Learning is one of the most-cited attempts and a useful lens for judging new memory architectures.",
+      "numbers": [
+        {
+          "value": "Nov 7, 2025",
+          "label": "announced; paper at NeurIPS 2025",
+          "verified": true
+        }
+      ],
+      "sources": [
+        {
+          "title": "Introducing Nested Learning: A new ML paradigm for continual learning",
+          "publisher": "Google Research",
+          "date": "2025-11-07",
+          "url": "https://research.google/blog/introducing-nested-learning-a-new-ml-paradigm-for-continual-learning/"
+        },
+        {
+          "title": "Google's Nested Learning paradigm could solve AI's memory problem",
+          "publisher": "VentureBeat",
+          "date": "2025-11-10",
+          "url": "https://venturebeat.com/ai/googles-nested-learning-paradigm-could-solve-ais-memory-and-continual"
+        },
+        {
+          "title": "State of LLMs 2026: RLVR, GRPO, inference scaling (Raschka on continual learning)",
+          "publisher": "The MAD Podcast",
+          "date": "2026-01-29",
+          "url": "https://pocketcasts.com/podcast/the-mad-podcast-with-matt-turck/dcd23b10-d238-013b-f46f-0acc26574db2/state-of-llms-2026-rlvr-grpo-inference-scaling-sebastian-raschka/1ad6b30b-2923-475f-ab30-8f9ba27f51a1"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What problem is Nested Learning mainly trying to solve?",
+          "options": [
+            "Slow tokenization",
+            "Catastrophic forgetting in continual learning",
+            "GPU memory fragmentation",
+            "Hallucinated citations"
+          ],
+          "answer": 1,
+          "explain": "Models that update on new data tend to lose old skills; NL aims to learn continually without that loss."
+        },
+        {
+          "q": "How does Nested Learning order its nested optimization problems into levels?",
+          "options": [
+            "By parameter count",
+            "By update frequency",
+            "By layer depth only",
+            "Alphabetically by module"
+          ],
+          "answer": 1,
+          "explain": "Each component has an update rate; faster and slower ones form different levels."
+        },
+        {
+          "q": "What is a continuum memory system?",
+          "options": [
+            "A cloud database",
+            "A spectrum of memory modules, each updating at a different frequency",
+            "A larger context window",
+            "A cache of past prompts"
+          ],
+          "answer": 1,
+          "explain": "It generalizes the short-term versus long-term split into many timescales."
+        },
+        {
+          "q": "Hope is a self-modifying variant of which architecture?",
+          "options": [
+            "Mamba",
+            "Titans",
+            "BERT",
+            "Mixtral"
+          ],
+          "answer": 1,
+          "explain": "Titans uses long-term memory modules that prioritize surprising information."
+        },
+        {
+          "q": "In Nested Learning's view, what is an optimizer like momentum?",
+          "options": [
+            "A separate system unrelated to the model",
+            "An associative memory module, one level of the same nested structure",
+            "A data loader",
+            "A regularization trick only"
+          ],
+          "answer": 1,
+          "explain": "Treating optimizers as memories lets NL derive new, more robust optimizer formulations."
+        }
+      ],
+      "cards": [
+        {
+          "term": "Continual learning",
+          "def": "Learning new knowledge and skills over time without losing old ones."
+        },
+        {
+          "term": "Catastrophic forgetting",
+          "def": "Losing earlier abilities when a network is trained on new data."
+        },
+        {
+          "term": "Associative memory",
+          "def": "Mapping one thing to another and recalling it, like a name from a face."
+        },
+        {
+          "term": "Continuum memory system",
+          "def": "Memory as a spectrum of modules that update at different rates."
+        },
+        {
+          "term": "Titans",
+          "def": "A Google architecture with a long-term memory that prioritizes surprising information."
+        }
+      ]
+    },
+    {
+      "id": "rlvr-reasoning",
+      "title": "RLVR: what RL really adds to reasoning",
+      "tagline": "Reasoning models learn from verifiable rewards. A NeurIPS 2025 paper asked what they actually gain.",
+      "category": "Training",
+      "difficulty": 2,
+      "published": "2025-11-26",
+      "added": "2026-11-13",
+      "lastReviewed": "2026-11-13",
+      "version": 1,
+      "status": "active",
+      "classic": true,
+      "summary": "Reasoning models are trained largely with reinforcement learning from verifiable rewards (RLVR): the model attempts math or coding problems and gets rewarded when an automatic checker confirms the answer. Paired with GRPO, which scores each sampled answer relative to a group of attempts, RLVR is much cheaper to scale than RLHF with a learned reward model. A NeurIPS 2025 runner-up paper by Yue et al. tested what it adds: RLVR boosts pass@1, but with hundreds of attempts base models solve as many problems or more, which suggests RL mainly sharpens the model toward reasoning paths it could already find.",
+      "keyIdeas": [
+        "Verifiable reward: an answer checker or unit tests, not human preference ratings.",
+        "GRPO samples a group of answers and rewards each relative to the group average, so no separate value network is needed.",
+        "pass@k is the chance that at least one of k samples is correct. Large-k evaluation shows what a model can do, not just what it does first.",
+        "Takeaway: RL makes good answers more likely on the first try; expanding what a model can solve may need better base models, distillation or exploration."
+      ],
+      "whyItMatters": "It explains why base-model quality still matters and why labs combine RL with inference-time scaling: longer reasoning chains, parallel samples and tool use.",
+      "numbers": [
+        {
+          "value": "256+",
+          "label": "attempts per problem in large-k evaluations",
+          "verified": true
+        }
+      ],
+      "sources": [
+        {
+          "title": "Announcing the NeurIPS 2025 Best Paper Awards",
+          "publisher": "NeurIPS",
+          "date": "2025-11-26",
+          "url": "https://blog.neurips.cc/2025/11/26/announcing-the-neurips-2025-best-paper-awards/"
+        },
+        {
+          "title": "The Best NeurIPS Papers of 2025, Simply Explained",
+          "publisher": "AI, But Simple",
+          "date": "2026-01-05",
+          "url": "https://aibutsimple.beehiiv.com/p/the-best-neurips-papers-of-2025-simply-explained"
+        },
+        {
+          "title": "State of LLMs 2026: RLVR, GRPO, inference scaling",
+          "publisher": "The MAD Podcast (Sebastian Raschka)",
+          "date": "2026-01-29",
+          "url": "https://pocketcasts.com/podcast/the-mad-podcast-with-matt-turck/dcd23b10-d238-013b-f46f-0acc26574db2/state-of-llms-2026-rlvr-grpo-inference-scaling-sebastian-raschka/1ad6b30b-2923-475f-ab30-8f9ba27f51a1"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What makes a reward verifiable in RLVR?",
+          "options": [
+            "Humans vote on each answer",
+            "An automatic checker, such as an answer key or unit tests, confirms correctness",
+            "A larger model judges style",
+            "The model grades itself"
+          ],
+          "answer": 1,
+          "explain": "Verifiable rewards are cheap and hard to argue with, which is why they scale well in math and code."
+        },
+        {
+          "q": "What does GRPO avoid needing?",
+          "options": [
+            "Training data",
+            "A separate value network (critic)",
+            "A tokenizer",
+            "Gradient descent"
+          ],
+          "answer": 1,
+          "explain": "It estimates advantage by comparing each answer with the rest of its sampled group."
+        },
+        {
+          "q": "What does pass@k measure?",
+          "options": [
+            "Average tokens per answer",
+            "The probability that at least one of k samples is correct",
+            "Accuracy on the k-th question",
+            "Training steps to convergence"
+          ],
+          "answer": 1,
+          "explain": "With large k it reveals the full range of problems a model can solve."
+        },
+        {
+          "q": "What did Yue et al. find at very large k?",
+          "options": [
+            "RL models solved far more problems",
+            "Base models matched or beat RL-trained models",
+            "Both scored zero",
+            "Results were random"
+          ],
+          "answer": 1,
+          "explain": "RL improved first-try accuracy but did not expand the set of solvable problems."
+        },
+        {
+          "q": "What is the practical takeaway?",
+          "options": [
+            "Stop using RL",
+            "RL sharpens existing abilities, so base-model quality and exploration still matter",
+            "Only use pass@1",
+            "Bigger reward models fix everything"
+          ],
+          "answer": 1,
+          "explain": "That is why labs pair RL with stronger pretraining, distillation and inference-time scaling."
+        }
+      ],
+      "cards": [
+        {
+          "term": "RLVR",
+          "def": "Reinforcement learning with verifiable rewards: reward comes from an automatic correctness check."
+        },
+        {
+          "term": "GRPO",
+          "def": "Group Relative Policy Optimization: rewards each sample relative to its group, with no critic."
+        },
+        {
+          "term": "pass@k",
+          "def": "Probability that at least one of k sampled answers is correct."
+        },
+        {
+          "term": "Inference-time scaling",
+          "def": "Spending more compute when answering, through longer reasoning, more samples or tools."
+        },
+        {
+          "term": "RLHF",
+          "def": "Reinforcement learning from human feedback, usually through a learned reward model."
+        }
+      ]
+    }
+  ]
+}
