@@ -1,12 +1,15 @@
 # AI Frontier Quest
 
+Install it on your phone: open the live site, then use Add to Home Screen (iPhone: Share > Add to Home Screen; Android/desktop Chrome: Install app).
+
 Learn the week's most important AI and ML research by playing it. Each topic is a short briefing synthesized from lab blogs and published papers, followed by a quiz, recall cards and a timed term match. The Arcade adds a weekly Boss Battle, a 60-second Blitz, a Daily Challenge and a spaced-repetition Review deck.
 
 **Live:** https://ckanu13k.github.io/ai-frontier-quest/
 
 ## How it works
 
-- `site/index.html`: the whole app (vanilla HTML, CSS and JS; no build step, no dependencies).
+- `site/index.html`: the whole app (vanilla HTML, CSS and JS; no build step, no dependencies). Responsive app shell: sidebar on desktop, top bar and bottom tabs on phones.
+- `site/manifest.webmanifest`, `site/sw.js`, `site/icons/`: installable PWA. The service worker caches the app shell for offline use and fetches `topics.json` network-first, so weekly content shows up as soon as you're online.
 - `site/topics.json`: all content. The app fetches it at load time.
 - `scripts/validate_topics.py`: schema and sanity checks. CI runs it before every deploy, so a malformed content update never goes live.
 - `.github/workflows/deploy.yml`: on every push to `main`, validates the content and deploys `site/` to GitHub Pages. Pull requests get validation only.
