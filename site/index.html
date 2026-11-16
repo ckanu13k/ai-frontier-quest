@@ -455,6 +455,173 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ---------- public site: landing, auth, onboarding ---------- */
+#public { min-height: 100%; background: var(--bg); }
+.pwrap { max-width: 1160px; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-right)) 0 max(20px, env(safe-area-inset-left)); }
+.pubbar { position: sticky; top: 0; z-index: 40; background: color-mix(in srgb, var(--bg) 86%, transparent); backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top); }
+.pubbar .pwrap { display: flex; align-items: center; gap: 10px; height: 66px; }
+.publinks { display: flex; gap: 2px; margin-left: 18px; }
+.publinks button { border: 0; background: none; padding: 8px 12px; border-radius: 10px; font-weight: 600; color: var(--ink-2); cursor: pointer; }
+.publinks button:hover { color: var(--ink); background: var(--surface); }
+.pubbar .spacer { flex: 1; }
+.btn-lg { min-height: 52px; padding: 12px 24px; font-size: 16.5px; border-radius: 14px; }
+.hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 56px; align-items: center; padding: 76px 0 64px; }
+.hero h1 { font-size: clamp(38px, 5.4vw, 62px); line-height: 1.04; letter-spacing: -0.035em; }
+.hero h1 em { font-style: normal; color: var(--primary); }
+.hero .sub { font-size: 19px; line-height: 1.6; color: var(--ink-2); max-width: 54ch; margin: 20px 0 28px; }
+.hero .ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.trust { display: flex; gap: 8px 20px; flex-wrap: wrap; margin-top: 22px; font-size: 14px; color: var(--ink-2); font-weight: 600; }
+.trust span { display: inline-flex; align-items: center; gap: 6px; }
+.trust svg { color: var(--good); }
+.pill-live { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 8px; border-radius: 99px; background: var(--surface); border: 1px solid var(--line); font-size: 13px; font-weight: 700; color: var(--ink-2); margin-bottom: 20px; }
+.pill-live b { background: var(--primary-50); color: var(--primary-600); padding: 2px 8px; border-radius: 99px; font-size: 12px; }
+.preview { position: relative; min-height: 460px; }
+.pv { position: absolute; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 30px 60px -30px rgba(15, 23, 42, .35), 0 2px 6px rgba(15, 23, 42, .05); padding: 20px; display: grid; gap: 12px; }
+.pv h4 { margin: 0; font-family: var(--f-display); font-size: 19px; letter-spacing: -0.01em; line-height: 1.25; }
+.pv p { margin: 0; font-size: 14px; color: var(--ink-2); }
+.pv-lesson { left: 0; top: 0; width: 80%; }
+.pv-quiz { right: 0; top: 200px; width: 74%; }
+.pv-quiz .q { font-size: 16px; }
+.pv-quiz .opt { min-height: 44px; padding: 10px 12px; font-size: 14px; cursor: default; }
+.pv-float { position: absolute; left: 4%; bottom: 8px; display: flex; gap: 8px; }
+.pv-float .chip { box-shadow: var(--shadow); padding: 8px 14px; font-size: 14px; background: var(--surface); }
+.logos { display: flex; flex-wrap: wrap; gap: 10px 30px; justify-content: center; align-items: center; padding: 22px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: var(--ink-3); font-family: var(--f-display); font-weight: 700; font-size: 15px; }
+.logos small { font-family: var(--f-body); font-weight: 600; font-size: 13px; color: var(--ink-3); width: 100%; text-align: center; }
+.psec { padding: 80px 0 0; }
+.psec-h { display: grid; gap: 12px; max-width: 680px; margin-bottom: 36px; }
+.psec-h.center { text-align: center; margin-left: auto; margin-right: auto; justify-items: center; }
+.psec-h h2 { font-size: clamp(28px, 3.4vw, 40px); letter-spacing: -0.03em; }
+.psec-h p { margin: 0; font-size: 17px; color: var(--ink-2); }
+.features { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+.feature { display: grid; gap: 10px; align-content: start; }
+.feature .qi { width: 46px; height: 46px; border-radius: 13px; display: grid; place-items: center; background: color-mix(in srgb, var(--tc) 14%, transparent); color: var(--tc); }
+.feature h3 { font-size: 18px; }
+.feature p { margin: 0; font-size: 14.5px; color: var(--ink-2); }
+.steps3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; counter-reset: s; }
+.step3 { display: grid; gap: 10px; align-content: start; }
+.step3 .num { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-family: var(--f-display); font-weight: 800; background: var(--ink); color: var(--surface); }
+.step3 h3 { font-size: 18px; }
+.step3 p { margin: 0; font-size: 14.5px; color: var(--ink-2); }
+.personas { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.persona { display: grid; gap: 10px; align-content: start; }
+.persona .qi { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--primary-50); color: var(--primary-600); }
+.persona h3 { font-size: 17px; }
+.persona p { margin: 0; font-size: 14px; color: var(--ink-2); }
+.persona ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 13.5px; }
+.persona li { display: flex; gap: 8px; align-items: flex-start; }
+.persona li svg { color: var(--good); margin-top: 2px; }
+.stats-band { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.stats-band div { text-align: center; padding: 20px 12px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+.stats-band b { display: block; font-family: var(--f-display); font-size: 34px; letter-spacing: -0.02em; }
+.stats-band span { font-size: 14px; color: var(--ink-2); }
+.cta-band { margin: 80px 0 0; border-radius: 28px; padding: 56px 32px; text-align: center; background: linear-gradient(135deg, var(--primary-600), var(--primary)); color: #fff; display: grid; gap: 16px; justify-items: center; }
+.cta-band h2 { font-size: clamp(26px, 3.2vw, 38px); }
+.cta-band p { margin: 0; opacity: .9; max-width: 52ch; }
+.cta-band .btn-white { background: #fff; color: var(--primary-600); }
+.cta-band .btn-outline { background: transparent; border: 1px solid rgba(255, 255, 255, .6); color: #fff; }
+.pfoot { margin-top: 64px; border-top: 1px solid var(--line); padding: 28px 0 calc(36px + env(safe-area-inset-bottom)); font-size: 14px; color: var(--ink-3); }
+.pfoot .pwrap { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; }
+.pfoot nav { display: flex; gap: 16px; flex-wrap: wrap; }
+.pfoot a, .pfoot button { color: var(--ink-2); text-decoration: none; border: 0; background: none; cursor: pointer; font: inherit; padding: 0; }
+
+.auth-wrap { min-height: calc(100vh - 66px); display: grid; grid-template-columns: minmax(0, 460px) minmax(0, 400px); gap: 56px; justify-content: center; align-items: center; padding: 40px 20px calc(40px + env(safe-area-inset-bottom)); }
+.auth-card { padding: 32px; display: grid; gap: 18px; box-shadow: var(--shadow); }
+.auth-card h1 { font-size: 28px; }
+.auth-card .lead-s { margin: -8px 0 0; color: var(--ink-2); font-size: 15px; }
+.auth-card form { display: grid; gap: 14px; }
+.field { display: grid; gap: 6px; }
+.field label { font-weight: 700; font-size: 14px; }
+.field small { color: var(--ink-3); font-size: 12.5px; }
+.input { width: 100%; min-height: 48px; border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; font: inherit; font-size: 16px; background: var(--surface); color: var(--ink); }
+.input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-50); }
+.pw { position: relative; }
+.pw .input { padding-right: 64px; }
+.pw button { position: absolute; right: 6px; top: 6px; min-height: 36px; border: 0; background: var(--surface-2); border-radius: 9px; padding: 0 10px; font-size: 13px; font-weight: 700; color: var(--ink-2); cursor: pointer; }
+.form-msg { font-size: 14px; border-radius: 10px; padding: 10px 12px; }
+.form-msg:empty { display: none; }
+.form-msg.err { color: var(--bad); background: var(--bad-50); }
+.form-msg.ok { color: var(--good); background: var(--good-50); }
+.divider { display: flex; align-items: center; gap: 12px; color: var(--ink-3); font-size: 13px; font-weight: 600; }
+.divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.linkbtn { border: 0; background: none; color: var(--primary-600); font-weight: 700; cursor: pointer; padding: 0; font: inherit; font-weight: 700; }
+.auth-foot { font-size: 14px; color: var(--ink-2); text-align: center; }
+.auth-side { display: grid; gap: 18px; }
+.auth-side h2 { font-size: 24px; }
+.auth-side ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.auth-side li { display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: start; }
+.auth-side li .qi { width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; background: var(--primary-50); color: var(--primary-600); }
+.auth-side li b { display: block; font-size: 15px; }
+.auth-side li span { font-size: 14px; color: var(--ink-2); }
+
+.ob { max-width: 880px; margin: 0 auto; padding: 36px 20px calc(48px + env(safe-area-inset-bottom)); display: grid; gap: 24px; }
+.ob-top { display: flex; align-items: center; gap: 12px; }
+.ob-progress { flex: 1; display: flex; gap: 8px; }
+.ob-progress i { flex: 1; height: 6px; border-radius: 99px; background: var(--line); }
+.ob-progress i.on { background: var(--primary); }
+.ob h1 { font-size: clamp(26px, 3.4vw, 36px); }
+.ob .lede { margin: -12px 0 0; color: var(--ink-2); font-size: 16.5px; }
+.choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.choice { text-align: left; padding: 20px; border-radius: 18px; border: 2px solid var(--line); background: var(--surface); cursor: pointer; display: grid; gap: 8px; align-content: start; transition: border-color .15s, box-shadow .15s; }
+.choice:hover { border-color: var(--ink-3); }
+.choice[aria-checked="true"] { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-50); }
+.choice .qi { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--primary-50); color: var(--primary-600); }
+.choice b { font-size: 17px; }
+.choice span { font-size: 14px; color: var(--ink-2); }
+.choice small { font-size: 12.5px; color: var(--ink-3); font-weight: 600; }
+.chipset { display: flex; flex-wrap: wrap; gap: 10px; }
+.tog { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 16px; border-radius: 99px; border: 2px solid var(--line); background: var(--surface); font-weight: 700; cursor: pointer; color: var(--ink-2); }
+.tog .dotc { width: 10px; height: 10px; border-radius: 50%; background: var(--cc); }
+.tog[aria-pressed="true"] { border-color: var(--primary); color: var(--ink); background: var(--primary-50); }
+.goal-opts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.ob-nav { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding-top: 8px; }
+
+/* in-app additions */
+.guest-banner { display: flex; gap: 14px; align-items: center; justify-content: space-between; flex-wrap: wrap; background: var(--xp-50); border: 1px solid color-mix(in srgb, var(--xp) 40%, transparent); }
+.guest-banner b { display: flex; gap: 8px; align-items: center; }
+.guest-banner span { font-size: 14px; color: var(--ink-2); }
+.reco-why { font-size: 12.5px; font-weight: 700; color: var(--primary-600); display: flex; gap: 6px; align-items: center; }
+.whoami { display: flex; align-items: center; gap: 10px; }
+.avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 13px; background: var(--ink); color: var(--surface); flex: none; }
+.whoami b { display: block; font-size: 14px; line-height: 1.2; }
+.whoami small { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--ink-3); }
+.sync-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-3); display: inline-block; }
+.sync-dot.saved { background: var(--good); } .sync-dot.pending { background: var(--xp); } .sync-dot.error { background: var(--bad); }
+.acct-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.acct-row:last-child { border-bottom: 0; }
+.acct-row b { display: block; font-size: 14.5px; }
+.acct-row span { font-size: 13.5px; color: var(--ink-2); }
+.acct-row .input { min-height: 40px; max-width: 240px; }
+.select { min-height: 40px; border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; font: inherit; background: var(--surface); color: var(--ink); }
+.lens { display: inline-flex; gap: 6px; align-items: center; font-size: 12.5px; font-weight: 700; color: var(--primary-600); background: var(--primary-50); padding: 4px 10px; border-radius: 99px; }
+.terms { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.terms div { border: 1px solid var(--line); border-radius: 12px; padding: 12px; background: var(--surface-2); }
+.terms b { display: block; font-size: 14px; margin-bottom: 2px; }
+.terms span { font-size: 13.5px; color: var(--ink-2); }
+
+@media (max-width: 1023px) {
+  .publinks { display: none; }
+  .hero { grid-template-columns: 1fr; gap: 36px; padding: 40px 0 40px; }
+  .preview { min-height: 420px; }
+  .features, .personas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .auth-wrap { grid-template-columns: minmax(0, 480px); gap: 28px; align-items: start; }
+  .auth-side { order: 2; }
+}
+@media (max-width: 640px) {
+  .pubbar .btn-ghost.hide-sm { display: none; }
+  .hero .sub { font-size: 17px; }
+  .hero .ctas .btn { width: 100%; }
+  .preview { min-height: 0; display: grid; gap: 12px; }
+  .pv { position: static; width: auto !important; }
+  .pv-float { position: static; }
+  .features, .personas, .steps3, .choice-grid, .goal-opts { grid-template-columns: 1fr; }
+  .stats-band { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .psec { padding-top: 56px; }
+  .cta-band { padding: 40px 20px; border-radius: 22px; }
+  .auth-card { padding: 22px; }
+  .acct-row { grid-template-columns: 1fr; }
+  .acct-row .input { max-width: none; }
+}
 </style>
 </head>
 <body>
@@ -486,8 +653,15 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
   <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.9 5.6L19.5 10.5l-5.6 1.9L12 18l-1.9-5.6L4.5 10.5l5.6-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
   <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 2v7.5L4.2 18a2 2 0 0 0 1.8 3h12a2 2 0 0 0 1.8-3L15 9.5V2M8 2h8M7 15h10"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.7-9h1.8a4.5 4.5 0 1 1 0 9z"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
 </svg>
 
+<div id="public" hidden></div>
 <div class="shell">
   <aside class="side" aria-label="Sidebar">
     <button type="button" class="brand" data-go=""><svg class="mark"><use href="#i-mark"/></svg>AI Frontier Quest</button>
@@ -530,13 +704,14 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
 <canvas id="confetti" aria-hidden="true"></canvas>
 <div id="bannerHost"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js"></script>
 <script>
 (function () {
   "use strict";
   var DATA = null;
   var STORE_KEY = "aifq_state_v1";
   var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var DAILY_GOAL = 100;
+  function goal() { return (S && S.prefs && S.prefs.goal) || 100; }
   var BOSS_HP = 150;
   var REVIEW_GAP = [0, 0, 1, 3, 7];
   var LEVEL_TITLES = ["arXiv Lurker", "Abstract Skimmer", "Figure Reader", "Ablation Runner", "Reviewer #2", "Area Chair", "Program Chair", "Keynote Speaker", "Frontier Researcher", "Field Founder"];
@@ -614,13 +789,13 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
 
   // ---------- state ----------
   function blank() {
-    return { xp: 0, days: [], topics: {}, badges: {}, inv: { fifty: 1, skip: 1, shield: 1 }, used: 0, rv: {}, ev: [], xpLog: {}, daily: {}, boss: {}, blitzBest: 0, comboBest: 0, qm: {}, qc: {}, cnt: { bossWins: 0, dailies: 0, graduated: 0 }, sound: true };
+    return { xp: 0, days: [], topics: {}, badges: {}, inv: { fifty: 1, skip: 1, shield: 1 }, used: 0, rv: {}, ev: [], xpLog: {}, daily: {}, boss: {}, blitzBest: 0, comboBest: 0, qm: {}, qc: {}, cnt: { bossWins: 0, dailies: 0, graduated: 0 }, sound: true, prefs: { persona: null, interests: [], goal: 100, name: "" } };
   }
-  function load() {
-    try { var raw = localStorage.getItem(STORE_KEY); if (raw) { var s = JSON.parse(raw), b = blank(); Object.keys(b).forEach(function (k) { if (s[k] === undefined) s[k] = b[k]; }); Object.keys(b.cnt).forEach(function (k) { if (s.cnt[k] === undefined) s.cnt[k] = 0; }); return s; } } catch (e) {}
+  function load(key) {
+    try { var raw = localStorage.getItem(key || STORE_KEY); if (raw) { var s = JSON.parse(raw), b = blank(); Object.keys(b).forEach(function (k) { if (s[k] === undefined) s[k] = b[k]; }); Object.keys(b.cnt).forEach(function (k) { if (s.cnt[k] === undefined) s.cnt[k] = 0; }); return s; } } catch (e) {}
     return blank();
   }
-  function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(S)); } catch (e) {} }
+  function save() { try { localStorage.setItem(curKey(), JSON.stringify(S)); } catch (e) {} scheduleSync(); }
   var S = load();
 
   // ---------- levels / streak ----------
@@ -659,7 +834,7 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
   function byId(id) { return DATA.topics.find(function (t) { return t.id === id; }); }
   function sorted(list) { return list.slice().sort(function (a, b) { var d = FRESH_ORDER[freshness(a)] - FRESH_ORDER[freshness(b)]; return d || (a.published < b.published ? 1 : -1); }); }
   function allQuestions() { var out = []; active().forEach(function (t) { t.quiz.forEach(function (q, qi) { out.push({ q: q, qi: qi, topic: t }); }); }); return out; }
-  function nextPick() { var list = sorted(active()); return list.find(function (t) { return starsOf(t) < 3; }) || list[0]; }
+  function nextPick() { return recommended(1)[0] || sorted(active())[0]; }
 
   // ---------- juice ----------
   var actx = null;
@@ -704,12 +879,12 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
   // ---------- XP, power-ups, events, quests ----------
   function award(n, why) {
     n = Math.round(n); if (n <= 0) return 0;
-    var before = levelFor(S.xp), t = todayStr(), goalBefore = xpToday() >= DAILY_GOAL;
+    var before = levelFor(S.xp), t = todayStr(), goalBefore = xpToday() >= goal();
     S.xp += n; S.xpLog[t] = (S.xpLog[t] || 0) + n;
     if (S.days.indexOf(t) < 0) S.days.push(t);
     var after = levelFor(S.xp);
     toast("<b>+" + n + " XP</b> · " + esc(why), "zap");
-    if (!goalBefore && xpToday() >= DAILY_GOAL) toast("<b>Daily goal reached</b> · " + DAILY_GOAL + " XP today", "target");
+    if (!goalBefore && xpToday() >= goal()) toast("<b>Daily goal reached</b> · " + goal() + " XP today", "target");
     if (after > before) {
       banner("Level " + after, levelTitle(after)); confetti(); sfx("lvl");
       $$(".ring.lv").forEach(function (l) { l.classList.remove("pulse"); void l.offsetWidth; l.classList.add("pulse"); });
@@ -788,9 +963,10 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
   function renderShell() {
     var L = levelFor(S.xp), pct = levelPct(), lo = levelFloor(L), hi = levelFloor(L + 1);
     $("#player").innerHTML =
+      '<div class="whoami"><span class="avatar">' + initials() + '</span><div><b>' + esc(displayName() || "Guest") + '</b><small><span class="sync-dot ' + SYNC + '"></span><span data-sync-label>' + syncLabel() + "</span></small></div></div>" +
       '<div class="player-top"><div class="ring lv">' + ringSvg(pct, 54, 6, "var(--primary)") + "<b>" + L + '</b></div><div><div class="title">' + esc(levelTitle(L)) + '</div><div class="sub mono">' + (S.xp - lo) + " / " + (hi - lo) + " XP</div></div></div>" +
       '<div class="minis"><div class="mini"><b style="color:var(--streak)">' + icon("flame", "sm") + streak() + "</b><span>streak</span></div><div class=\"mini\"><b style=\"color:var(--xp)\">" + icon("zap", "sm") + S.xp.toLocaleString() + '</b><span>XP</span></div><div class="mini"><b>' + badgeCount() + "</b><span>badges</span></div></div>" +
-      '<div><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink-3);font-weight:600;margin-bottom:6px"><span>Daily goal</span><span class="mono">' + Math.min(xpToday(), DAILY_GOAL) + "/" + DAILY_GOAL + '</span></div><div class="bar xp"><i style="width:' + Math.min(100, xpToday() / DAILY_GOAL * 100) + '%"></i></div></div>';
+      '<div><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink-3);font-weight:600;margin-bottom:6px"><span>Daily goal</span><span class="mono">' + Math.min(xpToday(), goal()) + "/" + goal() + '</span></div><div class="bar xp"><i style="width:' + Math.min(100, xpToday() / goal() * 100) + '%"></i></div></div>';
     $("#tbStreak").innerHTML = icon("flame", "sm") + streak();
     $("#tbXp").innerHTML = icon("zap", "sm") + S.xp.toLocaleString();
     var sec = section();
@@ -813,10 +989,10 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
   function status(t) { var f = freshness(t); return '<span class="status ' + f + '">' + FRESH_LABEL[f] + "</span>"; }
   function diffLabel(t) { return ["", "Intro", "Core", "Deep"][t.difficulty]; }
   function crumbs(parts) { return '<nav class="crumbs" aria-label="Breadcrumb"><button type="button" data-go="' + parts[0][1] + '">' + icon("left", "sm") + esc(parts[0][0]) + "</button>" + parts.slice(1).map(function (p) { return icon("right", "sm") + "<span>" + esc(p) + "</span>"; }).join("") + "</nav>"; }
-  function courseHtml(t) {
+  function courseHtml(t, why) {
     var steps = stepsDone(t), done = steps.filter(Boolean).length;
     return '<button type="button" class="course" data-go="t-' + t.id + '">' + (isNew(t) ? '<span class="new-tag">NEW</span>' : isUpdated(t) ? '<span class="new-tag">UPDATED</span>' : "") +
-      '<div class="course-top">' + catIco(t) + '<div class="meta"><small>' + esc(t.category) + " · " + diffLabel(t) + "</small>" + status(t) + "</div></div>" +
+      '<div class="course-top">' + catIco(t) + '<div class="meta"><small>' + esc(t.category) + " · " + diffLabel(t) + "</small>" + status(t) + "</div></div>" + (typeof why === "string" ? '<span class="reco-why">' + icon("sparkle", "sm") + esc(why) + "</span>" : "") +
       "<h3>" + esc(t.title) + "</h3><p>" + esc(t.tagline) + "</p>" +
       '<div class="course-foot"><div class="line"><span>' + (done === 4 ? "Completed" : done ? done + " of 4 steps" : "Not started") + "</span>" + starsHtml(starsOf(t)) + '</div><div class="bar"><i style="width:' + done * 25 + '%"></i></div><div class="line"><span>' + fmtDate(t.published) + "</span><span>~5 min</span></div></div></button>";
   }
@@ -868,11 +1044,13 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
     var due = reviewItems(true).length, dDone = S.daily[todayStr()] !== undefined, steps = stepsDone(pick), xt = xpToday();
     var nextStep = ["Read the briefing", "Take the quiz", "Recall the terms", "Match the terms"][steps.indexOf(false)] || "Review the lesson";
     app.innerHTML =
-      '<header class="page-h"><span class="eyebrow">Edition ' + esc(DATA.meta.edition) + " · " + fCount + " fresh lessons</span><h1>" + greeting() + ".</h1><p>Short lessons on the week's most important AI and ML research, from lab blogs and published papers.</p></header>" +
+      '<header class="page-h"><span class="eyebrow">Edition ' + esc(DATA.meta.edition) + " · " + fCount + " fresh lessons</span><h1>" + greeting() + (displayName() ? ", " + esc(displayName().split(" ")[0]) : "") + ".</h1><p>Short lessons on the week's most important AI and ML research, from lab blogs and published papers.</p></header>" +
+      guestBanner() +
       '<section class="hero-grid">' +
       '<div class="card continue"><svg class="deco" viewBox="0 0 64 64"><use href="#i-mark"/></svg><span class="eyebrow">Continue learning</span><h2>' + esc(pick.title) + "</h2><p>" + esc(pick.tagline) + '</p><div class="steps-mini">' + steps.map(function (s) { return '<i class="' + (s ? "on" : "") + '"></i>'; }).join("") + '</div><button type="button" class="btn" data-go="t-' + pick.id + '">' + esc(nextStep) + icon("right", "sm") + "</button></div>" +
-      '<div class="card today"><div class="today-top"><div class="goal-ring">' + ringSvg(xt / DAILY_GOAL, 84, 9, "var(--xp)") + "<div><b>" + Math.min(xt, 999) + "</b><small>of " + DAILY_GOAL + ' XP</small></div></div><div><b style="font-size:16px">Today</b><div class="muted" style="font-size:14px">' + (xt >= DAILY_GOAL ? "Daily goal reached. Nice work." : (DAILY_GOAL - xt) + " XP to your daily goal") + '</div><div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"><span class="chip streak">' + icon("flame", "sm") + streak() + " day streak</span></div></div></div>" +
+      '<div class="card today"><div class="today-top"><div class="goal-ring">' + ringSvg(xt / goal(), 84, 9, "var(--xp)") + "<div><b>" + Math.min(xt, 999) + "</b><small>of " + goal() + ' XP</small></div></div><div><b style="font-size:16px">Today</b><div class="muted" style="font-size:14px">' + (xt >= goal() ? "Daily goal reached. Nice work." : (goal() - xt) + " XP to your daily goal") + '</div><div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"><span class="chip streak">' + icon("flame", "sm") + streak() + " day streak</span></div></div></div>" +
       '<button type="button" class="btn ' + (dDone ? "btn-secondary" : "btn-reward") + ' btn-block" data-go="daily">' + icon("calendar", "sm") + (dDone ? "Daily done · " + S.daily[todayStr()] + "/5" : "Daily Challenge · 2x XP") + "</button></div></section>" +
+      recoSection() +
       '<section class="quick" aria-label="Quick play">' +
       quickTile("daily", "calendar", "#F59E0B", "Daily", dDone ? "Done today" : "5 questions · 2x XP", dDone ? "" : "1") +
       quickTile("boss", "swords", "hsl(" + b.hue + " 60% 50%)", "Boss battle", bw.defeated ? "Defeated this week" : b.name, "") +
@@ -910,15 +1088,15 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
     var ev = S.ev, n = ev.length, ok = ev.filter(function (e) { return e.ok; }).length, L = levelFor(S.xp), lo = levelFloor(L), hi = levelFloor(L + 1);
     var mastered = active().filter(function (t) { return stepsDone(t).every(Boolean); }).length;
     var days = []; for (var i = 13; i >= 0; i--) days.push(addDays(todayStr(), -i));
-    var vals = days.map(function (d) { return S.xpLog[d] || 0; }), mx = Math.max.apply(null, vals.concat([DAILY_GOAL]));
-    var W = 560, H = 180, pad = 22, bw = (W - pad * 2) / 14, gy = H - 26 - (DAILY_GOAL / mx) * (H - 54);
+    var vals = days.map(function (d) { return S.xpLog[d] || 0; }), mx = Math.max.apply(null, vals.concat([goal()]));
+    var W = 560, H = 180, pad = 22, bw = (W - pad * 2) / 14, gy = H - 26 - (goal() / mx) * (H - 54);
     var bars = vals.map(function (v, i) {
       var h = (v / mx) * (H - 54), x = pad + i * bw + 4, y = H - 26 - h, w = bw - 8;
-      return '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + Math.max(h, v ? 3 : 0).toFixed(1) + '" rx="5" fill="' + (v >= DAILY_GOAL ? "var(--xp)" : "var(--primary)") + '" opacity="' + (i === 13 ? 1 : .85) + '"/>' +
+      return '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + Math.max(h, v ? 3 : 0).toFixed(1) + '" rx="5" fill="' + (v >= goal() ? "var(--xp)" : "var(--primary)") + '" opacity="' + (i === 13 ? 1 : .85) + '"/>' +
         (v ? '<text x="' + (x + w / 2).toFixed(1) + '" y="' + (y - 5).toFixed(1) + '" text-anchor="middle">' + v + "</text>" : "") +
         (i % 3 === 1 || i === 13 ? '<text x="' + (x + w / 2).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle">' + (i === 13 ? "Today" : fmtShort(days[i])) + "</text>" : "");
     }).join("");
-    var goalLine = '<line x1="' + pad + '" x2="' + (W - pad) + '" y1="' + gy.toFixed(1) + '" y2="' + gy.toFixed(1) + '" stroke="var(--xp)" stroke-dasharray="4 4"/><text x="' + (W - pad) + '" y="' + (gy - 5).toFixed(1) + '" text-anchor="end">Daily goal ' + DAILY_GOAL + "</text>";
+    var goalLine = '<line x1="' + pad + '" x2="' + (W - pad) + '" y1="' + gy.toFixed(1) + '" y2="' + gy.toFixed(1) + '" stroke="var(--xp)" stroke-dasharray="4 4"/><text x="' + (W - pad) + '" y="' + (gy - 5).toFixed(1) + '" text-anchor="end">Daily goal ' + goal() + "</text>";
     var cats = {}; ev.forEach(function (e) { cats[e.c] = cats[e.c] || [0, 0]; cats[e.c][1]++; if (e.ok) cats[e.c][0]++; });
     var catRows = DATA.meta.categories.filter(function (c) { return active().some(function (t) { return t.category === c; }); }).map(function (c) {
       var v = cats[c] || [0, 0], pct = v[1] ? Math.round(v[0] / v[1] * 100) : 0;
@@ -934,6 +1112,7 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
       '<div class="card"><div class="sec-h" style="margin-bottom:8px"><h2 style="font-size:18px">Accuracy by category</h2></div>' + (n ? catRows : '<p class="muted">Answer a few questions to see your strengths.</p>') + "</div></section>" +
       '<section><div class="sec-h"><h2>Badges</h2><span class="note">' + badgeCount() + " of " + BADGES.length + ' unlocked</span></div><div class="badges">' +
       BADGES.map(function (b) { var got = S.badges[b.id]; return '<div class="badge-c' + (got ? " got" : "") + '"><span class="bi">' + b.k + "</span><div><b>" + esc(b.name) + "</b><span>" + esc(b.desc) + (got ? " · " + fmtShort(got) : "") + "</span></div></div>"; }).join("") + "</div></section>" +
+      accountCard() +
       '<section class="card"><div class="sec-h" style="margin-bottom:4px"><h2 style="font-size:18px">Settings</h2></div><div class="settings">' +
       '<div class="setting"><div><b>Sound effects</b><span>Short tones for answers, hits and level-ups</span></div><button type="button" class="switch" role="switch" aria-checked="' + !!S.sound + '" aria-label="Sound effects" data-act="sound"></button></div>' +
       '<div class="setting"><div><b>Install the app</b><span>' + (deferredInstall ? "Add AI Frontier Quest to your home screen or dock." : isIOS ? "On iPhone or iPad: tap Share, then Add to Home Screen." : "Use your browser menu's Install or Add to Home Screen option.") + "</span></div>" + (deferredInstall ? '<button type="button" class="btn btn-primary btn-sm" data-act="install">' + icon("download", "sm") + "Install</button>" : "") + "</div>" +
@@ -951,7 +1130,7 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
     if (rel.length < 3) rel = rel.concat(sorted(active()).filter(function (x) { return x.id !== t.id && rel.indexOf(x) < 0; }).slice(0, 3 - rel.length));
     var stepDefs = [["read", "Read", "Briefing · +20 XP"], ["quiz", "Quiz", "4 of 5 to pass"], ["cards", "Recall", "Flip cards"], ["match", "Match", "Beat the clock"]];
     app.innerHTML = crumbs([["Learn", ""], t.category]) +
-      '<section class="lesson-hero"><div class="meta-row">' + catIco(t) + status(t) + '<span class="chip">' + diffLabel(t) + '</span><span class="chip">Updated ' + fmtShort(t.published) + '</span><span class="chip mono">v' + t.version + "</span>" + starsHtml(starsOf(t)) + "</div>" +
+      '<section class="lesson-hero"><div class="meta-row">' + catIco(t) + status(t) + '<span class="chip">' + diffLabel(t) + '</span><span class="chip">Updated ' + fmtShort(t.published) + '</span><span class="chip mono">v' + t.version + "</span>" + starsHtml(starsOf(t)) + (persona() ? '<span class="lens">' + icon(PERSONAS[persona()].icon, "sm") + "Tailored for " + PERSONAS[persona()].short + "s</span>" : "") + "</div>" +
       "<h1>" + esc(t.title) + '</h1><p class="tagline">' + esc(t.tagline) + "</p>" +
       (p.stale ? '<div class="callout"><h3>This lesson was updated</h3><p>New version, new XP. Replay it to catch up.</p></div>' : "") + "</section>" +
       '<nav class="stepper" aria-label="Lesson steps">' + stepDefs.map(function (s, i) { return '<button type="button" class="step' + (steps[i] ? " done" : i === nxt ? " next" : "") + '" data-step="' + s[0] + '"><span class="n">' + (steps[i] ? icon("check", "sm") : i + 1) + "</span><span><b>" + s[1] + "</b><small>" + s[2] + "</small></span></button>"; }).join("") + "</nav>" +
@@ -970,12 +1149,42 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
     c.hidden = false;
   }
   function briefHtml(t, p) {
-    return '<div><span class="eyebrow">Briefing</span><p class="lead" style="margin-top:8px">' + esc(t.summary) + "</p></div>" +
-      '<div><h3>Key ideas</h3><ol class="ideas">' + t.keyIdeas.map(function (k, i) { return "<li><span>" + (i + 1) + "</span><div>" + esc(k) + "</div></li>"; }).join("") + "</ol></div>" +
-      (t.numbers && t.numbers.length ? '<div><h3>By the numbers</h3><div class="nums">' + t.numbers.map(function (n) { return '<div class="num"><b>' + esc(n.value) + "</b><span>" + esc(n.label) + "</span>" + (n.verified ? "" : '<span class="rep" title="From secondary reporting; not confirmed in the primary source">Reported</span>') + "</div>"; }).join("") + "</div></div>" : "") +
-      '<div class="callout"><h3>Why it matters</h3><p>' + esc(t.whyItMatters) + "</p></div>" +
-      '<div><h3>Sources</h3><ul class="srcs">' + t.sources.map(function (s) { return '<li><a href="' + esc(s.url) + '" target="_blank" rel="noopener"><b>' + esc(s.title) + "</b><small>" + esc(s.publisher) + " · " + fmtDate(s.date) + "</small>" + icon("ext", "sm") + "</a></li>"; }).join("") + "</ul></div>" +
+    var pid = persona(), P = PERSONAS[pid] || PERSONAS.engineer;
+    var parts = {
+      summary: '<div><span class="eyebrow">Briefing</span><p class="lead" style="margin-top:8px">' + esc(t.summary) + "</p></div>",
+      terms: '<div><h3>Key terms</h3><div class="terms">' + t.cards.map(function (c) { return "<div><b>" + esc(c.term) + "</b><span>" + esc(c.def) + "</span></div>"; }).join("") + "</div></div>",
+      ideas: '<div><h3>Key ideas</h3><ol class="ideas">' + t.keyIdeas.map(function (k, i) { return "<li><span>" + (i + 1) + "</span><div>" + esc(k) + "</div></li>"; }).join("") + "</ol></div>",
+      numbers: t.numbers && t.numbers.length ? '<div><h3>By the numbers</h3><div class="nums">' + t.numbers.map(function (n) { return '<div class="num"><b>' + esc(n.value) + "</b><span>" + esc(n.label) + "</span>" + (n.verified ? "" : '<span class="rep" title="From secondary reporting; not confirmed in the primary source">Reported</span>') + "</div>"; }).join("") + "</div></div>" : "",
+      why: '<div class="callout"><h3>' + (pid === "leader" ? "Why it matters for your work" : "Why it matters") + "</h3><p>" + esc(t.whyItMatters) + "</p></div>",
+      sources: "<div><h3>" + (pid === "researcher" ? "Primary sources" : "Sources") + '</h3><ul class="srcs">' + t.sources.map(function (s) { return '<li><a href="' + esc(s.url) + '" target="_blank" rel="noopener"><b>' + esc(s.title) + "</b><small>" + esc(s.publisher) + " · " + fmtDate(s.date) + "</small>" + icon("ext", "sm") + "</a></li>"; }).join("") + "</ul></div>"
+    };
+    return P.order.map(function (k) { return parts[k] || ""; }).join("") +
       "<div>" + (p.read ? '<div class="chip" style="color:var(--good)">' + icon("check", "sm") + 'Briefing read</div> <button type="button" class="btn btn-primary" data-step="quiz" style="margin-left:8px">Start the quiz' + icon("right", "sm") + "</button>" : '<button type="button" class="btn btn-primary" data-step="read">' + icon("check", "sm") + "I've read this · +20 XP</button>") + "</div>";
+  }
+  function guestBanner() {
+    if (MODE !== "guest") return "";
+    return '<section class="card guest-banner"><div><b>' + icon("cloud", "sm") + "You're learning as a guest</b><span>Progress is saved on this device only. Create a free account to sync it to your phone and computer.</span></div>" +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn btn-primary btn-sm" data-go="signup">Create free account</button><button type="button" class="btn btn-secondary btn-sm" data-go="login">Log in</button></div></section>';
+  }
+  function recoSection() {
+    var rec = recommended(3); if (!rec.length) return "";
+    var P = PERSONAS[persona()];
+    return '<section aria-labelledby="h-reco"><div class="sec-h"><h2 id="h-reco">Recommended for you</h2><span class="note">' + (P ? esc(P.label) + " track · " : "") + '<button type="button" class="linkbtn" data-act="retrack">Change</button></span></div><div class="courses">' + rec.map(function (t) { return courseHtml(t, recoReason(t)); }).join("") + "</div></section>";
+  }
+  function accountCard() {
+    var P = PERSONAS[persona()], g = goal();
+    var goalSel = '<select class="select" id="acct-goal" aria-label="Daily goal">' + [50, 100, 150, 200].map(function (v) { return '<option value="' + v + '"' + (v === g ? " selected" : "") + ">" + v + " XP a day</option>"; }).join("") + "</select>";
+    var common = '<div class="acct-row"><div><b>Track</b><span>' + (P ? esc(P.label) : "Not set") + '</span></div><button type="button" class="btn btn-secondary btn-sm" data-act="retrack">Change</button></div>' +
+      '<div class="acct-row"><div><b>Interests</b><span>' + esc(((S.prefs && S.prefs.interests) || []).join(", ") || "None yet") + '</span></div><button type="button" class="btn btn-secondary btn-sm" data-act="reinterests">Edit</button></div>' +
+      '<div class="acct-row"><div><b>Daily goal</b><span>XP you aim for each day</span></div>' + goalSel + "</div>";
+    if (MODE === "user") {
+      return '<section class="card"><div class="sec-h" style="margin-bottom:4px"><h2 style="font-size:18px">Account</h2><span class="note"><span class="sync-dot ' + SYNC + '"></span> <span data-sync-label>' + syncLabel() + "</span></span></div>" +
+        '<div class="acct-row"><div><b>Name</b><span>Shown on your profile</span></div><div style="display:flex;gap:8px"><input class="input" id="acct-name" maxlength="60" value="' + esc((S.prefs && S.prefs.name) || "") + '" aria-label="Name"><button type="button" class="btn btn-secondary btn-sm" data-act="savename">Save</button></div></div>' +
+        '<div class="acct-row"><div><b>Email</b><span>' + esc(USER.email || "") + "</span></div></div>" + common +
+        '<div class="acct-row"><div><b>Sign out</b><span>Your progress stays in your account</span></div><button type="button" class="btn btn-secondary btn-sm" data-act="signout">' + icon("logout", "sm") + "Sign out</button></div></section>";
+    }
+    return '<section class="card"><div class="sec-h" style="margin-bottom:4px"><h2 style="font-size:18px">Account</h2><span class="note">Guest · this device only</span></div>' +
+      '<div class="acct-row"><div><b>Save your progress</b><span>Create a free account to keep your XP, streak and Review deck on every device.</span></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn btn-primary btn-sm" data-go="signup">Create account</button><button type="button" class="btn btn-secondary btn-sm" data-go="login">Log in</button></div></div>' + common + "</section>";
   }
   function modePage(kick, title, sub, back) {
     setMode(false);
@@ -1226,12 +1435,348 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
     stageShell(resultHtml(all ? "Lesson complete" : "Match cleared", secs + " s", g.misses + " miss" + (g.misses === 1 ? "" : "es") + " · best " + p.matchBest + " s", earned, '<button type="button" class="btn btn-primary" data-go="">' + (all ? "Next lesson" : "Back to Learn") + '</button><button type="button" class="btn btn-secondary" data-brief="1">Back to lesson</button>', "trophy"));
   }
 
+
+  // ---------- accounts (Supabase) ----------
+  var SB_URL = "https://pzmbbdvefyirzztibldp.supabase.co";
+  var SB_KEY = "sb_publishable_Z6qqfrSkl5p1LSulWBeIiA_JdWbTj8m"; // public client key; rows are protected by Row Level Security
+  var BASE_URL = location.origin + location.pathname;
+  var SB = null, USER = null, MODE = "none", SYNC = "idle", syncTimer = null, RECOVERY = false;
+  function authAvailable() { return !!SB; }
+  function initClient() {
+    try {
+      if (window.supabase && window.supabase.createClient && /^https?:$/.test(location.protocol)) {
+        SB = window.supabase.createClient(SB_URL, SB_KEY, { auth: { flowType: "pkce", detectSessionInUrl: true, persistSession: true, autoRefreshToken: true } });
+      }
+    } catch (e) { SB = null; }
+  }
+  function userKey() { return STORE_KEY + "_u_" + (USER ? USER.id : "x"); }
+  function curKey() { return MODE === "user" ? userKey() : STORE_KEY; }
+  function hasProgress(s) { return s && (s.xp > 0 || Object.keys(s.topics || {}).length > 0); }
+  function setSync(st) { SYNC = st; var el = $$(".sync-dot"); el.forEach(function (d) { d.className = "sync-dot " + st; }); $$("[data-sync-label]").forEach(function (l) { l.textContent = syncLabel(); }); }
+  function syncLabel() { return MODE !== "user" ? "Guest · this device only" : SYNC === "pending" ? "Saving…" : SYNC === "error" ? "Sync paused · retrying" : SYNC === "saved" ? "Synced" : "Signed in"; }
+  function scheduleSync() { if (MODE !== "user" || !SB) return; clearTimeout(syncTimer); setSync("pending"); syncTimer = setTimeout(pushSync, 1800); }
+  function pushSync() {
+    if (MODE !== "user" || !SB || !USER) return Promise.resolve();
+    clearTimeout(syncTimer);
+    var p = S.prefs || {};
+    var payload = { progress: S, persona: p.persona || null, interests: p.interests || [], daily_goal: p.goal || 100, display_name: (p.name || "").slice(0, 60) || null };
+    return SB.from("profiles").update(payload).eq("id", USER.id).then(function (r) {
+      if (r.error) { setSync("error"); syncTimer = setTimeout(pushSync, 15000); } else setSync("saved");
+    }).catch(function () { setSync("error"); syncTimer = setTimeout(pushSync, 15000); });
+  }
+  document.addEventListener("visibilitychange", function () { if (document.visibilityState === "hidden" && SYNC === "pending") pushSync(); });
+
+  function mergeState(a, b) {
+    if (!hasProgress(b)) return Object.assign(blank(), a, { prefs: Object.assign({}, (b && b.prefs) || {}, a.prefs || {}) });
+    if (!hasProgress(a)) return Object.assign(blank(), b, { prefs: Object.assign({}, a.prefs || {}, b.prefs || {}) });
+    var m = blank(), k;
+    function maxObj(x, y) { var o = {}; Object.keys(x || {}).concat(Object.keys(y || {})).forEach(function (q) { o[q] = Math.max((x || {})[q] || 0, (y || {})[q] || 0); }); return o; }
+    m.xpLog = maxObj(a.xpLog, b.xpLog);
+    var logSum = Object.keys(m.xpLog).reduce(function (s, d) { return s + m.xpLog[d]; }, 0);
+    m.xp = Math.max(a.xp || 0, b.xp || 0, logSum);
+    m.days = Array.from(new Set((a.days || []).concat(b.days || []))).sort();
+    m.topics = {};
+    Object.keys(a.topics || {}).concat(Object.keys(b.topics || {})).forEach(function (id) {
+      var x = (a.topics || {})[id], y = (b.topics || {})[id];
+      if (!x || !y) { m.topics[id] = Object.assign({}, x || y); return; }
+      if (x.v !== y.v) { m.topics[id] = Object.assign({}, x.v > y.v ? x : y); return; }
+      var t = Object.assign({}, x, y);
+      ["read", "quiz", "cards", "match", "speed", "x_read", "x_quiz", "x_cards", "x_match"].forEach(function (f) { t[f] = !!(x[f] || y[f]); });
+      t.quizBest = Math.max(x.quizBest || 0, y.quizBest || 0);
+      t.matchBest = x.matchBest == null ? y.matchBest : y.matchBest == null ? x.matchBest : Math.min(x.matchBest, y.matchBest);
+      t.stale = !!(x.stale && y.stale);
+      m.topics[id] = t;
+    });
+    m.badges = {}; [a.badges || {}, b.badges || {}].forEach(function (src) { Object.keys(src).forEach(function (id) { if (!m.badges[id] || src[id] < m.badges[id]) m.badges[id] = src[id]; }); });
+    m.inv = maxObj(a.inv, b.inv); m.used = Math.max(a.used || 0, b.used || 0);
+    m.rv = Object.assign({}, b.rv || {}, a.rv || {});
+    m.ev = ((a.ev || []).length >= (b.ev || []).length ? a.ev : b.ev) || [];
+    m.daily = maxObj(a.daily, b.daily);
+    m.boss = {}; Object.keys(a.boss || {}).concat(Object.keys(b.boss || {})).forEach(function (w) { var x = (a.boss || {})[w] || {}, y = (b.boss || {})[w] || {}; m.boss[w] = { defeated: !!(x.defeated || y.defeated), best: Math.max(x.best || 0, y.best || 0) }; });
+    m.blitzBest = Math.max(a.blitzBest || 0, b.blitzBest || 0); m.comboBest = Math.max(a.comboBest || 0, b.comboBest || 0);
+    m.qm = {}; Object.keys(a.qm || {}).concat(Object.keys(b.qm || {})).forEach(function (w) { m.qm[w] = maxObj((a.qm || {})[w], (b.qm || {})[w]); });
+    m.qc = {}; Object.keys(a.qc || {}).concat(Object.keys(b.qc || {})).forEach(function (w) { m.qc[w] = Object.assign({}, (b.qc || {})[w], (a.qc || {})[w]); });
+    m.cnt = maxObj(a.cnt, b.cnt);
+    m.sound = a.sound !== undefined ? a.sound : b.sound;
+    m.prefs = Object.assign({}, b.prefs || {}, a.prefs || {});
+    for (k in blank()) if (m[k] === undefined) m[k] = blank()[k];
+    return m;
+  }
+
+  var SIGN_P = null, SIGN_ID = null, PENDING = "";
+  function onSignedIn(session, fresh) {
+    if (!session || !session.user) return Promise.resolve();
+    if (SIGN_ID === session.user.id && SIGN_P) return SIGN_P;
+    SIGN_ID = session.user.id; SIGN_P = doSignIn(session, fresh); return SIGN_P;
+  }
+  function doSignIn(session, fresh) {
+    USER = session.user; MODE = "user";
+    try { localStorage.removeItem("aifq_guest"); } catch (e) {}
+    var cached = load(userKey()), guest = load(STORE_KEY);
+    return SB.from("profiles").select("*").eq("id", USER.id).maybeSingle().then(function (r) {
+      var row = r.data;
+      if (!row) return SB.from("profiles").insert({ id: USER.id, display_name: (USER.user_metadata && USER.user_metadata.display_name) || null }).select().maybeSingle().then(function (r2) { return r2.data || {}; });
+      return row;
+    }).catch(function () { return {}; }).then(function (row) {
+      row = row || {};
+      var remote = row.progress && typeof row.progress === "object" ? row.progress : {};
+      var merged = mergeState(cached, remote);
+      if (hasProgress(guest)) {
+        merged = mergeState(merged, guest);
+        try { localStorage.removeItem(STORE_KEY); } catch (e) {}
+        toast("<b>Guest progress saved</b> · added to your account", "cloud");
+      }
+      var gp = guest.prefs || {};
+      merged.prefs = Object.assign({}, merged.prefs || {}, {
+        persona: row.persona || (merged.prefs || {}).persona || gp.persona || null,
+        interests: (row.interests && row.interests.length ? row.interests : null) || (merged.prefs || {}).interests || gp.interests || [],
+        goal: row.persona ? (row.daily_goal || 100) : ((merged.prefs || {}).goal || gp.goal || row.daily_goal || 100),
+        name: row.display_name || (USER.user_metadata && USER.user_metadata.display_name) || (merged.prefs || {}).name || ""
+      });
+      S = merged; save(); pushSync();
+      if (fresh) toast("<b>Signed in</b> · " + esc(USER.email), "check");
+    });
+  }
+  function startGuest() {
+    MODE = "guest"; USER = null;
+    try { localStorage.setItem("aifq_guest", "1"); } catch (e) {}
+    S = load(STORE_KEY);
+  }
+  function signOut() {
+    var done = function () {
+      try { localStorage.removeItem(userKey()); localStorage.removeItem("aifq_guest"); } catch (e) {}
+      USER = null; MODE = "none"; S = load(STORE_KEY); SYNC = "idle"; SIGN_P = null; SIGN_ID = null;
+      location.hash = "welcome"; route(); toast("Signed out", "check");
+    };
+    if (!SB) return done();
+    pushSync().then(function () { return SB.auth.signOut(); }).then(done, done);
+  }
+  function friendlyAuthError(err) {
+    var m = String((err && (err.message || err.error_description)) || err || "");
+    if (/invalid login credentials/i.test(m)) return "That email and password don't match. Try again, or reset your password.";
+    if (/already registered|already been registered|exists/i.test(m)) return "An account with this email already exists. Log in instead.";
+    if (/password should be|weak password|at least/i.test(m)) return "Choose a password with at least 8 characters.";
+    if (/rate limit|too many/i.test(m)) return "Too many attempts. Wait a few minutes and try again.";
+    if (/email.*invalid|invalid.*email|unable to validate email/i.test(m)) return "Enter a valid email address.";
+    if (/not confirmed/i.test(m)) return "Confirm your email first, then log in.";
+    if (/fetch|network|failed to/i.test(m)) return "Couldn't reach the server. Check your connection and try again.";
+    return m || "Something went wrong. Try again.";
+  }
+
+  // ---------- personas ----------
+  var PERSONAS = {
+    student: { label: "Student or career switcher", short: "Student", icon: "book", goal: 50, blurb: "Learn the ideas behind the headlines in plain language.", cats: ["World Models", "Robotics", "Agents", "Evaluation"], diff: { 1: 3, 2: 2, 3: 0 }, order: ["summary", "terms", "ideas", "why", "numbers", "sources"], perks: ["Intro lessons first", "Key terms shown in every lesson", "Gentle 50 XP daily goal"] },
+    engineer: { label: "Engineer or data scientist", short: "Engineer", icon: "code", goal: 100, blurb: "Track the architectures, training methods and tools you'll ship with.", cats: ["Architecture", "Training", "Agents", "Evaluation"], diff: { 1: 1, 2: 3, 3: 3 }, order: ["summary", "ideas", "numbers", "why", "sources"], perks: ["Architecture, training and agents first", "Core and Deep lessons", "Numbers up front"] },
+    researcher: { label: "Researcher", short: "Researcher", icon: "flask", goal: 150, blurb: "Go deep on methods, evaluations and primary sources.", cats: ["Interpretability", "Training", "Evaluation", "Science"], diff: { 1: 0, 2: 2, 3: 4 }, order: ["summary", "sources", "ideas", "numbers", "why"], perks: ["Deep lessons and evaluations first", "Primary sources before the summary", "150 XP daily goal"] },
+    leader: { label: "Leader or domain expert", short: "Leader", icon: "briefcase", goal: 50, blurb: "Know what matters for your field and your decisions.", cats: ["Science", "Infrastructure", "Robotics", "Agents", "World Models"], diff: { 1: 3, 2: 2, 3: 1 }, order: ["why", "summary", "numbers", "ideas", "sources"], perks: ["Why-it-matters leads every lesson", "Science, infrastructure and impact first", "Short daily habit"] }
+  };
+  var PERSONA_IDS = ["student", "engineer", "researcher", "leader"];
+  function persona() { var p = S.prefs && S.prefs.persona; return p && PERSONAS[p] ? p : null; }
+  function scoreTopic(t) {
+    var steps = stepsDone(t).filter(Boolean).length; if (steps === 4) return -100;
+    var f = freshness(t), P = PERSONAS[persona()] || null, ints = (S.prefs && S.prefs.interests) || [];
+    var s = { fresh: 5, current: 3, aging: 1, stale: 0, classic: 1, archived: -50 }[f];
+    if (P && P.cats.indexOf(t.category) >= 0) s += 3;
+    if (ints.indexOf(t.category) >= 0) s += 3;
+    if (P) s += P.diff[t.difficulty] || 0;
+    if (steps > 0) s += 2;
+    return s;
+  }
+  function recommended(n) { return active().slice().sort(function (a, b) { return scoreTopic(b) - scoreTopic(a) || (a.published < b.published ? 1 : -1); }).filter(function (t) { return scoreTopic(t) > -100; }).slice(0, n || 3); }
+  function recoReason(t) {
+    var P = PERSONAS[persona()], ints = (S.prefs && S.prefs.interests) || [];
+    if (ints.indexOf(t.category) >= 0) return "You follow " + t.category;
+    if (P && P.cats.indexOf(t.category) >= 0) return "Picked for " + P.short + "s";
+    if (freshness(t) === "fresh") return "New this month";
+    return "Next in your path";
+  }
+  function displayName() { var n = (S.prefs && S.prefs.name) || ""; return n || (USER && USER.email ? USER.email.split("@")[0] : ""); }
+  function initials() { var n = displayName() || "Guest"; return n.split(/[\s._-]+/).filter(Boolean).slice(0, 2).map(function (w) { return w[0].toUpperCase(); }).join("") || "G"; }
+
+  // ---------- public views ----------
+  var PUB = document.getElementById("public");
+  function showPublic(on) { PUB.hidden = !on; $(".shell").hidden = on; setMode(false); document.body.dataset.public = on ? "1" : ""; }
+  function pubBar() {
+    var inApp = MODE !== "none";
+    return '<header class="pubbar"><div class="pwrap"><button type="button" class="brand" data-go="welcome"><svg class="mark"><use href="#i-mark"/></svg>AI Frontier Quest</button>' +
+      '<nav class="publinks" aria-label="Sections"><button type="button" data-scrollto="features">Features</button><button type="button" data-scrollto="how">How it works</button><button type="button" data-scrollto="tracks">Tracks</button><button type="button" data-scrollto="week">This week</button></nav><span class="spacer"></span>' +
+      (inApp ? '<button type="button" class="btn btn-primary btn-sm" data-go="">Open the app' + icon("right", "sm") + "</button>" : '<button type="button" class="btn btn-ghost hide-sm" data-go="login">Log in</button><button type="button" class="btn btn-primary btn-sm" data-go="signup">Get started</button>') + "</div></header>";
+  }
+  function pubFoot() {
+    return '<footer class="pfoot"><div class="pwrap"><span>© ' + new Date().getFullYear() + " AI Frontier Quest · Edition " + esc(DATA.meta.edition) + '</span><nav><button type="button" data-go="welcome">Home</button><button type="button" data-go="login">Log in</button><button type="button" data-go="signup">Sign up</button><a href="https://github.com/ckanu13k/ai-frontier-quest" target="_blank" rel="noopener">GitHub</a></nav></div></footer>';
+  }
+  function viewLanding() {
+    showPublic(true);
+    var list = sorted(active()), t = list[0], q = t.quiz[0], nQ = active().length * 5, nC = active().reduce(function (s, x) { return s + x.cards.length; }, 0);
+    var fresh = list.filter(function (x) { return freshness(x) === "fresh"; }).length;
+    var opts = [q.options[q.answer]].concat(q.options.filter(function (o, i) { return i !== q.answer; }).slice(0, 2));
+    var feat = [["book", "#0D9488", "Five-minute lessons", "Each briefing distills a paper or lab announcement into the key ideas, the numbers and why it matters, with links to every source."],
+      ["target", "#6366F1", "Practice that sticks", "A quiz, recall cards and a timed term match for every lesson. Pass all four steps to complete it."],
+      ["game", "#F59E0B", "An arcade, not a textbook", "A weekly boss battle, a 60-second Blitz and a Daily Challenge keep you coming back."],
+      ["layers", "#EC4899", "Spaced review", "Every question you miss returns 1, 3 and 7 days later until it sticks. Progress syncs across devices."]];
+    PUB.innerHTML = pubBar() + '<main class="pwrap">' +
+      '<section class="hero"><div><span class="pill-live"><b>New</b>Edition ' + esc(DATA.meta.edition) + " · " + fresh + ' fresh lessons</span><h1>Keep up with AI research in <em>10 minutes a day</em>.</h1>' +
+      '<p class="sub">Short, sourced lessons on the week\'s most important AI and ML work, from lab blogs and published papers. Then make it stick with quizzes, boss battles and spaced review.</p>' +
+      '<div class="ctas"><button type="button" class="btn btn-primary btn-lg" data-go="signup">Get started free' + icon("right", "sm") + '</button><button type="button" class="btn btn-secondary btn-lg" data-act="guest">Try it without an account</button></div>' +
+      '<div class="trust"><span>' + icon("check", "sm") + "Free</span><span>" + icon("check", "sm") + "Phone and desktop</span><span>" + icon("check", "sm") + "Sources linked in every lesson</span></div></div>" +
+      '<div class="preview" aria-hidden="true"><div class="pv pv-lesson"><div class="course-top">' + catIco(t) + '<div class="meta"><small>' + esc(t.category) + " · " + diffLabel(t) + "</small>" + status(t) + "</div></div><h4>" + esc(t.title) + "</h4><p>" + esc(t.tagline) + '</p><div class="steps-mini" style="display:flex;gap:6px"><i style="flex:1;height:6px;border-radius:9px;background:var(--primary)"></i><i style="flex:1;height:6px;border-radius:9px;background:var(--primary)"></i><i style="flex:1;height:6px;border-radius:9px;background:var(--line)"></i><i style="flex:1;height:6px;border-radius:9px;background:var(--line)"></i></div></div>' +
+      '<div class="pv pv-quiz"><span class="eyebrow">Quiz · 2 of 5</span><div class="q">' + esc(q.q) + '</div><div class="opts">' + opts.map(function (o, i) { return '<div class="opt' + (i === 0 ? " right" : "") + '"><span class="k">' + "ABC"[i] + "</span><span>" + esc(o) + "</span></div>"; }).join("") + "</div></div>" +
+      '<div class="pv-float"><span class="chip xp">' + icon("zap", "sm") + '+40 XP</span><span class="chip">' + icon("check", "sm") + "Quiz passed</span></div></div></section>" +
+      '<div class="logos"><small>Lessons synthesized from primary sources such as</small><span>Google DeepMind</span><span>Anthropic</span><span>arXiv</span><span>NeurIPS</span><span>METR</span><span>Import AI</span><span>Ahead of AI</span></div>' +
+      '<section class="psec" id="features"><div class="psec-h"><span class="eyebrow">Features</span><h2>Built to make research stick</h2><p>Reading about AI is easy to forget. Each lesson ends with practice, and the arcade brings it back when it matters.</p></div><div class="features">' +
+      feat.map(function (f) { return '<div class="card feature" style="--tc:' + f[1] + '"><span class="qi">' + icon(f[0]) + "</span><h3>" + f[2] + "</h3><p>" + f[3] + "</p></div>"; }).join("") + "</div></section>" +
+      '<section class="psec" id="how"><div class="psec-h"><span class="eyebrow">How it works</span><h2>Three steps, ten minutes</h2></div><div class="steps3">' +
+      [["Pick your track", "Tell us whether you're a student, an engineer, a researcher or a leader. Your lessons and daily goal adapt."], ["Learn in five minutes", "Read a sourced briefing, then pass a quiz, recall the key terms and beat the match clock."], ["Come back and review", "New lessons arrive every Monday. Missed questions return on a schedule until you know them."]].map(function (s, i) { return '<div class="card step3"><span class="num">' + (i + 1) + "</span><h3>" + s[0] + "</h3><p>" + s[1] + "</p></div>"; }).join("") + "</div></section>" +
+      '<section class="psec" id="tracks"><div class="psec-h"><span class="eyebrow">Tracks</span><h2>Tailored to how you work</h2><p>Same research, framed for what you need from it.</p></div><div class="personas">' +
+      PERSONA_IDS.map(function (id) { var P = PERSONAS[id]; return '<div class="card persona"><span class="qi">' + icon(P.icon) + "</span><h3>" + P.label + "</h3><p>" + P.blurb + "</p><ul>" + P.perks.map(function (k) { return "<li>" + icon("check", "sm") + "<span>" + k + "</span></li>"; }).join("") + "</ul></div>"; }).join("") + "</div></section>" +
+      '<section class="psec" id="week"><div class="psec-h"><span class="eyebrow">This week</span><h2>What you\'ll learn now</h2><p>Updated every Monday. Freshness labels show how recent each lesson\'s newest source is.</p></div><div class="courses">' + list.slice(0, 6).map(courseHtml).join("") + "</div></section>" +
+      '<section class="psec"><div class="stats-band"><div><b>' + active().length + "</b><span>active lessons</span></div><div><b>" + nQ + "</b><span>quiz questions</span></div><div><b>" + nC + "</b><span>key terms</span></div><div><b>Weekly</b><span>new lessons and a new boss</span></div></div></section>" +
+      '<section class="cta-band"><h2>Start your first lesson in under a minute</h2><p>Create a free account to sync your streak and progress across your phone and computer, or jump in as a guest.</p><div class="ctas" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center"><button type="button" class="btn btn-lg btn-white" data-go="signup">Create free account</button><button type="button" class="btn btn-lg btn-outline" data-act="guest">Try as guest</button></div></section>' +
+      "</main>" + pubFoot();
+  }
+  function authAside() {
+    return '<aside class="auth-side"><h2>Why create an account</h2><ul>' +
+      [["cloud", "Sync across devices", "Your streak, XP and Review deck follow you from phone to desktop."], ["target", "A plan for your role", "Lessons, difficulty and daily goal tuned to your track."], ["trophy", "Keep everything you earn", "Badges, boss wins and lesson progress are saved to your account."]].map(function (r) { return '<li><span class="qi">' + icon(r[0]) + "</span><div><b>" + r[1] + "</b><span>" + r[2] + "</span></div></li>"; }).join("") + "</ul></aside>";
+  }
+  function noAuthNote() { return authAvailable() ? "" : '<div class="form-msg err">Accounts are available on the full site: <a href="https://ckanu13k.github.io/ai-frontier-quest/" target="_blank" rel="noopener">ckanu13k.github.io/ai-frontier-quest</a>. You can still continue as a guest here.</div>'; }
+  function authShell(inner) { showPublic(true); PUB.innerHTML = pubBar() + '<main class="auth-wrap"><section class="card auth-card">' + inner + "</section>" + authAside() + "</main>"; var f = PUB.querySelector("input"); if (f && window.innerWidth > 1023) f.focus(); }
+  function pwField(id, label, auto) { return '<div class="field"><label for="' + id + '">' + label + '</label><div class="pw"><input class="input" id="' + id + '" type="password" autocomplete="' + auto + '" minlength="8" required><button type="button" data-act="showpw" data-for="' + id + '">Show</button></div></div>'; }
+  function viewSignup() {
+    authShell('<div><h1>Create your account</h1></div><p class="lead-s">Free. Takes under a minute.</p>' + noAuthNote() +
+      '<form id="f-signup" novalidate><div class="field"><label for="su-name">Name</label><input class="input" id="su-name" autocomplete="name" maxlength="60" required></div>' +
+      '<div class="field"><label for="su-email">Email</label><input class="input" id="su-email" type="email" autocomplete="email" inputmode="email" required></div>' +
+      pwField("su-pw", "Password", "new-password") + '<small style="color:var(--ink-3);font-size:12.5px;margin-top:-8px">At least 8 characters.</small>' +
+      '<div class="form-msg" role="alert" id="su-msg"></div><button class="btn btn-primary btn-block btn-lg" type="submit"' + (authAvailable() ? "" : " disabled") + ">Create account</button></form>" +
+      '<div class="divider">or</div><button type="button" class="btn btn-secondary btn-block" data-act="guest">Continue without an account</button>' +
+      '<p class="auth-foot">Already have an account? <button type="button" class="linkbtn" data-go="login">Log in</button></p>');
+  }
+  function viewLogin() {
+    authShell("<div><h1>Welcome back</h1></div>" + noAuthNote() +
+      '<form id="f-login" novalidate><div class="field"><label for="li-email">Email</label><input class="input" id="li-email" type="email" autocomplete="email" inputmode="email" required></div>' +
+      pwField("li-pw", "Password", "current-password") +
+      '<div style="display:flex;justify-content:flex-end;margin-top:-6px"><button type="button" class="linkbtn" data-go="reset" style="font-size:14px">Forgot password?</button></div>' +
+      '<div class="form-msg" role="alert" id="li-msg"></div><button class="btn btn-primary btn-block btn-lg" type="submit"' + (authAvailable() ? "" : " disabled") + ">Log in</button></form>" +
+      '<div class="divider">or</div><button type="button" class="btn btn-secondary btn-block" data-act="magic"' + (authAvailable() ? "" : " disabled") + ">" + icon("mail", "sm") + "Email me a sign-in link</button>" +
+      '<p class="auth-foot">New here? <button type="button" class="linkbtn" data-go="signup">Create an account</button> · <button type="button" class="linkbtn" data-act="guest">Continue as guest</button></p>');
+  }
+  function viewReset() {
+    authShell("<div><h1>Reset your password</h1></div><p class=\"lead-s\">Enter your account email and we'll send you a link to choose a new password.</p>" + noAuthNote() +
+      '<form id="f-reset" novalidate><div class="field"><label for="rs-email">Email</label><input class="input" id="rs-email" type="email" autocomplete="email" inputmode="email" required></div>' +
+      '<div class="form-msg" role="alert" id="rs-msg"></div><button class="btn btn-primary btn-block btn-lg" type="submit"' + (authAvailable() ? "" : " disabled") + ">Send reset link</button></form>" +
+      '<p class="auth-foot"><button type="button" class="linkbtn" data-go="login">Back to log in</button></p>');
+  }
+  function viewNewPassword() {
+    authShell("<div><h1>Choose a new password</h1></div>" + (MODE === "user" ? "" : '<div class="form-msg err">Open the reset link from your email on this device to set a new password.</div>') +
+      '<form id="f-newpw" novalidate>' + pwField("np-pw", "New password", "new-password") + '<div class="form-msg" role="alert" id="np-msg"></div><button class="btn btn-primary btn-block btn-lg" type="submit"' + (MODE === "user" ? "" : " disabled") + ">Save password</button></form>");
+  }
+
+  // ---------- onboarding ----------
+  var OB = null;
+  function viewOnboarding() {
+    showPublic(true);
+    if (!OB) { var p = S.prefs || {}; OB = { step: 0, persona: p.persona || null, interests: (p.interests || []).slice(), goal: p.goal || null }; }
+    var cats = DATA.meta.categories.filter(function (c) { return active().some(function (t) { return t.category === c; }); });
+    var body = "";
+    if (OB.step === 0) {
+      body = "<h1>What best describes you?</h1><p class=\"lede\">We'll tailor your lessons, their layout and your daily goal. You can change this any time.</p>" +
+        '<div class="choice-grid" role="radiogroup" aria-label="Your track">' + PERSONA_IDS.map(function (id) { var P = PERSONAS[id]; return '<button type="button" class="choice" role="radio" aria-checked="' + (OB.persona === id) + '" data-persona="' + id + '"><span class="qi">' + icon(P.icon) + "</span><b>" + P.label + "</b><span>" + P.blurb + "</span><small>" + P.perks[0] + "</small></button>"; }).join("") + "</div>";
+    } else if (OB.step === 1) {
+      body = "<h1>What do you want to follow?</h1><p class=\"lede\">Pick the areas you care about most. We've preselected a few for your track.</p>" +
+        '<div class="chipset">' + cats.map(function (c) { return '<button type="button" class="tog" aria-pressed="' + (OB.interests.indexOf(c) >= 0) + '" data-interest="' + esc(c) + '" style="--cc:' + (CAT_COLOR[c] || "var(--primary)") + '"><span class="dotc"></span>' + esc(c) + "</button>"; }).join("") + "</div>";
+    } else {
+      var goals = [[50, "Casual", "About 5 minutes a day"], [100, "Regular", "About 10 minutes a day"], [200, "Serious", "About 20 minutes a day"]];
+      body = "<h1>Set a daily goal</h1><p class=\"lede\">XP you'll aim for each day. Hitting it keeps your streak alive.</p>" +
+        '<div class="goal-opts" role="radiogroup" aria-label="Daily goal">' + goals.map(function (g) { return '<button type="button" class="choice" role="radio" aria-checked="' + (OB.goal === g[0]) + '" data-goal="' + g[0] + '"><span class="qi">' + icon("target") + "</span><b>" + g[1] + "</b><span>" + g[0] + " XP · " + g[2] + "</span></button>"; }).join("") + "</div>";
+    }
+    var canNext = OB.step === 0 ? !!OB.persona : OB.step === 1 ? OB.interests.length > 0 : !!OB.goal;
+    PUB.innerHTML = '<header class="pubbar"><div class="pwrap"><span class="brand"><svg class="mark"><use href="#i-mark"/></svg>AI Frontier Quest</span><span class="spacer"></span>' + (MODE === "user" ? '<span class="muted" style="font-size:14px">' + esc(USER.email) + "</span>" : '<span class="chip">Guest</span>') + "</div></header>" +
+      '<main class="ob"><div class="ob-top"><div class="ob-progress" aria-hidden="true">' + [0, 1, 2].map(function (i) { return '<i class="' + (i <= OB.step ? "on" : "") + '"></i>'; }).join("") + '</div><span class="muted" style="font-size:13px;font-weight:700">Step ' + (OB.step + 1) + " of 3</span></div>" + body +
+      '<div class="ob-nav">' + (OB.step > 0 ? '<button type="button" class="btn btn-secondary" data-ob="back">' + icon("left", "sm") + "Back</button>" : (S.prefs && S.prefs.persona ? '<button type="button" class="btn btn-ghost" data-go="">Cancel</button>' : "<span></span>")) +
+      '<button type="button" class="btn btn-primary btn-lg" data-ob="next"' + (canNext ? "" : " disabled") + ">" + (OB.step === 2 ? "Start learning" : "Continue") + icon("right", "sm") + "</button></div></main>";
+  }
+  function finishOnboarding() {
+    S.prefs = Object.assign({}, S.prefs || {}, { persona: OB.persona, interests: OB.interests, goal: OB.goal });
+    OB = null; save(); if (MODE === "user") pushSync();
+    var dest = PENDING; PENDING = "";
+    if (location.hash.replace(/^#/, "") === dest) route(); else location.hash = dest;
+    toast("<b>Your plan is ready</b> · " + PERSONAS[S.prefs.persona].short + " track, " + S.prefs.goal + " XP a day", "target");
+  }
+
+  // ---------- auth form handling ----------
+  function msg(id, text, ok) { var el = document.getElementById(id); if (el) { el.className = "form-msg " + (text ? (ok ? "ok" : "err") : ""); el.textContent = text || ""; } }
+  function busy(form, on) { var b = form.querySelector('button[type="submit"]'); if (b) { b.disabled = on; if (on) { b.dataset.label = b.textContent; b.textContent = "Working…"; } else if (b.dataset.label) b.textContent = b.dataset.label; } }
+  function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+  document.addEventListener("submit", function (e) {
+    var f = e.target; if (!f.id || f.id.indexOf("f-") !== 0) return;
+    e.preventDefault();
+    if (!SB) return;
+    if (f.id === "f-signup") {
+      var name = $("#su-name").value.trim(), email = $("#su-email").value.trim(), pw = $("#su-pw").value;
+      if (!name) return msg("su-msg", "Enter your name.");
+      if (!validEmail(email)) return msg("su-msg", "Enter a valid email address.");
+      if (pw.length < 8) return msg("su-msg", "Choose a password with at least 8 characters.");
+      busy(f, true); msg("su-msg", "");
+      SB.auth.signUp({ email: email, password: pw, options: { data: { display_name: name }, emailRedirectTo: BASE_URL } }).then(function (r) {
+        busy(f, false);
+        if (r.error) return msg("su-msg", friendlyAuthError(r.error));
+        if (!r.data.session) return msg("su-msg", "Check your email to confirm your account, then log in.", true);
+        S.prefs = Object.assign({}, S.prefs || {}, { name: name });
+        onSignedIn(r.data.session, false).then(function () { if (S.prefs) S.prefs.name = S.prefs.name || name; save(); pushSync(); OB = null; location.hash = persona() ? "" : "onboarding"; toast("<b>Welcome, " + esc(name.split(" ")[0]) + "</b> · your account is ready", "check"); });
+      }).catch(function (err) { busy(f, false); msg("su-msg", friendlyAuthError(err)); });
+    } else if (f.id === "f-login") {
+      var em = $("#li-email").value.trim(), p2 = $("#li-pw").value;
+      if (!validEmail(em)) return msg("li-msg", "Enter a valid email address.");
+      if (!p2) return msg("li-msg", "Enter your password.");
+      busy(f, true); msg("li-msg", "");
+      SB.auth.signInWithPassword({ email: em, password: p2 }).then(function (r) {
+        busy(f, false);
+        if (r.error) return msg("li-msg", friendlyAuthError(r.error));
+        onSignedIn(r.data.session, true).then(function () { location.hash = persona() ? "" : "onboarding"; route(); });
+      }).catch(function (err) { busy(f, false); msg("li-msg", friendlyAuthError(err)); });
+    } else if (f.id === "f-reset") {
+      var re = $("#rs-email").value.trim();
+      if (!validEmail(re)) return msg("rs-msg", "Enter a valid email address.");
+      busy(f, true);
+      SB.auth.resetPasswordForEmail(re, { redirectTo: BASE_URL }).then(function (r) {
+        busy(f, false);
+        if (r.error) return msg("rs-msg", friendlyAuthError(r.error));
+        msg("rs-msg", "If an account exists for " + re + ", a reset link is on its way. Open it on this device.", true);
+      }).catch(function (err) { busy(f, false); msg("rs-msg", friendlyAuthError(err)); });
+    } else if (f.id === "f-newpw") {
+      var np = $("#np-pw").value;
+      if (np.length < 8) return msg("np-msg", "Choose a password with at least 8 characters.");
+      busy(f, true);
+      SB.auth.updateUser({ password: np }).then(function (r) {
+        busy(f, false);
+        if (r.error) return msg("np-msg", friendlyAuthError(r.error));
+        RECOVERY = false; toast("<b>Password updated</b>", "check"); location.hash = "";
+      }).catch(function (err) { busy(f, false); msg("np-msg", friendlyAuthError(err)); });
+    }
+  });
+  function sendMagic() {
+    var em = ($("#li-email") || {}).value; em = (em || "").trim();
+    if (!validEmail(em)) return msg("li-msg", "Enter your email above, then tap the sign-in link button.");
+    SB.auth.signInWithOtp({ email: em, options: { emailRedirectTo: BASE_URL, shouldCreateUser: false } }).then(function (r) {
+      if (r.error) return msg("li-msg", friendlyAuthError(r.error));
+      msg("li-msg", "If an account exists for " + em + ", a sign-in link is on its way. Open it on this device.", true);
+    }).catch(function (err) { msg("li-msg", friendlyAuthError(err)); });
+  }
+
   // ---------- routing ----------
   function stopGame() { if (game && game.timer) clearInterval(game.timer); game = null; }
   function route() {
     stopGame();
     if (!DATA) return;
     var h = (location.hash || "").replace(/^#/, "");
+    var pub = { welcome: viewLanding, signup: viewSignup, login: viewLogin, reset: viewReset, "new-password": viewNewPassword };
+    if (MODE === "user" && (h === "signup" || h === "login")) { h = ""; try { history.replaceState(null, "", location.pathname); } catch (e) {} }
+    if (pub[h]) { pub[h](); window.scrollTo(0, 0); return; }
+    if (MODE === "none") {
+      if (h.indexOf("t-") === 0 && byId(h.slice(2))) startGuest();
+      else { viewLanding(); window.scrollTo(0, 0); return; }
+    }
+    if (h === "onboarding" || !persona()) { if (h !== "onboarding") PENDING = h; viewOnboarding(); window.scrollTo(0, 0); return; }
+    showPublic(false);
     if (h === "arcade") viewArcade();
     else if (h === "profile") viewProfile();
     else if (h === "daily") startDaily();
@@ -1242,6 +1787,34 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
     else viewLearn();
     renderShell();
     window.scrollTo(0, 0);
+  }
+  function isGuestFlag() { try { return localStorage.getItem("aifq_guest") === "1"; } catch (e) { return false; } }
+  function cleanUrl() {
+    var q = location.search;
+    if (/[?&](code|error|error_description|token_hash|type)=/.test(q)) {
+      var m = q.match(/error_description=([^&]+)/);
+      if (m) toast(esc(decodeURIComponent(m[1].replace(/\+/g, " "))), "x");
+      try { history.replaceState(null, "", location.pathname + location.hash); } catch (e) {}
+    }
+  }
+  function afterAuthNav() {
+    var h = location.hash.replace(/^#/, ""), want = persona() ? "" : "onboarding";
+    if (!h || h === "welcome" || h === "login" || h === "signup") { if (h === want) route(); else location.hash = want; }
+    else route();
+  }
+  function bootAuth() {
+    initClient();
+    if (!SB) { if (isGuestFlag()) startGuest(); return Promise.resolve(); }
+    SB.auth.onAuthStateChange(function (ev, session) {
+      if (ev === "PASSWORD_RECOVERY" && session) { RECOVERY = true; setTimeout(function () { onSignedIn(session, false).then(function () { location.hash = "new-password"; route(); }); }, 0); }
+      else if (ev === "SIGNED_IN" && session && SIGN_ID !== session.user.id) { setTimeout(function () { onSignedIn(session, true).then(afterAuthNav); }, 0); }
+    });
+    return SB.auth.getSession().then(function (r) {
+      cleanUrl();
+      var sess = r && r.data && r.data.session;
+      if (sess) return onSignedIn(sess, false);
+      if (isGuestFlag()) startGuest();
+    }).catch(function () { cleanUrl(); if (isGuestFlag()) startGuest(); });
   }
   function go(h) { if (("#" + h) === location.hash || (!h && !location.hash)) route(); else location.hash = h; }
   function currentTopic() { if (game && game.t) return game.t; var h = (location.hash || "").replace(/^#/, ""); return h.indexOf("t-") === 0 ? byId(h.slice(2)) : null; }
@@ -1259,8 +1832,13 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
   }
 
   document.addEventListener("click", function (e) {
-    var el = e.target.closest("[data-go],[data-filter],[data-step],[data-opt],[data-pu],[data-term],[data-def],[data-brief],[data-claim],[data-tf],[data-act],#nextQ,#again-card,#knew-card,.flip-inner,#blitzGo,#resetYes,#resetNo");
+    var el = e.target.closest("[data-scrollto],[data-persona],[data-interest],[data-goal],[data-ob],[data-go],[data-filter],[data-step],[data-opt],[data-pu],[data-term],[data-def],[data-brief],[data-claim],[data-tf],[data-act],#nextQ,#again-card,#knew-card,.flip-inner,#blitzGo,#resetYes,#resetNo");
     if (!el) return;
+    if (el.hasAttribute("data-scrollto")) { var tg = document.getElementById(el.getAttribute("data-scrollto")); if (tg) tg.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }); return; }
+    if (el.hasAttribute("data-persona")) { OB.persona = el.getAttribute("data-persona"); if (!OB.interests.length) OB.interests = PERSONAS[OB.persona].cats.slice(0, 3); if (!OB.goal) OB.goal = PERSONAS[OB.persona].goal; return viewOnboarding(); }
+    if (el.hasAttribute("data-interest")) { var ci = el.getAttribute("data-interest"), ix = OB.interests.indexOf(ci); if (ix >= 0) OB.interests.splice(ix, 1); else OB.interests.push(ci); return viewOnboarding(); }
+    if (el.hasAttribute("data-goal")) { OB.goal = +el.getAttribute("data-goal"); return viewOnboarding(); }
+    if (el.hasAttribute("data-ob")) { if (el.getAttribute("data-ob") === "back") { OB.step = Math.max(0, OB.step - 1); return viewOnboarding(); } if (OB.step < 2) { OB.step++; window.scrollTo(0, 0); return viewOnboarding(); } return finishOnboarding(); }
     if (el.hasAttribute("data-go")) return go(el.getAttribute("data-go"));
     if (el.hasAttribute("data-filter")) { filter = el.getAttribute("data-filter"); return viewLearn(); }
     var t = currentTopic();
@@ -1282,10 +1860,17 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
     if (el.hasAttribute("data-term")) { game.sel = +el.getAttribute("data-term"); return renderMatch(); }
     if (el.hasAttribute("data-def")) return pickDef(+el.getAttribute("data-def"), el);
     var act = el.getAttribute("data-act");
+    if (act === "guest") { startGuest(); OB = null; var tgt = persona() ? "" : "onboarding"; if (location.hash.replace(/^#/, "") === tgt) route(); else location.hash = tgt; return; }
+    if (act === "magic") return sendMagic();
+    if (act === "showpw") { var inp = document.getElementById(el.getAttribute("data-for")); if (inp) { var show = inp.type === "password"; inp.type = show ? "text" : "password"; el.textContent = show ? "Hide" : "Show"; } return; }
+    if (act === "signout") return signOut();
+    if (act === "retrack") { OB = null; return go("onboarding"); }
+    if (act === "reinterests") { OB = null; viewOnboarding(); OB.step = 1; return viewOnboarding(); }
+    if (act === "savename") { var nm = ($("#acct-name").value || "").trim().slice(0, 60); S.prefs.name = nm; save(); renderShell(); toast("Name saved", "check"); return; }
     if (act === "sound") { S.sound = !S.sound; save(); renderShell(); $$('.switch[data-act="sound"]').forEach(function (s) { s.setAttribute("aria-checked", String(!!S.sound)); }); if (S.sound) sfx("ok"); return; }
     if (act === "install" && deferredInstall) { deferredInstall.prompt(); deferredInstall.userChoice.then(function () { deferredInstall = null; renderShell(); if (section() === "profile") viewProfile(); }); return; }
     if (act === "reset") { $("#resetBox").innerHTML = '<span class="confirm"><span class="muted" style="font-size:13px">Erase everything?</span><button type="button" class="btn btn-sm btn-secondary" id="resetNo">Cancel</button><button type="button" class="btn btn-sm btn-primary" id="resetYes" style="background:var(--bad)">Reset</button></span>'; return; }
-    if (el.id === "resetYes") { S = blank(); save(); route(); toast("Progress reset.", "check"); return; }
+    if (el.id === "resetYes") { var keepPrefs = S.prefs; S = blank(); S.prefs = keepPrefs; save(); route(); toast("Progress reset.", "check"); return; }
     if (el.id === "resetNo") { $("#resetBox").innerHTML = '<button type="button" class="btn btn-secondary btn-sm" data-act="reset">Reset</button>'; return; }
   });
   document.addEventListener("keydown", function (e) {
@@ -1307,6 +1892,7 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
       if (e.key === "ArrowLeft") { e.preventDefault(); $("#again-card").click(); }
     }
   });
+  document.addEventListener("change", function (e) { if (e.target && e.target.id === "acct-goal") { S.prefs.goal = +e.target.value; save(); renderShell(); toast("Daily goal set to " + S.prefs.goal + " XP", "target"); } });
   window.addEventListener("hashchange", route);
   window.addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); deferredInstall = e; renderShell(); });
   window.addEventListener("appinstalled", function () { deferredInstall = null; renderShell(); toast("App installed", "check"); });
@@ -1316,7 +1902,7 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
     fetch("topics.json", { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (d) {
       DATA = d;
       $("#editionSide").textContent = "Edition " + d.meta.edition + " · updated " + fmtShort(d.meta.generated);
-      reviewItems(false); checkBadges(); save(); route();
+      return bootAuth().then(function () { reviewItems(false); checkBadges(); save(); route(); });
     }).catch(function () {
       app.innerHTML = '<div class="card empty">The lessons didn\'t load. Check your connection and reload; if you just updated, try again in a minute.</div>';
     });

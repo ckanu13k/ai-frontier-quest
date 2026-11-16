@@ -16,6 +16,15 @@ Learn the week's most important AI and ML research by playing it. Each topic is 
 
 Player progress (XP, badges, Review deck) is stored in the browser's localStorage, so it stays on the device and browser where it was earned.
 
+## Accounts, personas and sync
+
+- **Front page:** visitors who aren't signed in see a landing page (`#welcome`) with sign-up, log-in and a guest option.
+- **Accounts:** Supabase Auth (email + password, email sign-in links, password reset) using the PKCE flow. Project: `pzmbbdvefyirzztibldp`. The publishable key in `site/index.html` is meant to be public; data is protected by Row Level Security.
+- **Database:** `supabase/schema.sql` creates `public.profiles` (one row per user: name, persona, interests, daily goal and a `progress` JSON blob) with owner-only RLS policies and a sign-up trigger.
+- **Personas:** onboarding asks for a track (Student or career switcher, Engineer or data scientist, Researcher, Leader or domain expert), interests and a daily goal. The track reorders each lesson (for example, leaders see "Why it matters" first, researchers see primary sources first, students get a key-terms glossary) and drives the "Recommended for you" row.
+- **Sync:** progress is cached locally and pushed to `profiles.progress` a couple of seconds after each change. Guest progress is merged into the account on first sign-in.
+- **Email:** email confirmation is off so sign-up works instantly. Supabase's built-in mailer only delivers to project team members, so sign-in links and password resets need a custom SMTP provider (for example Resend) before they work for the public.
+
 ## Weekly content updates
 
 A scheduled Claude task runs every Monday at 5:17 AM Central. It researches the past week's AI/ML work, then edits `site/topics.json`:
