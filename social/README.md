@@ -67,7 +67,7 @@ Repo → Settings → Secrets and variables → Actions → **New repository sec
 
 ### 4. Turn it on
 1. Actions tab → **Social - build week** → Run workflow (tick *force*). The slides are then viewable at `https://ckanu13k.github.io/ai-frontier-quest/social/`.
-2. Actions → **Social - publish** → Run workflow with *dry run* ticked. The log should say which post it would publish.
+2. Actions → **Social - publish** → Run workflow with *check* ticked. The log should say `Instagram OK: @aifrontierquest` and `Threads OK: @aifrontierquest`. Then run it with *dry run* ticked to see which post it would publish next.
 3. Optional check from a terminal: `IG_ACCESS_TOKEN=... python social/publish.py --check` prints the account name and publishing quota.
 
 From then on it runs by itself. Slots that had already passed when the queue was built are skipped quietly. Posts that go out late within 6 hours are still published. Anything later is marked missed, and GitHub emails you about the failed run.
