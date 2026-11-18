@@ -36,6 +36,10 @@ A scheduled Claude task runs every Monday at 5:17 AM Central. It researches the 
 
 It runs the validator, commits to `main`, and the workflow redeploys the site.
 
+## Instagram autopilot
+
+`social/` turns each weekly refresh into 7 branded Instagram carousels (weekly brief, 3 deep dives, a quiz, the week in numbers, a glossary) and posts one a day at varied times through the Instagram API, all from GitHub Actions. Setup and details: [social/README.md](social/README.md).
+
 ## Topic schema
 
 Each entry in `topics[]`:

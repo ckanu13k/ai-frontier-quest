@@ -1,0 +1,30 @@
+name: Social - refresh Instagram token
+
+# Instagram tokens last 60 days. This extends it weekly and saves it back as the
+# IG_ACCESS_TOKEN secret, so you never have to regenerate it by hand.
+on:
+  schedule:
+    - cron: "41 15 * * 3"   # Wednesdays
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: social
+      - name: Refresh and store token
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_SECRETS_PAT }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then echo "::error::Add the GH_SECRETS_PAT secret (see social/README.md) so the refreshed token can be saved."; exit 1; fi
+          out=$(python social/refresh_token.py)
+          echo "$out" | head -1          # registers the mask before the token is used
+          new=$(echo "$out" | tail -1)
+          gh secret set IG_ACCESS_TOKEN --repo "$GITHUB_REPOSITORY" --body "$new"
+          echo "IG_ACCESS_TOKEN updated."
