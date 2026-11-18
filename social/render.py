@@ -64,6 +64,9 @@ body {{ background: #000; }}
 .foot .swipe {{ color: #2DD4BF; font-weight: 700; margin-right: 26px; }}
 .kicker {{ font-family: Mono; font-weight: 700; font-size: 25px; letter-spacing: .14em; text-transform: uppercase; color: #2DD4BF; margin-bottom: 30px; }}
 .kicker.amber {{ color: #FBBF24; }}
+.kicker.green {{ color: #4ADE80; }}
+.practice {{ border-left: 8px solid #22C55E; background: rgba(22,163,74,.10); border-radius: 0 24px 24px 0; padding: 40px 44px;
+  font-family: Sora; font-weight: 700; font-size: 50px; line-height: 1.28; letter-spacing: -.02em; color: #F0FDF4; }}
 h1 {{ font-family: Sora; font-weight: 800; letter-spacing: -.035em; line-height: 1.03; font-size: 104px; }}
 h2 {{ font-family: Sora; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; font-size: 60px; margin-bottom: 30px; }}
 .sub {{ font-size: 38px; line-height: 1.38; color: #A6B1C4; margin-top: 36px; font-weight: 500; }}
@@ -154,6 +157,9 @@ def _body(s: dict) -> str:
         return (f'<div class="kicker {e(s.get("tone", ""))}">{e(s.get("kicker"))}</div>'
                 + (f'<h2 class="fit">{e(s["heading"])}</h2>' if s.get("heading") else "")
                 + f'<div class="p fit">{e(s["text"])}</div>')
+    if k == "practice":
+        return (f'<div class="kicker green">{e(s.get("kicker", "In practice"))}</div>'
+                f'<div class="practice fit">{e(s["text"])}</div>')
     if k == "idea":
         return (f'<div class="kicker">{e(s.get("kicker", "Key idea"))}</div>'
                 f'<div class="idxnum">{e(s["n"])}</div><div class="idea fit">{e(s["text"])}</div>')
@@ -199,7 +205,7 @@ def _body(s: dict) -> str:
 
 WATERMARK = ('<svg class="wm{cls}" viewBox="0 0 64 64"><path d="M32 11 L37.5 26.5 L53 32 L37.5 37.5 L32 53 L26.5 37.5 L11 32 L26.5 26.5 Z" '
              'fill="rgba(45,212,191,.06)" stroke="rgba(45,212,191,.3)" stroke-width=".35"/></svg>')
-BIG_MARK_KINDS = {"cover", "brief_item", "stat", "term", "cta", "idea"}
+BIG_MARK_KINDS = {"cover", "brief_item", "stat", "term", "cta", "idea", "practice"}
 
 
 def slide_html(s: dict, i: int, n: int, handle: str, app_name: str) -> str:

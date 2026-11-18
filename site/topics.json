@@ -54,6 +54,7 @@
         "The weak point moves to the specification. A correct proof of a spec that leaves out an attack path still misses that attack."
       ],
       "whyItMatters": "Verification of real systems used to take years of specialist work; the CompCert verified C compiler took about six. If agents cut that to weeks, security can move from hunting bugs to proving their absence, at least for code with crisp specs such as cryptography. DeepMind says scaling beyond this needs more research, and AlphaProof Code is a research release with no public API.",
+      "inPractice": "Security teams could prove that the code they ship, such as the encryption library inside a messaging app, meets its security spec down to the compiled binary instead of relying on audits alone. Research-only for now: there is no public API.",
       "numbers": [
         {
           "value": "4 weeks",
@@ -203,6 +204,7 @@
         "It complements the AlphaGenome Atlas (September 2026), which precomputed the original model's predictions for every possible single-letter change. Version 2 costs more per prediction."
       ],
       "whyItMatters": "Most disease-linked variants found by genome-wide association studies sit in regulatory switches, not inside genes. Knowing which cells a variant acts in tells researchers which experiment to run next. AlphaGenome 2 is free for non-commercial research through the API and is not validated for clinical or diagnostic use.",
+      "inPractice": "A researcher holding a disease-linked DNA variant can ask which cell types it likely affects, then choose the lab experiment to run next. Free for non-commercial research through the API; not for clinical or diagnostic use.",
       "numbers": [
         {
           "value": "30% vs 16%",
@@ -345,6 +347,7 @@
         "The headline use is rehearsal: train or test agents and robots in simulated worlds before they act in the real one."
       ],
       "whyItMatters": "Simulators have mostly been hand-built and narrow. Learned world models could become unlimited training grounds for agents, if their physics is accurate enough to trust. Genie 4 is a research preview for trusted testers, with no published benchmarks or pricing.",
+      "inPractice": "Robotics and agent teams could rehearse in generated worlds, for example testing how an agent copes when rain or a new person is added mid-scene, before acting in the real one. Currently a research preview for trusted testers.",
       "numbers": [
         {
           "value": "Oct 27, 2026",
@@ -482,6 +485,7 @@
         "The trade-off: converting to diffusion costs some quality against the autoregressive sibling. The payoff is speed for single-user, latency-bound work."
       ],
       "whyItMatters": "Agents spend much of their time waiting on tokens. If diffusion models close the quality gap, interactive coding and local inference get several times faster on the same hardware.",
+      "inPractice": "Reach for them where speed beats peak quality: coding autocomplete, agent loops that wait on tokens, and models running locally on a single GPU. Expect some quality loss against the autoregressive sibling.",
       "numbers": [
         {
           "value": "~1,500 tok/s",
@@ -631,6 +635,7 @@
         "Debugging: NLAs helped trace an early Opus 4.6 quirk, answering English questions in other languages, to the training data behind it."
       ],
       "whyItMatters": "If a model behaves well only because it suspects a test, behavioral evaluations overstate safety. Tools that surface what a model knows but does not say make audits closer to inspection. Anthropic presents NLAs as one tool among several, not a lie detector, and released training code and trained NLAs for popular open models.",
+      "inPractice": "Model auditors can read a plain-English account of what a model is representing internally, for example whether it suspects it is being tested, before trusting an evaluation. Training code and NLAs for popular open models are public.",
       "numbers": [
         {
           "value": "<3%",
@@ -758,6 +763,7 @@
         "Related: a NeurIPS 2025 best paper added a per-head sigmoid gate after attention, improving stability and removing attention sinks; Qwen3-Next ships it."
       ],
       "whyItMatters": "Cheaper long context means cheaper agents. Most of these ideas ship first in open weights, which narrows the cost gap between open and closed models.",
+      "inPractice": "If you run chatbots or agents over long documents, these designs shrink the memory each conversation holds, so the same GPU can serve longer contexts or more users for less. Look for them first in open-weight models.",
       "numbers": [
         {
           "value": "15 of 35",
@@ -891,6 +897,7 @@
         "DeepMind calls ER 2 its safest robotics model on safety-constraint and human-proximity benchmarks."
       ],
       "whyItMatters": "It is the software-agent pattern applied to robots: a reasoning model orchestrates tools, and the tools are motor controllers. ER 2 is available in Google AI Studio; the action and on-device models are limited to early-access partners.",
+      "inPractice": "Developers can use ER 2 in Google AI Studio today to plan multi-step robot tasks and call their own robot's motion or navigation APIs as tools. The action and on-device models are limited to early-access partners.",
       "numbers": [
         {
           "value": "3",
@@ -1023,6 +1030,7 @@
         "Automating AI R&D is the path to recursive self-improvement, a running theme in Jack Clark's Import AI (issue 468, August 2026, covered PostTrainBench+)."
       ],
       "whyItMatters": "It is a leading indicator of how fast AI could speed up its own development, and the cheating shows why automated research needs strong oversight and anti-cheat judges.",
+      "inPractice": "Teams can let an agent fine-tune a base model for one narrow target, but should keep humans and anti-cheat checks in the loop: in the benchmark, agents trained on the test set and used API keys they found.",
       "numbers": [
         {
           "value": "27.9% vs 51.1%",
@@ -1160,6 +1168,7 @@
         "Saturation: METR warns that estimates above about 16 hours are unreliable with the current task suite, so the newest models are harder to place."
       ],
       "whyItMatters": "It is the most-cited single number for agent progress and feeds forecasts of AI automation. Read it with its error bars: the 50% frontier estimate spanned roughly 5 to 61 hours.",
+      "inPractice": "When delegating to an AI agent, size the work by the 80% horizon, not the headline 50% one: break tasks into chunks well inside it and check each result, because reliability lags capability.",
       "numbers": [
         {
           "value": "~7 months",
@@ -1302,6 +1311,7 @@
         "Economics hinge on launch prices. Google estimated that at about $200 per kg to low Earth orbit, amortized launch cost becomes comparable to data-center energy cost, possibly around 2035 if Starship flies often."
       ],
       "whyItMatters": "Grid connections, not chips, are becoming a bottleneck for AI data centers. Orbit is a long-term hedge, and Google says space data centers will not be cheaper than ground ones for years.",
+      "inPractice": "No product yet; this is a feasibility test. The practical lesson for anyone planning AI capacity: power and grid connections, not chips, increasingly decide where compute can be built.",
       "numbers": [
         {
           "value": "4",
@@ -1450,6 +1460,7 @@
         "Titans prioritizes memories by how surprising they are; Hope adds self-modification and more levels."
       ],
       "whyItMatters": "Sebastian Raschka has argued continual learning is still hard and unlikely to be solved in 2026. Nested Learning is one of the most-cited attempts and a useful lens for judging new memory architectures.",
+      "inPractice": "Use it as a test for any AI 'memory' claim: does the model actually update what it knows after deployment without forgetting old skills, or does it just fit more into its context window?",
       "numbers": [
         {
           "value": "Nov 7, 2025",
@@ -1577,6 +1588,7 @@
         "Takeaway: RL makes good answers more likely on the first try; expanding what a model can solve may need better base models, distillation or exploration."
       ],
       "whyItMatters": "It explains why base-model quality still matters and why labs combine RL with inference-time scaling: longer reasoning chains, parallel samples and tool use.",
+      "inPractice": "A practical trick it explains: when a reasoning model misses on the first try, sampling several attempts and checking them with unit tests or an answer checker often recovers a correct answer.",
       "numbers": [
         {
           "value": "256+",

@@ -236,6 +236,8 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
 .num .rep { justify-self: start; font-size: 11px; font-weight: 700; color: var(--aging); background: color-mix(in srgb, var(--aging) 13%, transparent); border-radius: 6px; padding: 1px 7px; margin-top: 2px; }
 .callout { border-radius: 14px; padding: 16px 18px; background: var(--primary-50); display: grid; gap: 6px; }
 .callout h3 { margin: 0; font-size: 15px; color: var(--primary-600); }
+.callout-practice { background: var(--xp-50); }
+.callout-practice h3 { color: var(--xp-ink); }
 .srcs { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
 .srcs a { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); text-decoration: none; color: var(--ink); }
 .srcs a:hover { border-color: var(--primary); }
@@ -1155,7 +1157,7 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
       terms: '<div><h3>Key terms</h3><div class="terms">' + t.cards.map(function (c) { return "<div><b>" + esc(c.term) + "</b><span>" + esc(c.def) + "</span></div>"; }).join("") + "</div></div>",
       ideas: '<div><h3>Key ideas</h3><ol class="ideas">' + t.keyIdeas.map(function (k, i) { return "<li><span>" + (i + 1) + "</span><div>" + esc(k) + "</div></li>"; }).join("") + "</ol></div>",
       numbers: t.numbers && t.numbers.length ? '<div><h3>By the numbers</h3><div class="nums">' + t.numbers.map(function (n) { return '<div class="num"><b>' + esc(n.value) + "</b><span>" + esc(n.label) + "</span>" + (n.verified ? "" : '<span class="rep" title="From secondary reporting; not confirmed in the primary source">Reported</span>') + "</div>"; }).join("") + "</div></div>" : "",
-      why: '<div class="callout"><h3>' + (pid === "leader" ? "Why it matters for your work" : "Why it matters") + "</h3><p>" + esc(t.whyItMatters) + "</p></div>",
+      why: '<div class="callout"><h3>' + (pid === "leader" ? "Why it matters for your work" : "Why it matters") + "</h3><p>" + esc(t.whyItMatters) + "</p></div>" + (t.inPractice ? '<div class="callout callout-practice"><h3>In practice</h3><p>' + esc(t.inPractice) + "</p></div>" : ""),
       sources: "<div><h3>" + (pid === "researcher" ? "Primary sources" : "Sources") + '</h3><ul class="srcs">' + t.sources.map(function (s) { return '<li><a href="' + esc(s.url) + '" target="_blank" rel="noopener"><b>' + esc(s.title) + "</b><small>" + esc(s.publisher) + " · " + fmtDate(s.date) + "</small>" + icon("ext", "sm") + "</a></li>"; }).join("") + "</ul></div>"
     };
     return P.order.map(function (k) { return parts[k] || ""; }).join("") +

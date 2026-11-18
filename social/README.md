@@ -10,14 +10,14 @@ Turns each weekly AI Frontier Quest refresh into 7 branded Instagram carousels a
 | Every 20 minutes | Posts whatever is due (most runs do nothing) | `social-publish.yml` |
 | Wednesdays | Extends the Instagram token another 60 days and saves it back as a secret | `social-token.yml` |
 
-Everything posted comes from `site/topics.json`: titles, briefings, key ideas, numbers (unverified ones carry a REPORTED tag), quiz questions, term cards and sources. No new claims are written.
+Everything posted comes from `site/topics.json`: titles, briefings, key ideas, the `inPractice` real-world use, numbers (unverified ones carry a REPORTED tag), quiz questions, term cards and sources. No new claims are written.
 
 ### The weekly lineup (Central time; each slot shifts by up to ±12 min so posts don't land on the same minute every week)
 
 | Day | Time | Format | Why it works |
 |---|---|---|---|
 | Mon | 7:45 AM | **Weekly brief**: everything new this week, one slide each | Sets up the week; good for follows |
-| Tue | 12:15 PM | **Deep dive #1**: what happened, 4 key ideas, numbers, why it matters, sources | Save-worthy; strongest ad candidate |
+| Tue | 12:15 PM | **Deep dive #1**: what happened, 4 key ideas, numbers, why it matters, **in practice** (a real-world use), sources | Save-worthy; strongest ad candidate |
 | Wed | 6:40 PM | **Quiz**: 3 questions, answers on the next slide | Comments ("1B 2D 3A") drive reach |
 | Thu | 8:10 AM | **Deep dive #2** | |
 | Fri | 12:05 PM | **By the numbers**: the week's best verified figures | Shareable |

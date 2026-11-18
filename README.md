@@ -56,6 +56,7 @@ Each entry in `topics[]`:
 | `status` | `active` or `archived` |
 | `classic` | `true` for background topics that never go stale |
 | `keyIdeas` | 3 to 6 strings |
+| `inPractice` | optional, 1 to 2 sentences (20 to 300 chars): a concrete real-world use and its availability. Shown in lessons under "Why it matters" and on Instagram deep dives |
 | `numbers` | `{value, label, verified}`; `verified: false` shows a "Reported" tag |
 | `sources` | `{title, publisher, date, url}` |
 | `quiz` | exactly 5 `{q, options[4], answer (0-3), explain}` |

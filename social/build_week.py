@@ -170,6 +170,8 @@ def deep_dive(t: dict, cfg: dict, today: dt.date, fd: dict, vault: bool) -> tupl
     if nums:
         slides.append({**base, "kind": "numbers", "items": nums[:4]})
     slides.append({**base, "kind": "text", "kicker": "Why it matters", "tone": "amber", "text": t["whyItMatters"]})
+    if t.get("inPractice"):
+        slides.append({**base, "kind": "practice", "kicker": "In practice", "text": t["inPractice"]})
     terms = ", ".join(c["term"] for c in t["cards"][:3])
     srcs = [f"{s['publisher']}: {s['title']} ({short(s['date'])})" for s in t["sources"][:3]]
     slides.append({**base, "kind": "cta", "heading": "Master it in 5 minutes",
@@ -180,7 +182,9 @@ def deep_dive(t: dict, cfg: dict, today: dt.date, fd: dict, vault: bool) -> tupl
     cap = caption(
         f"{t['title']} 👇",
         t["tagline"] + " " + first_sentence(t["whyItMatters"]),
-        f"Inside: what happened, {len(t['keyIdeas'][:4])} key ideas{', the numbers' if nums else ''} and why it matters. Swipe →",
+        f"💡 In practice: {t['inPractice']}" if t.get("inPractice") else "",
+        f"Inside: what happened, {len(t['keyIdeas'][:4])} key ideas{', the numbers' if nums else ''}, why it matters"
+        f"{' and how it is used' if t.get('inPractice') else ''}. Swipe →",
         "📌 Save this for later.\n🎮 Take the 5-question quiz on it in AI Frontier Quest. Link in bio.",
         f"Sources: {pubs}." + ("\nFigures tagged REPORTED come from press coverage and are not independently verified." if reported else ""),
         hashtags(cfg, [t]),
