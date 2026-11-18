@@ -118,6 +118,41 @@ def hashtags(cfg: dict, topics: list[dict]) -> str:
     return " ".join(tags)
 
 
+THREADS_LIMIT = 500  # Threads counts UTF-8 bytes, so emoji cost more than one character
+
+
+def nbytes(s: str) -> int:
+    return len(s.encode("utf-8"))
+
+
+def fit(text: str, limit: int = THREADS_LIMIT) -> str:
+    if nbytes(text) <= limit:
+        return text
+    while nbytes(text + "…") > limit:
+        text = text[: text.rstrip().rfind(" ")] if " " in text.strip() else text[:-1]
+    return text.rstrip(" ,;:") + "…"
+
+
+def fit_lines(intro: str, lines: list[str], outro: str, more: str = "…and more in the slides.") -> str:
+    """Intro, as many whole lines as fit, then outro, all within the Threads limit."""
+    kept = []
+    for ln in lines:
+        trial = "\n\n".join([intro, "\n".join(kept + [ln]), more, outro])
+        if nbytes(trial) > THREADS_LIMIT:
+            break
+        kept.append(ln)
+    if not kept:
+        return fit(f"{intro}\n\n{outro}")
+    body = "\n".join(kept) + ("" if len(kept) == len(lines) else "\n" + more)
+    return fit("\n\n".join([intro, body, outro]))
+
+
+def threads_post(cfg: dict, topics: list[dict], text: str, replies: list[str]) -> dict:
+    tags = cfg.get("threads_topics", {})
+    topic = tags.get(topics[0]["category"], tags.get("default")) if topics else tags.get("default")
+    return {"text": fit(text), "replies": [fit(r) for r in replies if r], "topic": topic}
+
+
 def caption(*parts: str) -> str:
     text = "\n\n".join(p.strip() for p in parts if p and p.strip())
     return text[:2190]
@@ -189,7 +224,12 @@ def deep_dive(t: dict, cfg: dict, today: dt.date, fd: dict, vault: bool) -> tupl
         f"Sources: {pubs}." + ("\nFigures tagged REPORTED come from press coverage and are not independently verified." if reported else ""),
         hashtags(cfg, [t]),
     )
-    return slides, cap
+    th = threads_post(cfg, [t], f"{t['title']}\n\n{t['tagline']} {first_sentence(t['whyItMatters'])}\n\nSwipe for the key ideas and numbers 👇", [
+        f"💡 In practice: {t['inPractice']}" if t.get("inPractice") else "",
+        f"Learn it in 5 minutes, then take the quiz: {cfg['app_url']}\n\nSources: {pubs}."
+        + (" Figures tagged REPORTED come from press coverage." if reported else ""),
+    ])
+    return slides, cap, th
 
 
 def weekly_brief(topics: list[dict], cfg: dict, today: dt.date, fd: dict, monday: dt.date, fresh: bool) -> tuple[list, str]:
@@ -215,7 +255,12 @@ def weekly_brief(topics: list[dict], cfg: dict, today: dt.date, fd: dict, monday
         "Learn each in 5 minutes, then test yourself in the weekly Boss Battle. AI Frontier Quest, link in bio.",
         hashtags(cfg, topics),
     )
-    return slides, cap
+    intro = f"{n} new developments on the AI frontier this week 🧵" if fresh else f"{n} AI developments worth catching up on 🧵"
+    th = threads_post(cfg, topics, fit_lines(intro, [f"{i}. {short_title(t)}: {t['tagline']}" for i, t in enumerate(topics, 1)],
+                                             "Which one matters most for your work?"),
+                      [f"Learn each in 5 minutes, then try this week's Boss Battle: {cfg['app_url']}"])
+    th["topic"] = cfg.get("threads_topics", {}).get("default")
+    return slides, cap, th
 
 
 def quiz(topics: list[dict], cfg: dict, monday: dt.date) -> tuple[list, str] | None:
@@ -244,7 +289,9 @@ def quiz(topics: list[dict], cfg: dict, monday: dt.date) -> tuple[list, str] | N
         "Want more? The full Boss Battle is in AI Frontier Quest. Link in bio.",
         hashtags(cfg, [t for t, _ in qs]),
     )
-    return slides, cap
+    th = threads_post(cfg, [], f"Quiz time: {n} questions on this week's AI research 🧠\n\nReply with your answers (like 1B 2D 3A), then swipe for the solutions.\n\n{about}.",
+                      [f"Got {n}/{n}? The full Boss Battle is waiting: {cfg['app_url']}"])
+    return slides, cap, th
 
 
 def by_the_numbers(topics: list[dict], cfg: dict) -> tuple[list, str] | None:
@@ -275,7 +322,12 @@ def by_the_numbers(topics: list[dict], cfg: dict) -> tuple[list, str] | None:
         "Get the full story behind each in AI Frontier Quest. Link in bio.",
         hashtags(cfg, [t for t, _ in picked]),
     )
-    return slides, cap
+    rep = any(not n.get("verified", True) for _, n in picked)
+    th = threads_post(cfg, [], fit_lines(f"The week in AI, in {k} numbers 📊", [f"• {n['value']}: {n['label']}" for _, n in picked],
+                                         "Which one surprised you most?"),
+                      [f"The story behind each number, with sources: {cfg['app_url']}"
+                       + ("\n\nFigures tagged REPORTED come from press coverage." if rep else "")])
+    return slides, cap, th
 
 
 def terms(topics: list[dict], cfg: dict) -> tuple[list, str] | None:
@@ -302,7 +354,10 @@ def terms(topics: list[dict], cfg: dict) -> tuple[list, str] | None:
         "Drill them with spaced repetition in AI Frontier Quest. Link in bio.",
         hashtags(cfg, [t for t, _ in picked]),
     )
-    return slides, cap
+    th = threads_post(cfg, [], fit_lines(f"{k} AI terms you'll hear this week, in plain English 📚",
+                                         [f"• {c['term']}: {c['def']}" for _, c in picked], "Save this for your next meeting."),
+                      [f"Drill them with spaced repetition: {cfg['app_url']}"])
+    return slides, cap, th
 
 
 # ---------- preview page ----------
@@ -319,13 +374,20 @@ def preview_html(queues: list[dict], state: dict) -> str:
     for q in queues:
         out.append(f"<h2>{esc(q['week'])} · built {esc(q['built'])} from edition {esc(q['edition'])}</h2>")
         for p in q["posts"]:
-            st = state.get("posted", {}).get(p["id"])
-            ms = state.get("missed", {}).get(p["id"])
-            badge = (f"<span class='st ok'>posted</span> <a href='{esc(st.get('permalink', ''))}' style='color:#5EEAD4'>view</a>" if st
-                     else "<span class='st miss'>missed</span>" if ms else "<span class='st'>scheduled</span>")
+            badges = []
+            for label, pk, mk in (("Instagram", "posted", "missed"), ("Threads", "threads_posted", "threads_missed")):
+                st = state.get(pk, {}).get(p["id"])
+                ms = state.get(mk, {}).get(p["id"])
+                badges.append(f"<span class='st ok'>{label}: posted</span> <a href='{esc(st.get('permalink') or '')}' style='color:#5EEAD4'>view</a>" if st
+                              else f"<span class='st miss'>{label}: missed</span>" if ms else f"<span class='st'>{label}: scheduled</span>")
+            badge = " ".join(badges)
+            thr = p.get("threads") or {}
+            th_html = ("<pre style='border-top:1px solid #233049;padding-top:8px'>Threads"
+                       + (f" · topic: {esc(thr.get('topic') or '')}" if thr.get("topic") else "") + "\n\n" + esc(thr.get("text", ""))
+                       + "".join("\n\n↳ " + esc(r) for r in thr.get("replies", [])) + "</pre>") if thr else ""
             imgs = "".join(f"<img loading='lazy' src='{esc(p['week'])}/{esc(p['id'])}/{esc(f)}'>" for f in p["files"])
             out.append(f"<div class='post'><b>{esc(p['scheduled_local'])}</b> · {esc(p['format'])} · {len(p['files'])} slides {badge}"
-                       f"<div class='row'>{imgs}</div><pre>{esc(p['caption'])}</pre></div>")
+                       f"<div class='row'>{imgs}</div><pre>{esc(p['caption'])}</pre>{th_html}</div>")
     out.append("</body></html>")
     return "".join(out)
 
@@ -402,7 +464,7 @@ def main() -> int:
             if not built:
                 print(f"  skip {slot['day']} {fmt}: not enough material")
                 continue
-            slides, cap = built
+            slides, cap, th = built
             pid = f"{wk}-{slot['day']}"
             hh, mm = map(int, slot["time"].split(":"))
             when = dt.datetime.combine(monday + dt.timedelta(days=DAYS.index(slot["day"])), dt.time(hh, mm), tz)
@@ -417,7 +479,7 @@ def main() -> int:
                 "id": pid, "week": wk, "format": fmt, "topics": topic_ids,
                 "scheduled_at": when.astimezone(dt.timezone.utc).isoformat(),
                 "scheduled_local": when.strftime("%a %b %d, %I:%M %p %Z"),
-                "caption": cap, "files": files,
+                "caption": cap, "threads": th, "files": files,
                 "urls": [f"{cfg['assets_base_url']}{wk}/{pid}/{f}" for f in files],
             })
             print(f"  {pid}: {fmt:15s} {len(slides)} slides at {posts[-1]['scheduled_local']}")

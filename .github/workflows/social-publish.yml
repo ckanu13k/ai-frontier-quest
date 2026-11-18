@@ -1,4 +1,4 @@
-name: Social - publish
+name: Social - publish (Instagram + Threads)
 
 # Checks every 20 minutes and posts whatever is due. Nothing to do most runs.
 on:
@@ -41,6 +41,7 @@ jobs:
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
           SOCIAL_PAUSED: ${{ vars.SOCIAL_PAUSED }}
         run: python social/publish.py --assets ../assets ${{ inputs.dry_run && '--dry-run' || '' }}
 

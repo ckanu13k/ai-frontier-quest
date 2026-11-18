@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Publish whichever queued Instagram post is due. Safe to run every few minutes.
+"""Publish whichever queued post is due on Instagram and Threads. Safe to run every few minutes.
 
 - Posts at most one item per run: the earliest post whose time has come.
 - A post more than `grace_hours` late is marked missed (and the run fails, so
@@ -11,7 +11,12 @@
   expire) go to graph.facebook.com; Instagram Login tokens (start with IG,
   60 days) go to graph.instagram.com. Standard library only.
 
-Env: IG_ACCESS_TOKEN (required to post), IG_USER_ID (or config ig_user_id), SOCIAL_PAUSED.
+- Threads (graph.threads.net) gets the same slides as a carousel with a short
+  native caption, then replies that form a thread ("In practice", link to the app).
+  Instagram and Threads keep separate records, so one never blocks the other.
+
+Env: IG_ACCESS_TOKEN, IG_USER_ID (or config ig_user_id), THREADS_ACCESS_TOKEN,
+THREADS_USER_ID (optional), SOCIAL_PAUSED. A platform without a token is skipped.
 Usage:
   python social/publish.py --assets ../assets            # normal run
   python social/publish.py --assets ../assets --dry-run  # say what would happen
@@ -104,12 +109,126 @@ class IG:
         return self.get(f"{self.user_id}/media", fields="id,caption,permalink,timestamp", limit=n).get("data", [])
 
 
+class Threads:
+    HOST = "https://graph.threads.net"
+
+    def __init__(self, token: str, version: str, user_id: str | None = None):
+        self.token, self.v = token, version
+        self.user_id = user_id or self.get("me", fields="id,username")["id"]
+
+    def _call(self, method: str, path: str, **params):
+        params["access_token"] = self.token
+        url = f"{self.HOST}/{self.v}/{path}"
+        data = None
+        if method == "GET":
+            url += "?" + urllib.parse.urlencode(params)
+        else:
+            data = urllib.parse.urlencode(params).encode()
+        req = urllib.request.Request(url, data=data, method=method)
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                return json.loads(r.read())
+        except urllib.error.HTTPError as e:
+            body = e.read().decode(errors="replace")
+            raise RuntimeError(f"Threads API {method} {path} failed ({e.code}): {body[:600]}") from None
+
+    def get(self, path, **p):
+        return self._call("GET", path, **p)
+
+    def post(self, path, **p):
+        return self._call("POST", path, **p)
+
+    def wait_ready(self, cid: str, timeout: int = 180):
+        t0 = time.time()
+        while True:
+            r = self.get(cid, fields="status,error_message")
+            st = r.get("status")
+            if st in ("FINISHED", "PUBLISHED"):
+                return
+            if st in ("ERROR", "EXPIRED"):
+                raise RuntimeError(f"Threads container {cid} {st}: {r.get('error_message')}")
+            if time.time() - t0 > timeout:
+                raise RuntimeError(f"Threads container {cid} not ready after {timeout}s (status {st})")
+            time.sleep(5)
+
+    def _publish(self, cid: str) -> str:
+        self.wait_ready(cid)
+        return self.post(f"{self.user_id}/threads_publish", creation_id=cid)["id"]
+
+    def publish(self, urls: list[str], text: str, topic: str | None) -> str:
+        extra = {"topic_tag": topic} if topic else {}
+        if len(urls) == 1:
+            cid = self.post(f"{self.user_id}/threads", media_type="IMAGE", image_url=urls[0], text=text, **extra)["id"]
+        else:
+            kids = [self.post(f"{self.user_id}/threads", media_type="IMAGE", image_url=u, is_carousel_item="true")["id"]
+                    for u in urls[:10]]
+            for k in kids:
+                self.wait_ready(k)
+            cid = self.post(f"{self.user_id}/threads", media_type="CAROUSEL", children=",".join(kids), text=text, **extra)["id"]
+        return self._publish(cid)
+
+    def reply(self, to_id: str, text: str) -> str:
+        cid = self.post(f"{self.user_id}/threads", media_type="TEXT", text=text, reply_to_id=to_id)["id"]
+        return self._publish(cid)
+
+    def recent(self, n: int = 6) -> list[dict]:
+        return self.get(f"{self.user_id}/threads", fields="id,text,permalink,timestamp", limit=n).get("data", [])
+
+
 def url_ok(u: str) -> bool:
     try:
         with urllib.request.urlopen(urllib.request.Request(u, method="HEAD"), timeout=30) as r:
             return r.status == 200 and "image/jpeg" in r.headers.get("Content-Type", "")
     except Exception:  # noqa: BLE001
         return False
+
+
+PLATFORMS = {
+    # name: (state key for posted, state key for missed, label)
+    "instagram": ("posted", "missed", "Instagram"),
+    "threads": ("threads_posted", "threads_missed", "Threads"),
+}
+
+
+def publish_instagram(p: dict, cfg: dict, token: str, uid, now) -> dict:
+    ig = IG(token, cfg["graph_api_version"], uid)
+    head = p["caption"][:120]
+    dup = next((m for m in ig.recent_captions() if (m.get("caption") or "").startswith(head)), None)
+    if dup:
+        print(f"{p['id']} is already on Instagram ({dup.get('permalink')}); recording it.")
+        return {"media_id": dup["id"], "permalink": dup.get("permalink"), "at": dup.get("timestamp")}
+    mid = ig.publish(p["urls"], p["caption"])
+    link = ig.get(mid, fields="permalink").get("permalink")
+    print(f"Published {p['id']} to Instagram ({p['format']}): {link}")
+    return {"media_id": mid, "permalink": link, "at": now.isoformat(timespec="minutes")}
+
+
+def publish_threads(p: dict, cfg: dict, token: str, uid, now, problems: list) -> dict:
+    th_post = p.get("threads")
+    if not th_post:
+        raise RuntimeError("queue has no Threads text for this post (rebuild the week)")
+    th = Threads(token, cfg.get("threads_api_version", "v1.0"), uid)
+    head = th_post["text"][:100]
+    dup = next((m for m in th.recent() if (m.get("text") or "").startswith(head)), None)
+    if dup:
+        print(f"{p['id']} is already on Threads ({dup.get('permalink')}); recording it.")
+        return {"media_id": dup["id"], "permalink": dup.get("permalink"), "at": dup.get("timestamp")}
+    mid = th.publish(p["urls"], th_post["text"], th_post.get("topic"))
+    rec = {"media_id": mid, "permalink": None, "at": now.isoformat(timespec="minutes"), "replies": []}
+    try:
+        rec["permalink"] = th.get(mid, fields="permalink").get("permalink")
+    except RuntimeError:
+        pass
+    parent = mid
+    for text in th_post.get("replies", []):
+        try:  # a failed reply never re-posts the main thread
+            parent = th.reply(parent, text)
+            rec["replies"].append(parent)
+        except RuntimeError as e:
+            problems.append(f"{p['id']}: Threads reply failed: {e}")
+            break
+    print(f"Published {p['id']} to Threads ({p['format']}, {len(rec['replies'])} replies): {rec['permalink']}")
+    return rec
 
 
 def main() -> int:
@@ -121,86 +240,94 @@ def main() -> int:
     ap.add_argument("--now", help="pretend UTC time, ISO (testing)")
     a = ap.parse_args()
     cfg = load_json(Path(a.config))
-    token = os.environ.get("IG_ACCESS_TOKEN", "").strip()
-    uid = os.environ.get("IG_USER_ID", "").strip() or cfg.get("ig_user_id") or None
+    tokens = {"instagram": os.environ.get("IG_ACCESS_TOKEN", "").strip(),
+              "threads": os.environ.get("THREADS_ACCESS_TOKEN", "").strip()}
+    uids = {"instagram": os.environ.get("IG_USER_ID", "").strip() or cfg.get("ig_user_id") or None,
+            "threads": os.environ.get("THREADS_USER_ID", "").strip() or cfg.get("threads_user_id") or None}
 
     if a.check:
-        if not token:
-            print("IG_ACCESS_TOKEN is not set."); return 1
-        ig = IG(token, cfg["graph_api_version"], uid)
-        me = ig.get(ig.user_id, fields="username")
-        lim = ig.get(f"{ig.user_id}/content_publishing_limit", fields="quota_usage,config")
-        print(f"OK: @{me.get('username')} via {ig.host}, user_id {ig.user_id}; publishing quota: {json.dumps(lim.get('data'))}")
-        return 0
+        ok = False
+        if tokens["instagram"]:
+            ig = IG(tokens["instagram"], cfg["graph_api_version"], uids["instagram"])
+            me = ig.get(ig.user_id, fields="username")
+            print(f"Instagram OK: @{me.get('username')} via {ig.host}, user_id {ig.user_id}")
+            ok = True
+        if tokens["threads"]:
+            th = Threads(tokens["threads"], cfg.get("threads_api_version", "v1.0"), uids["threads"])
+            me = th.get("me", fields="id,username")
+            lim = th.get(f"{th.user_id}/threads_publishing_limit", fields="quota_usage,config")
+            print(f"Threads OK: @{me.get('username')}, user_id {th.user_id}; quota: {json.dumps(lim.get('data'))}")
+            ok = True
+        if not ok:
+            print("No IG_ACCESS_TOKEN or THREADS_ACCESS_TOKEN set.")
+        return 0 if ok else 1
 
     if cfg.get("paused") or os.environ.get("SOCIAL_PAUSED", "").lower() in ("1", "true", "yes"):
         print("Paused (config.json 'paused' or SOCIAL_PAUSED). Nothing posted.")
         return 0
-    if not token and not a.dry_run:
-        print("Instagram is not connected yet (no IG_ACCESS_TOKEN secret). Nothing posted.")
+    active = [name for name in PLATFORMS if tokens[name] or a.dry_run]
+    if not active:
+        print("No platform connected yet (no IG_ACCESS_TOKEN or THREADS_ACCESS_TOKEN). Nothing posted.")
         return 0
     assets = Path(a.assets)
     now = dt.datetime.fromisoformat(a.now).replace(tzinfo=dt.timezone.utc) if a.now else dt.datetime.now(dt.timezone.utc)
     state = load_json(assets / "state.json", {"posted": {}, "missed": {}, "featured": {}})
-    queues = [load_json(p) for p in sorted((assets / "queue").glob("*.json"))]
+    queues = [load_json(q) for q in sorted((assets / "queue").glob("*.json"))]
     grace = dt.timedelta(hours=cfg["grace_hours"])
-    due, problems, changed = [], [], False
+    problems, changed = [], False
+    connected = state.setdefault("connected", {})
 
-    for q in queues:
-        built = dt.datetime.fromisoformat(q["built"])
-        for p in q["posts"]:
-            if p["id"] in state["posted"] or p["id"] in state["missed"]:
-                continue
-            when = dt.datetime.fromisoformat(p["scheduled_at"])
-            if when > now:
-                continue
-            if when < built - grace:
-                # slot had already passed when this queue was built (e.g. a mid-week first run)
-                state["missed"][p["id"]] = {"at": now.isoformat(timespec="minutes"), "reason": "slot passed before build"}
-                changed = True
-                continue
-            if now - when > grace:
-                state["missed"][p["id"]] = {"at": now.isoformat(timespec="minutes"), "reason": "not published within grace window"}
-                problems.append(f"{p['id']} missed its slot ({p['scheduled_local']})")
-                changed = True
-            else:
-                due.append(p)
-
-    due.sort(key=lambda p: p["scheduled_at"])
-    nxt = min((p for q in queues for p in q["posts"] if p["id"] not in state["posted"] and p["id"] not in state["missed"]
-               and dt.datetime.fromisoformat(p["scheduled_at"]) > now), key=lambda p: p["scheduled_at"], default=None)
-
-    if due:
-        p = due[0]
-        if not all(url_ok(u) for u in p["urls"]):
-            msg = f"{p['id']}: images not live yet at {p['urls'][0]}; will retry next run."
-            print(msg)
-        elif a.dry_run or not token:
-            print(f"[dry run] would publish {p['id']} ({p['format']}, {len(p['urls'])} slides). "
-                  + ("" if token else "IG_ACCESS_TOKEN not set."))
-        else:
-            ig = IG(token, cfg["graph_api_version"], uid)
-            head = p["caption"][:120]
-            dup = next((m for m in ig.recent_captions() if (m.get("caption") or "").startswith(head)), None)
-            if dup:
-                print(f"{p['id']} is already on Instagram ({dup.get('permalink')}); recording it.")
-                state["posted"][p["id"]] = {"media_id": dup["id"], "permalink": dup.get("permalink"), "at": dup.get("timestamp")}
-            else:
-                try:
-                    mid = ig.publish(p["urls"], p["caption"])
-                    link = ig.get(mid, fields="permalink").get("permalink")
-                    state["posted"][p["id"]] = {"media_id": mid, "permalink": link, "at": now.isoformat(timespec="minutes")}
-                    print(f"Published {p['id']} ({p['format']}): {link}")
-                except RuntimeError as e:
-                    problems.append(f"{p['id']}: {e}")
+    for name in active:
+        posted_key, missed_key, label = PLATFORMS[name]
+        posted, missed = state.setdefault(posted_key, {}), state.setdefault(missed_key, {})
+        if tokens[name] and name not in connected:
+            connected[name] = now.isoformat(timespec="minutes")
             changed = True
-    else:
-        print("Nothing due." + (f" Next: {nxt['id']} at {nxt['scheduled_local']}." if nxt else " Queue is empty."))
+        since = dt.datetime.fromisoformat(connected[name]) if name in connected else now
+        due = []
+        for q in queues:
+            built = dt.datetime.fromisoformat(q["built"])
+            for p in q["posts"]:
+                if p["id"] in posted or p["id"] in missed:
+                    continue
+                when = dt.datetime.fromisoformat(p["scheduled_at"])
+                if when > now:
+                    continue
+                if when < max(built, since) - grace:
+                    # slot passed before the queue was built or before this platform was connected
+                    missed[p["id"]] = {"at": now.isoformat(timespec="minutes"), "reason": "slot passed before build or connection"}
+                    changed = True
+                elif now - when > grace:
+                    missed[p["id"]] = {"at": now.isoformat(timespec="minutes"), "reason": "not published within grace window"}
+                    problems.append(f"{label}: {p['id']} missed its slot ({p['scheduled_local']})")
+                    changed = True
+                else:
+                    due.append(p)
+        if not due:
+            nxt = min((p for q in queues for p in q["posts"] if p["id"] not in posted and p["id"] not in missed
+                       and dt.datetime.fromisoformat(p["scheduled_at"]) > now), key=lambda p: p["scheduled_at"], default=None)
+            print(f"{label}: nothing due." + (f" Next: {nxt['id']} at {nxt['scheduled_local']}." if nxt else " Queue is empty."))
+            continue
+        p = min(due, key=lambda p: p["scheduled_at"])
+        if not all(url_ok(u) for u in p["urls"]):
+            print(f"{label}: {p['id']} images not live yet at {p['urls'][0]}; will retry next run.")
+            continue
+        if a.dry_run or not tokens[name]:
+            extra = f" with {len(p.get('threads', {}).get('replies', []))} replies" if name == "threads" else ""
+            print(f"[dry run] {label}: would publish {p['id']} ({p['format']}, {len(p['urls'])} slides{extra}).")
+            continue
+        try:
+            if name == "instagram":
+                posted[p["id"]] = publish_instagram(p, cfg, tokens[name], uids[name], now)
+            else:
+                posted[p["id"]] = publish_threads(p, cfg, tokens[name], uids[name], now, problems)
+        except RuntimeError as e:
+            problems.append(f"{label}: {p['id']}: {e}")
+        changed = True
 
     if changed:
         save_json(assets / "state.json", state)
-        keep = [q for q in reversed(queues)]
-        (assets / "index.html").write_text(preview_html(keep, state), encoding="utf-8")
+        (assets / "index.html").write_text(preview_html(list(reversed(queues)), state), encoding="utf-8")
     if os.environ.get("GITHUB_OUTPUT"):
         with open(os.environ["GITHUB_OUTPUT"], "a") as f:
             f.write(f"changed={'true' if changed else 'false'}\n")

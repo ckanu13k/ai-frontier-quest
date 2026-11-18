@@ -20,6 +20,19 @@
     {"day": "sat", "time": "10:30", "format": "terms"},
     {"day": "sun", "time": "19:20", "format": "deep_dive", "slot": 2}
   ],
+  "threads_api_version": "v1.0",
+  "threads_topics": {
+    "default": "AI",
+    "Agents": "AI Agents",
+    "Science": "AI for Science",
+    "World Models": "AI",
+    "Architecture": "LLMs",
+    "Interpretability": "AI Safety",
+    "Robotics": "Robotics",
+    "Evaluation": "AI",
+    "Infrastructure": "AI",
+    "Training": "Machine Learning"
+  },
   "base_hashtags": ["#AI", "#MachineLearning", "#AIResearch"],
   "brand_hashtag": "#AIFrontierQuest",
   "category_hashtags": {
