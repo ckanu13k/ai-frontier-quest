@@ -37,6 +37,10 @@ A scheduled Claude task runs every Monday at 5:17 AM Central. It researches the 
 
 It runs the validator, commits to `main`, and the workflow redeploys the site.
 
+## Instagram autopilot
+
+`social/` turns each weekly refresh into 7 branded Instagram carousels (weekly brief, 3 deep dives, a quiz, the week in numbers, a glossary) and posts one a day at varied times through the Instagram API, all from GitHub Actions. Setup and details: [social/README.md](social/README.md).
+
 ## Topic schema
 
 Each entry in `topics[]`:
@@ -53,6 +57,7 @@ Each entry in `topics[]`:
 | `status` | `active` or `archived` |
 | `classic` | `true` for background topics that never go stale |
 | `keyIdeas` | 3 to 6 strings |
+| `inPractice` | optional, 1 to 2 sentences (20 to 300 chars): a concrete real-world use and its availability. Shown in lessons under "Why it matters" and on Instagram deep dives |
 | `numbers` | `{value, label, verified}`; `verified: false` shows a "Reported" tag |
 | `sources` | `{title, publisher, date, url}` |
 | `quiz` | exactly 5 `{q, options[4], answer (0-3), explain}` |

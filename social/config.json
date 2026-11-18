@@ -1,0 +1,50 @@
+{
+  "paused": false,
+  "handle": "@aifrontierquest",
+  "ig_user_id": "17841459473104306",
+  "app_name": "AI Frontier Quest",
+  "app_url": "https://frontierquest.vercel.app/",
+  "assets_base_url": "https://ckanu13k.github.io/ai-frontier-quest/social/",
+  "timezone": "America/Chicago",
+  "jitter_minutes": 12,
+  "grace_hours": 6,
+  "keep_weeks": 2,
+  "deep_dive_cooldown_weeks": 8,
+  "graph_api_version": "v25.0",
+  "schedule": [
+    {"day": "mon", "time": "07:45", "format": "weekly_brief"},
+    {"day": "tue", "time": "12:15", "format": "deep_dive", "slot": 0},
+    {"day": "wed", "time": "18:40", "format": "quiz"},
+    {"day": "thu", "time": "08:10", "format": "deep_dive", "slot": 1},
+    {"day": "fri", "time": "12:05", "format": "by_the_numbers"},
+    {"day": "sat", "time": "10:30", "format": "terms"},
+    {"day": "sun", "time": "19:20", "format": "deep_dive", "slot": 2}
+  ],
+  "threads_api_version": "v1.0",
+  "threads_username": "aifrontierquest",
+  "threads_topics": {
+    "default": "AI",
+    "Agents": "AI Agents",
+    "Science": "AI for Science",
+    "World Models": "AI",
+    "Architecture": "LLMs",
+    "Interpretability": "AI Safety",
+    "Robotics": "Robotics",
+    "Evaluation": "AI",
+    "Infrastructure": "AI",
+    "Training": "Machine Learning"
+  },
+  "base_hashtags": ["#AI", "#MachineLearning", "#AIResearch"],
+  "brand_hashtag": "#AIFrontierQuest",
+  "category_hashtags": {
+    "Agents": "#AIAgents",
+    "Science": "#AIforScience",
+    "World Models": "#WorldModels",
+    "Architecture": "#LLM",
+    "Interpretability": "#Interpretability",
+    "Robotics": "#Robotics",
+    "Evaluation": "#AIEvaluation",
+    "Infrastructure": "#AIInfrastructure",
+    "Training": "#DeepLearning"
+  }
+}

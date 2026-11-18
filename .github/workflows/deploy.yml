@@ -28,6 +28,14 @@ jobs:
       - name: Validate topic content
         run: python scripts/validate_topics.py site/topics.json
 
+      - name: Include Instagram slides (social-assets branch)
+        run: |
+          if git clone --quiet --depth 1 --branch social-assets "https://github.com/${GITHUB_REPOSITORY}.git" /tmp/social-assets; then
+            rm -rf /tmp/social-assets/.git && mkdir -p site/social && cp -r /tmp/social-assets/. site/social/
+          else
+            echo "No social-assets branch yet."
+          fi
+
       - name: Stamp build info
         run: |
           echo "{\"commit\": \"${GITHUB_SHA::7}\", \"built\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}" > site/build.json

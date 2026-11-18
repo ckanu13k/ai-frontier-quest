@@ -88,6 +88,10 @@ def main():
         for k in ("published", "added", "lastReviewed"):
             if not is_date(t.get(k)):
                 err(f"{where}: {k} must be an ISO date")
+        if "inPractice" in t and not (isinstance(t["inPractice"], str) and 20 <= len(t["inPractice"].strip()) <= 300):
+            err(f"{where}: inPractice should be a 20-300 character string")
+        if t.get("status") == "active" and "inPractice" not in t:
+            print(f"note: {where} has no inPractice line (optional, but shown in lessons and Instagram posts)")
         if not 3 <= len(t.get("keyIdeas", [])) <= 6:
             err(f"{where}: keyIdeas should have 3-6 items")
         for n in t.get("numbers", []):
