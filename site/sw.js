@@ -1,5 +1,5 @@
 /* AI Frontier Quest service worker: offline app shell, fresh lessons when online. */
-const VERSION = "afq-v4";
+const VERSION = "afq-v5";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./favicon.svg", "./icons/icon-192.png", "./icons/icon-512.png", "./topics.json"];
 
 self.addEventListener("install", (e) => {

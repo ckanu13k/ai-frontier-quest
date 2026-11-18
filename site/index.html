@@ -13,6 +13,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="AI Quest">
+<link rel="canonical" href="https://frontierquest.vercel.app/">
+<meta property="og:url" content="https://frontierquest.vercel.app/">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -1907,7 +1909,7 @@ h1, h2, h3 { font-family: var(--f-display); letter-spacing: -0.02em; line-height
       app.innerHTML = '<div class="card empty">The lessons didn\'t load. Check your connection and reload; if you just updated, try again in a minute.</div>';
     });
   }
-  if ("serviceWorker" in navigator && location.protocol === "https:" && window.top === window && /github\.io$/.test(location.hostname)) {
+  if ("serviceWorker" in navigator && location.protocol === "https:" && window.top === window && /(github\.io|vercel\.app)$/.test(location.hostname)) {
     window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
   }
   if (window.claude && window.claude.hot) { try { window.claude.hot.snapshot(function () { return { hash: location.hash }; }); } catch (e) {} }

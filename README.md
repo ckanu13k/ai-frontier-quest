@@ -4,7 +4,7 @@ Install it on your phone: open the live site, then use Add to Home Screen (iPhon
 
 Learn the week's most important AI and ML research by playing it. Each topic is a short briefing synthesized from lab blogs and published papers, followed by a quiz, recall cards and a timed term match. The Arcade adds a weekly Boss Battle, a 60-second Blitz, a Daily Challenge and a spaced-repetition Review deck.
 
-**Live:** https://ckanu13k.github.io/ai-frontier-quest/
+**Live:** https://frontierquest.vercel.app/ (mirror: https://ckanu13k.github.io/ai-frontier-quest/)
 
 ## How it works
 
@@ -13,6 +13,7 @@ Learn the week's most important AI and ML research by playing it. Each topic is 
 - `site/topics.json`: all content. The app fetches it at load time.
 - `scripts/validate_topics.py`: schema and sanity checks. CI runs it before every deploy, so a malformed content update never goes live.
 - `.github/workflows/deploy.yml`: on every push to `main`, validates the content and deploys `site/` to GitHub Pages. Pull requests get validation only.
+- Vercel project `aiquest` (root directory `site`, no build step) also deploys every push to `main` and serves the primary address, https://frontierquest.vercel.app/.
 
 Player progress (XP, badges, Review deck) is stored in the browser's localStorage, so it stays on the device and browser where it was earned.
 
