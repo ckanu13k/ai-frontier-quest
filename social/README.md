@@ -41,7 +41,7 @@ Instagram and Threads keep separate records. A slot that passed before a platfor
 ### 1. Instagram account
 1. Create the dedicated account (the slides say `@aifrontierquest`; change `handle` in `config.json` if you pick another).
 2. Switch it to a **Professional** account (Business or Creator) and keep it **public**. Settings → Account type and tools.
-3. Profile: put the app link (`https://ckanu13k.github.io/ai-frontier-quest/`) in the bio, because every caption says "link in bio."
+3. Profile: put the app link (`https://frontierquest.vercel.app`, set as `app_url` in `config.json`) in the Instagram and Threads bios, because every caption says "link in bio."
 
 ### 2. Meta app (done Nov 17, 2026)
 Already set up: app **AI Frontier Quest Social** (App ID 1128932373224847), business portfolio **AI Frontier Quest**, use case *Manage messaging & content on Instagram* with **API setup with Unified login**. Meta no longer offers the older "Instagram login" setup to new apps. `@aifrontierquest` (Instagram ID 17841459473104306) is an accepted Instagram Tester.
