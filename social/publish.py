@@ -6,10 +6,12 @@
   GitHub emails you) instead of going out at an odd hour.
 - Before publishing it checks the account's latest posts for the same caption,
   so a retry after a half-finished run never double-posts.
-- Uses the Instagram API with Instagram Login (graph.instagram.com). Standard
-  library only.
+- Works with both Meta token types, picked by the token itself:
+  system-user tokens from "API setup with Unified login" (start with EAA, never
+  expire) go to graph.facebook.com; Instagram Login tokens (start with IG,
+  60 days) go to graph.instagram.com. Standard library only.
 
-Env: IG_ACCESS_TOKEN (required to post), IG_USER_ID (optional), SOCIAL_PAUSED.
+Env: IG_ACCESS_TOKEN (required to post), IG_USER_ID (or config ig_user_id), SOCIAL_PAUSED.
 Usage:
   python social/publish.py --assets ../assets            # normal run
   python social/publish.py --assets ../assets --dry-run  # say what would happen
@@ -32,17 +34,28 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from build_week import load_json, preview_html, save_json  # noqa: E402
 
-HOST = "https://graph.instagram.com"
+HOST = None  # tests may pin a host; otherwise chosen per token
+
+
+def host_for(token: str) -> str:
+    if HOST:
+        return HOST
+    return "https://graph.instagram.com" if token.startswith("IG") else "https://graph.facebook.com"
 
 
 class IG:
     def __init__(self, token: str, version: str, user_id: str | None = None):
-        self.token, self.v = token, version
-        self.user_id = user_id or self.get("me", fields="user_id,username")["user_id"]
+        self.token, self.v, self.host = token, version, host_for(token)
+        if user_id:
+            self.user_id = user_id
+        elif "graph.instagram.com" in self.host:
+            self.user_id = self.get("me", fields="user_id,username")["user_id"]
+        else:
+            raise RuntimeError("Set IG_USER_ID (or ig_user_id in config.json): system-user tokens can't look it up")
 
     def _call(self, method: str, path: str, **params):
         params["access_token"] = self.token
-        url = f"{HOST}/{self.v}/{path}"
+        url = f"{self.host}/{self.v}/{path}"
         data = None
         if method == "GET":
             url += "?" + urllib.parse.urlencode(params)
@@ -109,14 +122,15 @@ def main() -> int:
     a = ap.parse_args()
     cfg = load_json(Path(a.config))
     token = os.environ.get("IG_ACCESS_TOKEN", "").strip()
+    uid = os.environ.get("IG_USER_ID", "").strip() or cfg.get("ig_user_id") or None
 
     if a.check:
         if not token:
             print("IG_ACCESS_TOKEN is not set."); return 1
-        ig = IG(token, cfg["graph_api_version"], os.environ.get("IG_USER_ID") or None)
-        me = ig.get("me", fields="user_id,username,account_type")
+        ig = IG(token, cfg["graph_api_version"], uid)
+        me = ig.get(ig.user_id, fields="username")
         lim = ig.get(f"{ig.user_id}/content_publishing_limit", fields="quota_usage,config")
-        print(f"OK: @{me.get('username')} ({me.get('account_type')}), user_id {ig.user_id}; publishing quota: {json.dumps(lim.get('data'))}")
+        print(f"OK: @{me.get('username')} via {ig.host}, user_id {ig.user_id}; publishing quota: {json.dumps(lim.get('data'))}")
         return 0
 
     if cfg.get("paused") or os.environ.get("SOCIAL_PAUSED", "").lower() in ("1", "true", "yes"):
@@ -165,7 +179,7 @@ def main() -> int:
             print(f"[dry run] would publish {p['id']} ({p['format']}, {len(p['urls'])} slides). "
                   + ("" if token else "IG_ACCESS_TOKEN not set."))
         else:
-            ig = IG(token, cfg["graph_api_version"], os.environ.get("IG_USER_ID") or None)
+            ig = IG(token, cfg["graph_api_version"], uid)
             head = p["caption"][:120]
             dup = next((m for m in ig.recent_captions() if (m.get("caption") or "").startswith(head)), None)
             if dup:

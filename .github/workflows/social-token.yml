@@ -1,7 +1,9 @@
 name: Social - refresh Instagram token
 
-# Instagram tokens last 60 days. This extends it weekly and saves it back as the
-# IG_ACCESS_TOKEN secret, so you never have to regenerate it by hand.
+# Only needed for Instagram Login tokens (start with "IG", last 60 days): extends
+# the token weekly and saves it back as the IG_ACCESS_TOKEN secret. System-user
+# tokens from "API setup with Unified login" (start with "EAA") never expire, so
+# this exits right away for them.
 on:
   schedule:
     - cron: "41 15 * * 3"   # Wednesdays
@@ -22,6 +24,11 @@ jobs:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           GH_TOKEN: ${{ secrets.GH_SECRETS_PAT }}
         run: |
+          case "$IG_ACCESS_TOKEN" in
+            IG*) ;;
+            "") echo "No IG_ACCESS_TOKEN yet; nothing to refresh."; exit 0 ;;
+            *) echo "System-user token: it never expires, nothing to refresh."; exit 0 ;;
+          esac
           if [ -z "$GH_TOKEN" ]; then echo "::error::Add the GH_SECRETS_PAT secret (see social/README.md) so the refreshed token can be saved."; exit 1; fi
           out=$(python social/refresh_token.py)
           echo "$out" | head -1          # registers the mask before the token is used
