@@ -208,6 +208,11 @@ def publish_threads(p: dict, cfg: dict, token: str, uid, now, problems: list) ->
     if not th_post:
         raise RuntimeError("queue has no Threads text for this post (rebuild the week)")
     th = Threads(token, cfg.get("threads_api_version", "v1.0"), uid)
+    want = (cfg.get("threads_username") or "").lstrip("@").lower()
+    if want:
+        got = (th.get("me", fields="username").get("username") or "").lower()
+        if got != want:
+            raise RuntimeError(f"THREADS_ACCESS_TOKEN belongs to @{got}, not @{want}; refusing to post. Generate a token for @{want}.")
     head = th_post["text"][:100]
     dup = next((m for m in th.recent() if (m.get("text") or "").startswith(head)), None)
     if dup:

@@ -21,6 +21,7 @@
     {"day": "sun", "time": "19:20", "format": "deep_dive", "slot": 2}
   ],
   "threads_api_version": "v1.0",
+  "threads_username": "aifrontierquest",
   "threads_topics": {
     "default": "AI",
     "Agents": "AI Agents",
