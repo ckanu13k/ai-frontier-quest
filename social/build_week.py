@@ -360,6 +360,106 @@ def terms(topics: list[dict], cfg: dict) -> tuple[list, str] | None:
     return slides, cap, th
 
 
+# ---------- weekly mode: one post per week ----------
+
+def weekly_post(days: list[dict], cfg: dict, wk: str, monday: dt.date, tz, assets: Path, renderer, picks: list[dict]) -> dict:
+    """Fold the week's day posts into one post.
+
+    Instagram: a 10-slide digest (the API caps carousels at 10): opener, each deep dive's
+    cover + In practice slide, the top numbers, one quiz question, call to action.
+    Threads: Monday's brief on top, then each later day as a comment (its own carousel
+    + text), in day order, then a final comment with the app link.
+    """
+    by_fmt = {}
+    for d in days:
+        by_fmt.setdefault(d["format"], []).append(d)
+    brief = (by_fmt.get("weekly_brief") or [None])[0]
+    dives = by_fmt.get("deep_dive", [])
+    nums = (by_fmt.get("by_the_numbers") or [None])[0]
+    qz = (by_fmt.get("quiz") or [None])[0]
+    gl = (by_fmt.get("terms") or [None])[0]
+    sunday = monday + dt.timedelta(days=6)
+    rng = (f"{short(monday.isoformat())}–{sunday.day}" if monday.month == sunday.month
+           else f"{short(monday.isoformat())}–{short(sunday.isoformat())}")
+
+    # --- Instagram digest slides (max 10) ---
+    slides = [{"kind": "cover", "kicker": f"The week in AI · {rng}", "title": "Your week on the AI frontier",
+               "sub": f"{len(dives)} deep dives, the numbers that matter and a quiz, in one swipe.",
+               "pills": [{"text": "Synthesized from primary sources"}]}]
+    for d in dives:
+        ss = d["_slides"]
+        slides.append(ss[0])
+        prac = next((x for x in ss if x["kind"] == "practice"), None) or next(
+            (x for x in ss if x["kind"] == "text" and x.get("kicker") == "Why it matters"), None)
+        if prac:
+            slides.append(prac)
+    if nums:
+        items = [{"value": x["value"], "label": x["label"], "verified": x.get("verified", True)}
+                 for x in nums["_slides"] if x["kind"] == "stat"][:4]
+        if items:
+            slides.append({"kind": "numbers", "kicker": "This week in numbers", "items": items})
+    quiz_q = next((x for x in (qz["_slides"] if qz else []) if x["kind"] == "quiz_q"), None)
+    quiz_a = next((x for x in (qz["_slides"] if qz else []) if x["kind"] == "quiz_a"), None)
+    if quiz_q and len(slides) < 9:
+        slides.append({**quiz_q, "kicker": "Quick quiz · answer in the caption"})
+    slides.append({"kind": "cta", "heading": "Go deeper in 5 minutes a topic", "bullets": [
+        "Every lesson sourced from lab blogs and papers", "Quizzes, recall cards and a weekly Boss Battle",
+        "New topics every week"]})
+    slides = slides[:10]
+    pid = f"{wk}-weekly"
+    out_dir = assets / wk / pid
+    if out_dir.exists():
+        shutil.rmtree(out_dir)
+    files = renderer.render(slides, out_dir, cfg["handle"], cfg["app_name"]) if renderer else []
+    urls = [f"{cfg['assets_base_url']}{wk}/{pid}/{f}" for f in files]
+
+    # --- Instagram caption ---
+    dive_lines = "\n".join(f"{i}. {d['_topic']['title']}" + (f"\n   💡 {d['_topic']['inPractice']}" if d['_topic'].get('inPractice') else "")
+                            for i, d in enumerate(dives, 1))
+    num_lines = "\n".join(f"• {it['value']}: {it['label']}" for s_ in slides if s_["kind"] == "numbers" for it in s_["items"])
+    quiz_line = ""
+    if quiz_q and quiz_a and any(x is not None and x.get("kind") == "quiz_q" for x in slides):
+        quiz_line = (f"🧠 Quiz: {quiz_q['question']}\nComment your answer before you peek.\n\n"
+                     f"Answer: {'ABCD'[quiz_a['answer']]}. {quiz_a['options'][quiz_a['answer']]}")
+    tags = hashtags(cfg, [d["_topic"] for d in dives])
+    cap = caption(
+        f"Your week on the AI frontier ({rng}), in one swipe 👇",
+        "This week's deep dives:\n" + dive_lines if dives else "",
+        ("By the numbers:\n" + num_lines
+         + ("\nFigures tagged REPORTED come from press coverage." if any(not it.get("verified", True) for s_ in slides if s_["kind"] == "numbers" for it in s_["items"]) else ""))
+        if num_lines else "",
+        quiz_line,
+        "📌 Save this for later.\n🎮 Learn each topic in 5 minutes with quizzes in AI Frontier Quest. Link in bio.",
+        tags,
+    )
+
+    # --- Threads: Monday on top, the rest as comments, in order ---
+    top = brief or days[0]
+    rest = [d for d in days if d is not top]
+
+    def reply_text(d):
+        if d["format"] == "deep_dive":
+            t = d["_topic"]
+            body = f"{t['title']}\n\n{t['tagline']}"
+            if t.get("inPractice"):
+                body += f"\n\n💡 In practice: {t['inPractice']}"
+            return fit(body)
+        return d["threads"]["text"]
+
+    th = {"text": top["threads"]["text"], "topic": top["threads"].get("topic"), "urls": top["urls"],
+          "replies": [{"text": reply_text(d), "urls": d["urls"], "day": d["id"].rsplit("-", 1)[-1]} for d in rest]}
+    th["replies"].append(fit(f"Learn every topic from this week in 5 minutes each, with quizzes and a Boss Battle: {cfg['app_url']}"))
+
+    w = cfg.get("weekly", {"day": "wed", "time": "12:10"})
+    hh, mm = map(int, w["time"].split(":"))
+    when = dt.datetime.combine(monday + dt.timedelta(days=DAYS.index(w["day"])), dt.time(hh, mm), tz)
+    when += dt.timedelta(minutes=jitter(pid, cfg["jitter_minutes"]))
+    return {"id": pid, "week": wk, "format": "weekly", "topics": [t["id"] for t in picks],
+            "scheduled_at": when.astimezone(dt.timezone.utc).isoformat(),
+            "scheduled_local": when.strftime("%a %b %d, %I:%M %p %Z"),
+            "caption": cap, "threads": th, "files": files, "urls": urls}
+
+
 # ---------- preview page ----------
 
 def preview_html(queues: list[dict], state: dict) -> str:
@@ -384,7 +484,8 @@ def preview_html(queues: list[dict], state: dict) -> str:
             thr = p.get("threads") or {}
             th_html = ("<pre style='border-top:1px solid #233049;padding-top:8px'>Threads"
                        + (f" · topic: {esc(thr.get('topic') or '')}" if thr.get("topic") else "") + "\n\n" + esc(thr.get("text", ""))
-                       + "".join("\n\n↳ " + esc(r) for r in thr.get("replies", [])) + "</pre>") if thr else ""
+                       + "".join("\n\n↳ " + esc(r["text"] if isinstance(r, dict) else r)
+                                 + (f"  [{len(r['urls'])} slides]" if isinstance(r, dict) else "") for r in thr.get("replies", [])) + "</pre>") if thr else ""
             imgs = "".join(f"<img loading='lazy' src='{esc(p['week'])}/{esc(p['id'])}/{esc(f)}'>" for f in p["files"])
             out.append(f"<div class='post'><b>{esc(p['scheduled_local'])}</b> · {esc(p['format'])} · {len(p['files'])} slides {badge}"
                        f"<div class='row'>{imgs}</div><pre>{esc(p['caption'])}</pre>{th_html}</div>")
@@ -481,11 +582,18 @@ def main() -> int:
                 "scheduled_local": when.strftime("%a %b %d, %I:%M %p %Z"),
                 "caption": cap, "threads": th, "files": files,
                 "urls": [f"{cfg['assets_base_url']}{wk}/{pid}/{f}" for f in files],
+                "_slides": slides, "_topic": t if fmt == "deep_dive" else None,
             })
             print(f"  {pid}: {fmt:15s} {len(slides)} slides at {posts[-1]['scheduled_local']}")
+        if cfg.get("mode") == "weekly" and posts:
+            posts = [weekly_post(posts, cfg, wk, monday, tz, assets, renderer, picks)]
+            print(f"  {posts[0]['id']}: weekly digest, {len(posts[0]['files'])} Instagram slides, "
+                  f"Threads: 1 post + {len(posts[0]['threads']['replies'])} comments, at {posts[0]['scheduled_local']}")
     finally:
         if renderer:
             renderer.__exit__(None, None, None)
+    for p_ in posts:
+        p_.pop("_slides", None); p_.pop("_topic", None)
 
     for t in picks:
         state["featured"][t["id"]] = {"week": wk, "version": t.get("version", 1)}

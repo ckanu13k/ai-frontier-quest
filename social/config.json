@@ -1,5 +1,7 @@
 {
   "paused": false,
+  "mode": "weekly",
+  "weekly": {"day": "wed", "time": "12:10"},
   "handle": "@aifrontierquest",
   "ig_user_id": "17841459473104306",
   "app_name": "AI Frontier Quest",

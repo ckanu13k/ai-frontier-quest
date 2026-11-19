@@ -167,12 +167,33 @@ class Threads:
             cid = self.post(f"{self.user_id}/threads", media_type="CAROUSEL", children=",".join(kids), text=text, **extra)["id"]
         return self._publish(cid)
 
-    def reply(self, to_id: str, text: str) -> str:
-        cid = self.post(f"{self.user_id}/threads", media_type="TEXT", text=text, reply_to_id=to_id)["id"]
+    def reply(self, to_id: str, text: str, urls: list[str] | None = None) -> str:
+        if not urls:
+            cid = self.post(f"{self.user_id}/threads", media_type="TEXT", text=text, reply_to_id=to_id)["id"]
+        elif len(urls) == 1:
+            cid = self.post(f"{self.user_id}/threads", media_type="IMAGE", image_url=urls[0], text=text, reply_to_id=to_id)["id"]
+        else:
+            kids = [self.post(f"{self.user_id}/threads", media_type="IMAGE", image_url=u, is_carousel_item="true")["id"]
+                    for u in urls[:20]]
+            for k in kids:
+                self.wait_ready(k)
+            cid = self.post(f"{self.user_id}/threads", media_type="CAROUSEL", children=",".join(kids), text=text,
+                            reply_to_id=to_id)["id"]
         return self._publish(cid)
 
     def recent(self, n: int = 6) -> list[dict]:
         return self.get(f"{self.user_id}/threads", fields="id,text,permalink,timestamp", limit=n).get("data", [])
+
+
+def all_urls(p: dict, name: str) -> list[str]:
+    if name != "threads" or not p.get("threads"):
+        return p["urls"]
+    th = p["threads"]
+    out = list(th.get("urls") or p["urls"])
+    for r in th.get("replies", []):
+        if isinstance(r, dict):
+            out += r.get("urls") or []
+    return out
 
 
 def url_ok(u: str) -> bool:
@@ -218,16 +239,17 @@ def publish_threads(p: dict, cfg: dict, token: str, uid, now, problems: list) ->
     if dup:
         print(f"{p['id']} is already on Threads ({dup.get('permalink')}); recording it.")
         return {"media_id": dup["id"], "permalink": dup.get("permalink"), "at": dup.get("timestamp")}
-    mid = th.publish(p["urls"], th_post["text"], th_post.get("topic"))
+    mid = th.publish(th_post.get("urls") or p["urls"], th_post["text"], th_post.get("topic"))
     rec = {"media_id": mid, "permalink": None, "at": now.isoformat(timespec="minutes"), "replies": []}
     try:
         rec["permalink"] = th.get(mid, fields="permalink").get("permalink")
     except RuntimeError:
         pass
     parent = mid
-    for text in th_post.get("replies", []):
+    for r in th_post.get("replies", []):
+        text, urls = (r["text"], r.get("urls")) if isinstance(r, dict) else (r, None)
         try:  # a failed reply never re-posts the main thread
-            parent = th.reply(parent, text)
+            parent = th.reply(parent, text, urls)
             rec["replies"].append(parent)
         except RuntimeError as e:
             problems.append(f"{p['id']}: Threads reply failed: {e}")
@@ -294,10 +316,11 @@ def main() -> int:
             return 1
         for i, pid in enumerate(ids):
             p = by_id[pid]
-            if not all(url_ok(u) for u in p["urls"]):
-                problems.append(f"{pid}: images not live at {p['urls'][0]}")
-                continue
             for name in active:
+                bad = next((u for u in all_urls(p, name) if not url_ok(u)), None)
+                if bad:
+                    problems.append(f"{PLATFORMS[name][2]}: {pid}: image not live yet: {bad}")
+                    continue
                 posted_key, missed_key, label = PLATFORMS[name]
                 posted, missed = state.setdefault(posted_key, {}), state.setdefault(missed_key, {})
                 if pid in posted and not a.repost:
@@ -352,8 +375,9 @@ def main() -> int:
             print(f"{label}: nothing due." + (f" Next: {nxt['id']} at {nxt['scheduled_local']}." if nxt else " Queue is empty."))
             continue
         p = min(due, key=lambda p: p["scheduled_at"])
-        if not all(url_ok(u) for u in p["urls"]):
-            print(f"{label}: {p['id']} images not live yet at {p['urls'][0]}; will retry next run.")
+        bad = next((u for u in all_urls(p, name) if not url_ok(u)), None)
+        if bad:
+            print(f"{label}: {p['id']} image not live yet ({bad}); will retry next run.")
             continue
         if a.dry_run or not tokens[name]:
             extra = f" with {len(p.get('threads', {}).get('replies', []))} replies" if name == "threads" else ""

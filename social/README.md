@@ -2,6 +2,16 @@
 
 Turns each weekly AI Frontier Quest refresh into 7 branded carousels and posts one a day at a different time, to Instagram and to Threads. After the one-time setup below, there is nothing to do day to day.
 
+## Current mode: one post a week (Wednesdays, 12:10 PM Central)
+
+`"mode": "weekly"` in `config.json` folds the week into a single post:
+- **Instagram:** one 10-slide carousel. Meta's API caps carousels at 10. It has an opener, each deep dive's cover and "In practice" slide, the week's numbers, a quiz question (answer in the caption) and a call to action. The caption lists the deep dives with their real-world uses.
+- **Threads:** Monday's brief is the top post. Tuesday through Sunday follow as comments, in order, each with that day's full carousel. A last comment links to the app.
+
+The day-by-day pieces below are still built; weekly mode composes them. Set `"mode": "daily"` to go back to one post per day. Change the day and time under `"weekly"`.
+
+To publish a week by hand, run Actions → **Social - publish** with post ids `2026-W47-weekly`.
+
 ## How it runs
 
 | When | What | Workflow |
