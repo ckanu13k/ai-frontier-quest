@@ -1,0 +1,153 @@
+{
+  "week": "2026-W47",
+  "edition": "2026-W46",
+  "built": "2026-11-18T20:16-06:00",
+  "deep_dive_ids": [
+    "alphagenome-2",
+    "alphaproof-code",
+    "genie-4"
+  ],
+  "posts": [
+    {
+      "id": "2026-W47-weekly",
+      "week": "2026-W47",
+      "format": "weekly",
+      "topics": [
+        "alphagenome-2",
+        "alphaproof-code",
+        "genie-4"
+      ],
+      "scheduled_at": "2026-11-18T18:01:00+00:00",
+      "scheduled_local": "Wed Nov 18, 12:01 PM CST",
+      "caption": "Your week on the AI frontier (Nov 16–22), in one swipe 👇\n\nThis week's deep dives:\n1. AlphaGenome 2: DNA effects, cell by cell\n   💡 A researcher holding a disease-linked DNA variant can ask which cell types it likely affects, then choose the lab experiment to run next. Free for non-commercial research through the API; not for clinical or diagnostic use.\n2. AlphaProof Code: AI agents prove real code correct\n   💡 Security teams could prove that the code they ship, such as the encryption library inside a messaging app, meets its security spec down to the compiled binary instead of relying on audits alone. Research-only for now: there is no public API.\n3. Genie 4 and hybrid world models\n   💡 Robotics and agent teams could rehearse in generated worlds, for example testing how an agent copes when rain or a new person is added mid-scene, before acting in the real one. Currently a research preview for trusted testers.\n\nBy the numbers:\n• 30% vs 16%: causal expression variants recovered at 90% precision, AlphaGenome 2 vs fine-tuned AlphaGenome 1 (TenK10K, 28 immune cell types)\n• 107M+: cell profiles in training, across 68 tissues\n• 4 weeks: to verify core libsignal guarantees, helped by earlier Signal verification work\n• ~1,500 tok/s: DiffusionGemma on one NVIDIA H100\n\n🧠 Quiz: What does cross-modality imputation let AlphaGenome 2 do?\nComment your answer before you peek.\n\nAnswer: B. Predict unmeasured data, such as chromatin accessibility, from gene expression alone\n\n📌 Save this for later.\n🎮 Learn each topic in 5 minutes with quizzes in AI Frontier Quest. Link in bio.\n\n#AI #MachineLearning #AIforScience #AIAgents #AIFrontierQuest",
+      "threads": {
+        "text": "4 new developments on the AI frontier this week 🧵\n\n1. AlphaGenome 2: A conditional model that predicts what a DNA variant does in one chosen cell type or state.\n2. AlphaProof Code: DeepMind's agents machine-checked Signal's cryptography down to the compiled Arm binary.\n3. Genie 4 and hybrid world models: Real-time playable worlds with physics, sound and characters that talk back.\n…and more in the slides.\n\nWhich one matters most for your work?",
+        "topic": "AI",
+        "urls": [
+          "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-mon/01.jpg",
+          "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-mon/02.jpg",
+          "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-mon/03.jpg",
+          "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-mon/04.jpg",
+          "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-mon/05.jpg",
+          "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-mon/06.jpg"
+        ],
+        "replies": [
+          {
+            "text": "AlphaGenome 2: DNA effects, cell by cell\n\nA conditional model that predicts what a DNA variant does in one chosen cell type or state.\n\n💡 In practice: A researcher holding a disease-linked DNA variant can ask which cell types it likely affects, then choose the lab experiment to run next. Free for non-commercial research through the API; not for clinical or diagnostic use.",
+            "urls": [
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-tue/01.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-tue/02.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-tue/03.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-tue/04.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-tue/05.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-tue/06.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-tue/07.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-tue/08.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-tue/09.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-tue/10.jpg"
+            ],
+            "day": "tue"
+          },
+          {
+            "text": "Quiz time: 3 questions on this week's AI research 🧠\n\nReply with your answers (like 1B 2D 3A), then swipe for the solutions.\n\nQ1: AlphaGenome 2; Q2: AlphaProof Code; Q3: Genie 4 and hybrid world models.",
+            "urls": [
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-wed/01.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-wed/02.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-wed/03.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-wed/04.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-wed/05.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-wed/06.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-wed/07.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-wed/08.jpg"
+            ],
+            "day": "wed"
+          },
+          {
+            "text": "AlphaProof Code: AI agents prove real code correct\n\nDeepMind's agents machine-checked Signal's cryptography down to the compiled Arm binary.\n\n💡 In practice: Security teams could prove that the code they ship, such as the encryption library inside a messaging app, meets its security spec down to the compiled binary instead of relying on audits alone. Research-only for now: there is no public API.",
+            "urls": [
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-thu/01.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-thu/02.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-thu/03.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-thu/04.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-thu/05.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-thu/06.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-thu/07.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-thu/08.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-thu/09.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-thu/10.jpg"
+            ],
+            "day": "thu"
+          },
+          {
+            "text": "The week in AI, in 5 numbers 📊\n\n• 30% vs 16%: causal expression variants recovered at 90% precision, AlphaGenome 2 vs fine-tuned AlphaGenome 1 (TenK10K, 28 immune cell types)\n• 107M+: cell profiles in training, across 68 tissues\n• 4 weeks: to verify core libsignal guarantees, helped by earlier Signal verification work\n• ~1,500 tok/s: DiffusionGemma on one NVIDIA H100\n…and more in the slides.\n\nWhich one surprised you most?",
+            "urls": [
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-fri/01.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-fri/02.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-fri/03.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-fri/04.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-fri/05.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-fri/06.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-fri/07.jpg"
+            ],
+            "day": "fri"
+          },
+          {
+            "text": "6 AI terms you'll hear this week, in plain English 📚\n\n• Chromatin accessibility: Whether a stretch of DNA is open enough for regulatory proteins to act on it.\n• Genetic variant: A difference in DNA sequence between individuals, such as a single-letter change.\n• Lean: An interactive theorem prover and language whose kernel checks every step of a proof.\n…and more in the slides.\n\nSave this for your next meeting.",
+            "urls": [
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sat/01.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sat/02.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sat/03.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sat/04.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sat/05.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sat/06.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sat/07.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sat/08.jpg"
+            ],
+            "day": "sat"
+          },
+          {
+            "text": "Genie 4 and hybrid world models\n\nReal-time playable worlds with physics, sound and characters that talk back.\n\n💡 In practice: Robotics and agent teams could rehearse in generated worlds, for example testing how an agent copes when rain or a new person is added mid-scene, before acting in the real one. Currently a research preview for trusted testers.",
+            "urls": [
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sun/01.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sun/02.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sun/03.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sun/04.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sun/05.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sun/06.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sun/07.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sun/08.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sun/09.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-sun/10.jpg"
+            ],
+            "day": "sun"
+          },
+          "Learn every topic from this week in 5 minutes each, with quizzes and a Boss Battle: https://frontierquest.vercel.app/"
+        ]
+      },
+      "files": [
+        "01.jpg",
+        "02.jpg",
+        "03.jpg",
+        "04.jpg",
+        "05.jpg",
+        "06.jpg",
+        "07.jpg",
+        "08.jpg",
+        "09.jpg",
+        "10.jpg"
+      ],
+      "urls": [
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-weekly/01.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-weekly/02.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-weekly/03.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-weekly/04.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-weekly/05.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-weekly/06.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-weekly/07.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-weekly/08.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-weekly/09.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W47/2026-W47-weekly/10.jpg"
+      ]
+    }
+  ]
+}
