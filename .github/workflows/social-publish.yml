@@ -14,6 +14,14 @@ on:
         description: "Only test the Instagram and Threads connections (posts nothing)"
         type: boolean
         default: false
+      post_ids:
+        description: "Post these now, in order (comma-separated, e.g. 2026-W47-mon,2026-W47-tue)"
+        type: string
+        default: ""
+      repost:
+        description: "With post ids: post again even if already recorded (delete the old post first)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -25,7 +33,7 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -49,7 +57,10 @@ jobs:
           SOCIAL_PAUSED: ${{ vars.SOCIAL_PAUSED }}
         run: |
           if [ "${{ inputs.check }}" = "true" ]; then python social/publish.py --check; exit $?; fi
-          python social/publish.py --assets ../assets ${{ inputs.dry_run && '--dry-run' || '' }}
+          EXTRA=""
+          if [ -n "${{ inputs.post_ids }}" ]; then EXTRA="--post ${{ inputs.post_ids }}"; fi
+          if [ "${{ inputs.repost }}" = "true" ]; then EXTRA="$EXTRA --repost"; fi
+          python social/publish.py --assets ../assets ${{ inputs.dry_run && '--dry-run' || '' }} $EXTRA
 
       - name: Save publish state
         if: always() && steps.pub.outputs.changed == 'true'

@@ -243,6 +243,9 @@ def main() -> int:
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--now", help="pretend UTC time, ISO (testing)")
+    ap.add_argument("--post", help="comma-separated post ids to publish now, in this order (e.g. 2026-W47-mon,2026-W47-tue)")
+    ap.add_argument("--repost", action="store_true", help="with --post: publish again even if recorded as posted (the duplicate guard still skips posts that are still live)")
+    ap.add_argument("--gap", type=int, default=90, help="with --post: seconds to wait between posts")
     a = ap.parse_args()
     cfg = load_json(Path(a.config))
     tokens = {"instagram": os.environ.get("IG_ACCESS_TOKEN", "").strip(),
@@ -281,6 +284,41 @@ def main() -> int:
     grace = dt.timedelta(hours=cfg["grace_hours"])
     problems, changed = [], False
     connected = state.setdefault("connected", {})
+
+    if a.post:
+        ids = [x.strip() for x in a.post.split(",") if x.strip()]
+        by_id = {p["id"]: p for q in queues for p in q["posts"]}
+        unknown = [x for x in ids if x not in by_id]
+        if unknown:
+            print(f"::error::Not in the queue: {', '.join(unknown)}")
+            return 1
+        for i, pid in enumerate(ids):
+            p = by_id[pid]
+            if not all(url_ok(u) for u in p["urls"]):
+                problems.append(f"{pid}: images not live at {p['urls'][0]}")
+                continue
+            for name in active:
+                posted_key, missed_key, label = PLATFORMS[name]
+                posted, missed = state.setdefault(posted_key, {}), state.setdefault(missed_key, {})
+                if pid in posted and not a.repost:
+                    print(f"{label}: {pid} already posted ({posted[pid].get('permalink')}); skipping.")
+                    continue
+                if a.dry_run or not tokens[name]:
+                    print(f"[dry run] {label}: would publish {pid} now ({p['format']}).")
+                    continue
+                try:
+                    rec = (publish_instagram(p, cfg, tokens[name], uids[name], now) if name == "instagram"
+                           else publish_threads(p, cfg, tokens[name], uids[name], now, problems))
+                    if pid in posted and rec.get("media_id") == posted[pid].get("media_id"):
+                        print(f"{label}: {pid} is still live, so it was not posted again. Delete it first to repost.")
+                    posted[pid] = rec
+                    missed.pop(pid, None)
+                except RuntimeError as e:
+                    problems.append(f"{label}: {pid}: {e}")
+                changed = True
+            if i < len(ids) - 1 and not a.dry_run:
+                time.sleep(a.gap)  # keep the posts in order and a little apart
+        active = []  # manual run: skip the scheduled pass
 
     for name in active:
         posted_key, missed_key, label = PLATFORMS[name]
