@@ -6,6 +6,8 @@ on:
   push:
     branches: [main]
     paths: ["site/topics.json", "social/**"]
+  pull_request:            # full test build, nothing pushed or posted
+    paths: ["site/topics.json", "social/**", ".github/workflows/social-*.yml"]
   schedule:
     - cron: "23 14 * * 1"   # Mondays ~8-9 AM Central, fallback if the push trigger was missed
   workflow_dispatch:
@@ -44,6 +46,7 @@ jobs:
           python -m playwright install --with-deps chromium
 
       - name: Pull social-assets
+        if: github.event_name != 'pull_request'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: social/scripts/assets.sh pull ../assets
@@ -53,16 +56,17 @@ jobs:
         run: |
           FORCE=""
           if [ "${{ inputs.force }}" = "true" ] || git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -q '^social/'; then FORCE="--force"; fi
+          if [ "${{ github.event_name }}" = "pull_request" ]; then FORCE="--force"; fi
           python social/build_week.py --assets ../assets $FORCE
 
       - name: Push social-assets
-        if: steps.build.outputs.changed == 'true'
+        if: steps.build.outputs.changed == 'true' && github.event_name != 'pull_request'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: social/scripts/assets.sh push ../assets "Build social posts (${GITHUB_SHA::7})"
 
       - name: Redeploy site so the new slides are live
-        if: steps.build.outputs.changed == 'true'
+        if: steps.build.outputs.changed == 'true' && github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh workflow run deploy.yml --ref main

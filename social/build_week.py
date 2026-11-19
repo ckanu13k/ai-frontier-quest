@@ -411,7 +411,7 @@ def main() -> int:
     today = now.date()
     wk = a.week or week_key(today)
     monday = week_monday(wk)
-    assets = Path(a.assets)
+    assets = Path(a.assets).resolve()  # absolute: the renderer loads pages by file:// URI
     assets.mkdir(parents=True, exist_ok=True)
     data = load_json(Path(a.topics))
     edition = data["meta"].get("edition", "")

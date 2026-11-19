@@ -239,6 +239,7 @@ class Renderer:
         self._pw.stop()
 
     def render(self, slides: list[dict], out_dir: Path, handle: str, app_name: str, quality: int = 88) -> list[str]:
+        out_dir = out_dir.resolve()
         out_dir.mkdir(parents=True, exist_ok=True)
         tmp = out_dir / "_page.html"
         tmp.write_text(page_html(slides, handle, app_name), encoding="utf-8")
