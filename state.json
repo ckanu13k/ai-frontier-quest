@@ -1,0 +1,117 @@
+{
+  "posted": {
+    "2026-W47-wed": {
+      "media_id": "18135297484826305",
+      "permalink": "https://www.instagram.com/p/Df59OHyl9Rw/",
+      "at": "2026-11-19T01:52+00:00"
+    },
+    "2026-W47-mon": {
+      "media_id": "17919302436516012",
+      "permalink": "https://www.instagram.com/p/Df58f1Al902/",
+      "at": "2026-11-19T01:52+00:00"
+    },
+    "2026-W47-tue": {
+      "media_id": "18418642522084949",
+      "permalink": "https://www.instagram.com/p/Df581eml3Zm/",
+      "at": "2026-11-19T01:52+00:00"
+    },
+    "2026-W47-weekly": {
+      "media_id": "18097204907162868",
+      "permalink": "https://www.instagram.com/p/Df5_sJNEUgD/",
+      "at": "2026-11-19T02:20+00:00"
+    },
+    "2026-W48-weekly": {
+      "media_id": "17914718229560771",
+      "permalink": "https://www.instagram.com/p/DgLJ5U4iRRx/",
+      "at": "2026-11-25T18:16+00:00"
+    }
+  },
+  "missed": {},
+  "featured": {
+    "alphagenome-2": {
+      "week": "2026-W47",
+      "version": 1
+    },
+    "alphaproof-code": {
+      "week": "2026-W47",
+      "version": 1
+    },
+    "genie-4": {
+      "week": "2026-W47",
+      "version": 1
+    },
+    "diffusion-lms": {
+      "week": "2026-W48",
+      "version": 1
+    },
+    "project-suncatcher": {
+      "week": "2026-W48",
+      "version": 1
+    },
+    "ai-automating-ai-research": {
+      "week": "2026-W48",
+      "version": 1
+    }
+  },
+  "connected": {
+    "instagram": "2026-11-19T01:40+00:00",
+    "threads": "2026-11-19T01:40+00:00"
+  },
+  "threads_posted": {
+    "2026-W47-wed": {
+      "media_id": "18116474219335795",
+      "permalink": "https://www.threads.com/@aifrontierquest/post/Df59RnBlOob",
+      "at": "2026-11-19T01:52+00:00",
+      "replies": [
+        "17921065833303571"
+      ]
+    },
+    "2026-W47-mon": {
+      "media_id": "18122019986000145",
+      "permalink": "https://www.threads.com/@aifrontierquest/post/Df58iomFDrK",
+      "at": "2026-11-19T01:52+00:00",
+      "replies": [
+        "17925950847224093"
+      ]
+    },
+    "2026-W47-tue": {
+      "media_id": "18484016644112562",
+      "permalink": "https://www.threads.com/@aifrontierquest/post/Df586O6FBep",
+      "at": "2026-11-19T01:52+00:00",
+      "replies": [
+        "18106361921335486",
+        "18135006217772097"
+      ]
+    },
+    "2026-W47-weekly": {
+      "media_id": "18096530777187979",
+      "permalink": "https://www.threads.com/@aifrontierquest/post/Df5_xquoCz0",
+      "at": "2026-11-19T02:20+00:00",
+      "replies": [
+        "18115052909332986",
+        "17922486528461601",
+        "18051431531818382",
+        "18101889800649889",
+        "18232585651332163",
+        "17918942547496892",
+        "17916340965515148"
+      ]
+    },
+    "2026-W48-weekly": {
+      "media_id": "18105657065344970",
+      "permalink": "https://www.threads.com/@aifrontierquest/post/DgLJ8vpoFH7",
+      "at": "2026-11-25T18:16+00:00",
+      "replies": [
+        "18482830198117259",
+        "18117040955126412",
+        "17899431858654246",
+        "18387000427232151",
+        "18119731178102673",
+        "18143794219627332",
+        "18149552284582923"
+      ],
+      "replies_expected": 7
+    }
+  },
+  "threads_missed": {}
+}

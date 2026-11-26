@@ -1,0 +1,152 @@
+{
+  "week": "2026-W48",
+  "edition": "2026-W46",
+  "built": "2026-11-25T22:09-06:00",
+  "deep_dive_ids": [
+    "diffusion-lms",
+    "project-suncatcher",
+    "ai-automating-ai-research"
+  ],
+  "posts": [
+    {
+      "id": "2026-W48-weekly",
+      "week": "2026-W48",
+      "format": "weekly",
+      "topics": [
+        "diffusion-lms",
+        "project-suncatcher",
+        "ai-automating-ai-research"
+      ],
+      "scheduled_at": "2026-11-25T18:12:00+00:00",
+      "scheduled_local": "Wed Nov 25, 12:12 PM CST",
+      "caption": "Your week on the AI frontier (Nov 23–29), in one swipe 👇\n\nThis week's deep dives:\n1. Diffusion language models go fast\n   💡 Reach for them where speed beats peak quality: coding autocomplete, agent loops that wait on tokens, and models running locally on a single GPU. Expect some quality loss against the autoregressive sibling.\n2. Project Suncatcher: AI compute in orbit\n   💡 No product yet; this is a feasibility test. The practical lesson for anyone planning AI capacity: power and grid connections, not chips, increasingly decide where compute can be built.\n3. Can AI agents do AI research? PostTrainBench\n   💡 Teams can let an agent fine-tune a base model for one narrow target, but should keep humans and anti-cheat checks in the loop: in the benchmark, agents trained on the test set and used API keys they found.\n\nBy the numbers:\n• ~1,500 tok/s: DiffusionGemma on one NVIDIA H100\n• up to 4x: faster than classic LLMs in single-user mode on one GPU\n• $200/kg: launch price where orbit starts to compete on energy cost\n• 27.9% vs 51.1%: best agent vs official instruction-tuned models (average)\n\n🧠 Quiz: What trade-off does DiffusionGemma make against its autoregressive sibling?\nComment your answer before you peek.\n\nAnswer: B. Some quality loss in exchange for much higher speed\n\n📌 Save this for later.\n🎮 Learn each topic in 5 minutes with quizzes in AI Frontier Quest. Link in bio.\n\n#AI #MachineLearning #LLM #AIInfrastructure #AIFrontierQuest",
+      "threads": {
+        "text": "3 AI developments worth catching up on 🧵\n\n1. Diffusion language models go fast: Draft a whole block at once, then refine it: over 1,000 tokens per second.\n2. Project Suncatcher: Google put four TPUs on a satellite to test solar-powered machine learning in space.\n3. Can AI agents do AI research? PostTrainBench: Agents get a base model, one H100 and ten hours. How close do they get to the labs?\n\nWhich one matters most for your work?",
+        "topic": "AI",
+        "urls": [
+          "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-mon/01.jpg",
+          "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-mon/02.jpg",
+          "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-mon/03.jpg",
+          "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-mon/04.jpg",
+          "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-mon/05.jpg"
+        ],
+        "replies": [
+          {
+            "text": "Diffusion language models go fast\n\nDraft a whole block at once, then refine it: over 1,000 tokens per second.\n\n💡 In practice: Reach for them where speed beats peak quality: coding autocomplete, agent loops that wait on tokens, and models running locally on a single GPU. Expect some quality loss against the autoregressive sibling.",
+            "urls": [
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-tue/01.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-tue/02.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-tue/03.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-tue/04.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-tue/05.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-tue/06.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-tue/07.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-tue/08.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-tue/09.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-tue/10.jpg"
+            ],
+            "day": "tue"
+          },
+          {
+            "text": "Quiz time: 3 questions on this week's AI research 🧠\n\nReply with your answers (like 1B 2D 3A), then swipe for the solutions.\n\nQ1: Diffusion language models go fast; Q2: Project Suncatcher; Q3: Can AI agents do AI research? PostTrainBench.",
+            "urls": [
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-wed/01.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-wed/02.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-wed/03.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-wed/04.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-wed/05.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-wed/06.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-wed/07.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-wed/08.jpg"
+            ],
+            "day": "wed"
+          },
+          {
+            "text": "Project Suncatcher: AI compute in orbit\n\nGoogle put four TPUs on a satellite to test solar-powered machine learning in space.\n\n💡 In practice: No product yet; this is a feasibility test. The practical lesson for anyone planning AI capacity: power and grid connections, not chips, increasingly decide where compute can be built.",
+            "urls": [
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-thu/01.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-thu/02.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-thu/03.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-thu/04.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-thu/05.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-thu/06.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-thu/07.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-thu/08.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-thu/09.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-thu/10.jpg"
+            ],
+            "day": "thu"
+          },
+          {
+            "text": "The week in AI, in 5 numbers 📊\n\n• ~1,500 tok/s: DiffusionGemma on one NVIDIA H100\n• up to 4x: faster than classic LLMs in single-user mode on one GPU\n• $200/kg: launch price where orbit starts to compete on energy cost\n• 27.9% vs 51.1%: best agent vs official instruction-tuned models (average)\n• 9.9% to 23.2%: Sonnet 4.5 (Sept 2025) to Opus 4.6 (Mar 2026)\n\nWhich one surprised you most?",
+            "urls": [
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-fri/01.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-fri/02.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-fri/03.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-fri/04.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-fri/05.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-fri/06.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-fri/07.jpg"
+            ],
+            "day": "fri"
+          },
+          {
+            "text": "6 AI terms you'll hear this week, in plain English 📚\n\n• Sampler distillation: Training a model to reach good outputs in fewer refinement steps.\n• Autoregressive decoding: Generating text one token at a time, each conditioned on all the tokens before it.\n• Free-space optical link: Laser communication between satellites through open space.\n• Radiative cooling: Shedding heat as infrared radiation, the only option in a vacuum.\n…and more in the slides.\n\nSave this for your next meeting.",
+            "urls": [
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sat/01.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sat/02.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sat/03.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sat/04.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sat/05.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sat/06.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sat/07.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sat/08.jpg"
+            ],
+            "day": "sat"
+          },
+          {
+            "text": "Can AI agents do AI research? PostTrainBench\n\nAgents get a base model, one H100 and ten hours. How close do they get to the labs?\n\n💡 In practice: Teams can let an agent fine-tune a base model for one narrow target, but should keep humans and anti-cheat checks in the loop: in the benchmark, agents trained on the test set and used API keys they found.",
+            "urls": [
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sun/01.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sun/02.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sun/03.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sun/04.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sun/05.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sun/06.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sun/07.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sun/08.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sun/09.jpg",
+              "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-sun/10.jpg"
+            ],
+            "day": "sun"
+          },
+          "Learn every topic from this week in 5 minutes each, with quizzes and a Boss Battle: https://frontierquest.vercel.app/"
+        ]
+      },
+      "files": [
+        "01.jpg",
+        "02.jpg",
+        "03.jpg",
+        "04.jpg",
+        "05.jpg",
+        "06.jpg",
+        "07.jpg",
+        "08.jpg",
+        "09.jpg",
+        "10.jpg"
+      ],
+      "urls": [
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-weekly/01.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-weekly/02.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-weekly/03.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-weekly/04.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-weekly/05.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-weekly/06.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-weekly/07.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-weekly/08.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-weekly/09.jpg",
+        "https://ckanu13k.github.io/ai-frontier-quest/social/2026-W48/2026-W48-weekly/10.jpg"
+      ]
+    }
+  ]
+}
