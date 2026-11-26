@@ -151,9 +151,18 @@ class Threads:
                 raise RuntimeError(f"Threads container {cid} not ready after {timeout}s (status {st})")
             time.sleep(5)
 
+    RETRY_WAITS = (15, 30, 60, 90)  # seconds; Meta needs a moment before a new post can take replies
+
     def _publish(self, cid: str) -> str:
         self.wait_ready(cid)
-        return self.post(f"{self.user_id}/threads_publish", creation_id=cid)["id"]
+        for wait in (*self.RETRY_WAITS, None):
+            try:
+                return self.post(f"{self.user_id}/threads_publish", creation_id=cid)["id"]
+            except RuntimeError as e:
+                transient = any(k in str(e) for k in ("cannot be found", '"code":24', "is_transient\":true", '"is_transient":true', "(500)", "(503)"))
+                if wait is None or not transient:
+                    raise
+                time.sleep(wait)
 
     def publish(self, urls: list[str], text: str, topic: str | None) -> str:
         extra = {"topic_tag": topic} if topic else {}
@@ -245,17 +254,37 @@ def publish_threads(p: dict, cfg: dict, token: str, uid, now, problems: list) ->
         rec["permalink"] = th.get(mid, fields="permalink").get("permalink")
     except RuntimeError:
         pass
-    parent = mid
-    for r in th_post.get("replies", []):
+    rec["replies_expected"] = len(th_post.get("replies", []))
+    time.sleep(REPLY_PAUSE)
+    post_replies(th, p, rec, problems)
+    print(f"Published {p['id']} to Threads ({p['format']}, {len(rec['replies'])}/{rec['replies_expected']} replies): {rec['permalink']}")
+    return rec
+
+
+REPLY_PAUSE = 20  # seconds between a new Threads post and its first reply
+
+
+def post_replies(th, p: dict, rec: dict, problems: list) -> None:
+    """Post the thread's comments in order, starting after the last one already posted."""
+    replies = p["threads"].get("replies", [])
+    done = rec.setdefault("replies", [])
+    parent = done[-1] if done else rec["media_id"]
+    for r in replies[len(done):]:
         text, urls = (r["text"], r.get("urls")) if isinstance(r, dict) else (r, None)
         try:  # a failed reply never re-posts the main thread
             parent = th.reply(parent, text, urls)
-            rec["replies"].append(parent)
+            done.append(parent)
         except RuntimeError as e:
-            problems.append(f"{p['id']}: Threads reply failed: {e}")
+            problems.append(f"{p['id']}: Threads reply {len(done) + 1}/{len(replies)} failed: {e}")
             break
-    print(f"Published {p['id']} to Threads ({p['format']}, {len(rec['replies'])} replies): {rec['permalink']}")
-    return rec
+
+
+def resume_threads(p: dict, cfg: dict, token: str, uid, rec: dict, problems: list) -> None:
+    th = Threads(token, cfg.get("threads_api_version", "v1.0"), uid)
+    before = len(rec.get("replies", []))
+    rec["replies_expected"] = len(p["threads"].get("replies", []))
+    post_replies(th, p, rec, problems)
+    print(f"Threads: {p['id']} comments {before} -> {len(rec['replies'])}/{rec['replies_expected']}")
 
 
 def main() -> int:
@@ -324,7 +353,16 @@ def main() -> int:
                 posted_key, missed_key, label = PLATFORMS[name]
                 posted, missed = state.setdefault(posted_key, {}), state.setdefault(missed_key, {})
                 if pid in posted and not a.repost:
-                    print(f"{label}: {pid} already posted ({posted[pid].get('permalink')}); skipping.")
+                    rec = posted[pid]
+                    want = len(p.get("threads", {}).get("replies", []))
+                    if name == "threads" and tokens[name] and not a.dry_run and len(rec.get("replies", [])) < want:
+                        try:
+                            resume_threads(p, cfg, tokens[name], uids[name], rec, problems)
+                        except RuntimeError as e:
+                            problems.append(f"{label}: {pid}: {e}")
+                        changed = True
+                        continue
+                    print(f"{label}: {pid} already posted ({rec.get('permalink')}); skipping.")
                     continue
                 if a.dry_run or not tokens[name]:
                     print(f"[dry run] {label}: would publish {pid} now ({p['format']}).")
